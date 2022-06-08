@@ -188,7 +188,8 @@ require("config/dbconnect.php")
                                                             <li><i class="fas fa-circle"></i></li>
                                                         </ul>
                                                     </div>
-                                                    <p><?php if($row['pm_type']=="M") echo "Male"; else echo "Female"; ?> / <span>&#X20B9; <?= $row['pm_price'] ?></span></p>
+                                                    <p><?php if ($row['pm_type'] == "M") echo "Male";
+                                                        else echo "Female"; ?> / <span> <?= $row['pm_price'] ?></span></p>
                                                 </div>
 
                                                 <div class="icon-wrapper">
