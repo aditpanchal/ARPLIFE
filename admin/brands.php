@@ -8,7 +8,7 @@ $rowcount = mysqli_num_rows($res);
 ?>
 <!DOCTYPE html>
 <html lang="en">
-<?php require_once("includes/constants.php"); ?>
+<?php require_once("../admin/includes/constants.php"); ?>
 <?php include(INCLUDESCOMP_DIR . "csslinks.php"); ?>
 
 <body>
@@ -80,7 +80,7 @@ $rowcount = mysqli_num_rows($res);
                                 <?php } ?>
                             </div>
                             <div class="table-responsive">
-                                <table class="table table-bordered table-striped verticle-middle">
+                                <table class="table table-bordered table-striped verticle-middle zero-configuration">
                                     <thead>
                                         <tr>
                                             <th>
@@ -88,6 +88,7 @@ $rowcount = mysqli_num_rows($res);
                                             </th>
                                             <th scope="col">Category Name</th>
                                             <th scope="col">Brand Name</th>
+                                            <th scope="col">Gender</th>
                                             <th scope="col">IsActive</th>
                                             <th scope="col">Action</th>
                                         </tr>
@@ -101,6 +102,7 @@ $rowcount = mysqli_num_rows($res);
                                                     <td><input type="checkbox" class="brandboxes" value="<?= $getrows['bm_brandid'] ?>" id="chk_brand<?= $getrows['bm_brandid'] ?>"></td>
                                                     <td><?= $getrows['catm_categoryname'] ?></td>
                                                     <td><?= $getrows['bm_brandname'] ?></td>
+                                                    <td><?= $getrows['bm_gender'] ?></td>
                                                     <td><?= $getrows['bm_isactive'] ?> </td>
                                                     <td>
                                                         <a href="manage_brands.php?brandid=<?= $getrows['bm_brandid'] ?>" data-toggle="tooltip" title="Edit" class="btn btn-primary">
@@ -146,6 +148,8 @@ $rowcount = mysqli_num_rows($res);
     <script src="js/settings.js"></script>
     <script src="js/gleek.js"></script>
     <script src="js/styleSwitcher.js"></script>
+    <script src="./plugins/tables/js/jquery.dataTables.min.js"></script>
+
     <script>
         $(document).ready(function() {
             // ALL-CHECKBOX

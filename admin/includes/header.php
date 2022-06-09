@@ -5,13 +5,6 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] == '') {
     header("location: adminlogin.php ");
 }
 
-if(isset($_SESSION['profilechanged'])){
-    $profile_img=$_SESSION['profilechanged'];
-    
-}else{
-    $profile_img='';
-}
-
 ?>
 <?php require_once("constants.php"); ?>
 <?php include(INCLUDESCOMP_DIR . "csslinks.php"); ?>
@@ -147,7 +140,7 @@ if(isset($_SESSION['profilechanged'])){
                 <li class="icons dropdown">
                     <div class="user-img c-pointer position-relative" data-toggle="dropdown">
                         <span class="activity active"></span>
-                        <img src="images/user/<?= $profile_img ?>">
+                        <img src="images/profile/profileicon1.png">
                     </div>
                     <div class="drop-down dropdown-profile animated fadeIn dropdown-menu">
                         <div class="dropdown-content-body">

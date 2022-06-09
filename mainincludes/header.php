@@ -16,9 +16,9 @@ require(CONFIG_DIR . "dbconnect.php");
 					============================================= -->
 
             <div class="col-lg-12 col-xl-2">
-                <div class="logo">
+                <div style="padding-top : 10px" class="logo">
                     <a href="index.html">
-                        <img src="admin\images\header.png" alt="">
+                        <img src="cover.png" width="300px" alt="">
                     </a>
                 </div>
             </div>
@@ -52,7 +52,7 @@ require(CONFIG_DIR . "dbconnect.php");
                                             $sql1 = "SELECT * from al_subcategory where sc_categoryid=$cid and sc_isactive=1 and (sc_gender='M' or sc_gender='B' ) ";
                                             $res1 = mysqli_query($conn, $sql1);
                                             if (mysqli_num_rows($res1) > 0) { ?>
-                                                <div class="mega-catagory per-40">
+                                                <div class="mega-catagory per-20">
                                                     <h4 class="mega-button">
                                                         <a class="font-red" href=""><b><?= $row['catm_categoryname'] ?></b></a>
                                                     </h4>
@@ -173,7 +173,7 @@ require(CONFIG_DIR . "dbconnect.php");
                     if (mysqli_num_rows($res) > 0) {
                         while ($row = mysqli_fetch_array($res)) {
                             $cid = $row['catm_categoryid'];
-                            $sql1 = "SELECT * from brand_master where bm_categoryid=$cid and bm_isactive=1  ";
+                            $sql1 = "SELECT * from brand_master where bm_categoryid=$cid and bm_isactive=1 and (bm_gender='f' OR bm_gender='b' )";
                             $res1 = mysqli_query($conn, $sql1);
                             if (mysqli_num_rows($res1) > 0) { ?>
             <div class="mega-catagory per-20">
@@ -207,7 +207,7 @@ require(CONFIG_DIR . "dbconnect.php");
                             $sql1 = "SELECT * from al_subcategory where sc_categoryid=$cid and sc_isactive=1 and (sc_gender='F' or sc_gender='B' ) ";
                             $res1 = mysqli_query($conn, $sql1);
                             if (mysqli_num_rows($res1) > 0) { ?>
-                                                <div class="mega-catagory per-40">
+                                                <div class="mega-catagory per-20">
                                                     <h4 class="mega-button">
                                                         <a class="font-red" href=""><b><?= $row['catm_categoryname'] ?></b></a>
                                                     </h4>
@@ -238,7 +238,7 @@ require(CONFIG_DIR . "dbconnect.php");
                             $sql1 = "SELECT * from al_subcategory where sc_categoryid=$cid and sc_isactive=1 and (sc_gender='M' or sc_gender='B' ) ";
                             $res1 = mysqli_query($conn, $sql1);
                             if (mysqli_num_rows($res1) > 0) { ?>
-                                                <div class="mega-catagory per-40">
+                                                <div class="mega-catagory per-20">
                                                     <h4 class="mega-button">
                                                         <a class="font-red" href=""><b><?= $row['catm_categoryname'] ?></b></a>
                                                     </h4>
@@ -266,7 +266,7 @@ require(CONFIG_DIR . "dbconnect.php");
                     if (mysqli_num_rows($res) > 0) {
                         while ($row = mysqli_fetch_array($res)) {
                             $cid = $row['catm_categoryid'];
-                            $sql1 = "SELECT * from brand_master where bm_categoryid=$cid and bm_isactive=1  ";
+                            $sql1 = "SELECT * from brand_master where bm_categoryid=$cid and bm_isactive=1 and (bm_gender='m' OR bm_gender='b' ) ";
                             $res1 = mysqli_query($conn, $sql1);
                             if (mysqli_num_rows($res1) > 0) { ?>
             <div class="mega-catagory per-20">

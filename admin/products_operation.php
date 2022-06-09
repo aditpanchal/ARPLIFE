@@ -13,6 +13,7 @@ function reArrayFiles($file_post)
     return $file_ary;
 }
 
+
 if (isset($_POST["product_addbtn"])) {
     session_start();
     $getproductnames = array();
@@ -69,19 +70,21 @@ if (isset($_POST["product_addbtn"])) {
                 $sizeresult = mysqli_query($conn, $insertsizequery);
             }
             if (isset($_POST['product_colors']) && $_POST['product_colors'] != '' && isset($_FILES['product_additionalimages'])) {
-                $colors= $_POST['product_colors'];
+                $colors = $_POST['product_colors'];
                 foreach ($colors as $color) {
                     $insertcolorquery = "insert into al_productcolor(pc_productid ,pc_colorname) values($getlastproductid,'$color')";
                     $colorresult = mysqli_query($conn, $insertcolorquery);
-                }}
+                }
+            }
             $file_array = reArrayFiles($_FILES['product_additionalimages']);
             for ($i = 0; $i < count($file_array); $i++) {
                 move_uploaded_file($file_array[$i]['tmp_name'], "images/uploads/" . $file_array[$i]['name']);
                 $imagename = $file_array[$i]['name'];
                 $addmoreimagesquery = "insert into al_productimages(pi_productid , pi_imagename) values($getlastproductid,'$imagename')";
-                $imageres=mysqli_query($conn, $addmoreimagesquery);
-            }if($sizeresult){
-                if($imageres){
+                $imageres = mysqli_query($conn, $addmoreimagesquery);
+            }
+            if ($sizeresult) {
+                if ($imageres) {
                     header("location:products.php");
                 }
             }
@@ -89,6 +92,8 @@ if (isset($_POST["product_addbtn"])) {
             header("location:manage_products.php");
         }
     }
+} else if (isset($_POST['product_editbtn'])) {
+    
 } else if (isset($_POST['action_method']) && $_POST['action_method'] == 'delete_product') {
     $productids = $_POST['productid'];
     $is_deleted = 0;

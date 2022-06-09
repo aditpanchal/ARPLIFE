@@ -1,5 +1,7 @@
 <?php
-require("config/dbconnect.php")
+require("config/dbconnect.php");
+$product_name='';
+$product_price='';
 ?>
 
 <!doctype html>
@@ -179,7 +181,7 @@ require("config/dbconnect.php")
                                                     <img src="admin/images/uploads/<?= $row['pm_image'] ?>" height="300rem">
                                                 </div>
                                                 <div class="mid-wrapper">
-                                                    <h5 class="pro-title"><a href="product.html"><?= $row['pm_productname'] ?></a></h5>
+                                                    <h5 class="pro-title"><a href="product.html"><?= $product_name= $row['pm_productname'] ?></a></h5>
                                                     <div class="color-variation">
                                                         <ul>
                                                             <li><i class="fas fa-circle"></i></li>
@@ -189,7 +191,7 @@ require("config/dbconnect.php")
                                                         </ul>
                                                     </div>
                                                     <p><?php if ($row['pm_type'] == "M") echo "Male";
-                                                        else echo "Female"; ?> / <span>&#X20B9;<?= $row['pm_price'] ?></span></p>
+                                                        else echo "Female"; ?> / <span>&#X20B9;<?= $product_price= $row['pm_price'] ?></span></p>
                                                 </div>
 
                                                 <div class="icon-wrapper">
@@ -206,11 +208,13 @@ require("config/dbconnect.php")
                                                 </div>
                                             </div>
                                         </div>
+
                                 <?php
                                     }
                                 }
                                 ?>
                             </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -220,269 +224,6 @@ require("config/dbconnect.php")
         </section>
         <!-- main-product -->
 
-        <!--=========================-->
-        <!--=   Discount Countdown area      =-->
-        <!--=========================-->
-
-        <section class="add-area">
-            <a href="#"><img src="media/images/banner/add.jpg" alt=""></a>
-        </section>
-
-        <!--=========================-->
-        <!--=   Product  area with  banner      =-->
-        <!--=========================-->
-
-        <section class="banner-product">
-            <div class="container-fluid custom-container">
-                <div class="section-heading pb-30">
-                    <h3>NEW <span>TRENDING</span></h3>
-                </div>
-                <!-- section-heading-->
-                <div class="row">
-                    <div class="col-xl-4 col-lg-4">
-                        <!-- Product baneer-->
-                        <div class="prod-banner-two mt-0">
-                            <a href="#">
-                                <img src="media/images/banner/s5.jpg" alt="">
-                                <div class="pb-info">
-                                    <p>Woman's Shop</p>
-                                    <h6>40% Off</h6>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <!-- Col end-->
-                    <div class="no-padding col-xl-8 col-lg-8">
-                        <div class="prod-carousel owl-carousel owl-theme">
-                            <div class="sin-prod-car">
-                                <!-- SingleProduct-->
-                                <div class="sin-product style-two small">
-                                    <div class="pro-img">
-                                        <img src="media/images/product/sp8.jpg" alt="">
-                                    </div>
-                                    <div class="mid-wrapper">
-                                        <h5 class="pro-title"><a href="product.html">Embellished white dress</a></h5>
-                                        <div class="color-variation">
-                                            <ul>
-                                                <li><i class="fas fa-circle"></i></li>
-                                                <li><i class="fas fa-circle"></i></li>
-                                                <li><i class="fas fa-circle"></i></li>
-                                                <li><i class="fas fa-circle"></i></li>
-                                            </ul>
-                                        </div>
-                                        <p>Woman / <span>$387</span></p>
-                                    </div>
-                                    <div class="icon-wrapper">
-                                        <div class="pro-icon">
-                                            <ul>
-                                                <li><a href="#"><i class="flaticon-valentines-heart"></i></a></li>
-                                                <li><a href="#"><i class="flaticon-compare"></i></a></li>
-                                                <li><a class="trigger" href="#"><i class="flaticon-eye"></i></a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="add-to-cart">
-                                            <a href="#">add to cart</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Single Product-->
-                                <div class="sin-product style-two small">
-                                    <div class="pro-img">
-                                        <img src="media/images/product/sp9.jpg" alt="">
-                                    </div>
-                                    <span class="new-tag">NEW!</span>
-
-                                    <div class="mid-wrapper">
-                                        <h5 class="pro-title"><a href="product.html">Kids small dress</a></h5>
-                                        <div class="color-variation">
-                                            <ul>
-                                                <li><i class="fas fa-circle"></i></li>
-                                                <li><i class="fas fa-circle"></i></li>
-                                                <li><i class="fas fa-circle"></i></li>
-                                                <li><i class="fas fa-circle"></i></li>
-                                            </ul>
-                                        </div>
-                                        <p>Kids / <span>$37</span></p>
-                                    </div>
-                                    <div class="icon-wrapper">
-                                        <div class="pro-icon">
-                                            <ul>
-                                                <li><a href="#"><i class="flaticon-valentines-heart"></i></a></li>
-                                                <li><a href="#"><i class="flaticon-compare"></i></a></li>
-                                                <li><a class="trigger" href="#"><i class="flaticon-eye"></i></a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="add-to-cart">
-                                            <a href="#">add to cart</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="sin-prod-car">
-                                <!-- Single Product-->
-                                <div class="sin-product style-two small">
-                                    <div class="pro-img">
-                                        <img src="media/images/product/sp10.jpg" alt="">
-                                    </div>
-                                    <div class="mid-wrapper">
-                                        <h5 class="pro-title"><a href="product.html">Womens exclusive shirt </a></h5>
-                                        <div class="color-variation">
-                                            <ul>
-                                                <li><i class="fas fa-circle"></i></li>
-                                                <li><i class="fas fa-circle"></i></li>
-                                                <li><i class="fas fa-circle"></i></li>
-                                                <li><i class="fas fa-circle"></i></li>
-                                            </ul>
-                                        </div>
-                                        <p>Kids / <span>$37</span></p>
-                                    </div>
-                                    <div class="icon-wrapper">
-                                        <div class="pro-icon">
-                                            <ul>
-                                                <li><a href="#"><i class="flaticon-valentines-heart"></i></a></li>
-                                                <li><a href="#"><i class="flaticon-compare"></i></a></li>
-                                                <li><a class="trigger" href="#"><i class="flaticon-eye"></i></a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="add-to-cart">
-                                            <a href="#">add to cart</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Single Product-->
-                                <div class="sin-product style-two small">
-                                    <div class="pro-img">
-                                        <img src="media/images/product/sp11.jpg" alt="">
-                                    </div>
-                                    <span class="new-tag">NEW!</span>
-
-                                    <div class="mid-wrapper">
-                                        <h5 class="pro-title"><a href="product.html">Cotton full sleeve</a></h5>
-                                        <div class="color-variation">
-                                            <ul>
-                                                <li><i class="fas fa-circle"></i></li>
-                                                <li><i class="fas fa-circle"></i></li>
-                                                <li><i class="fas fa-circle"></i></li>
-                                                <li><i class="fas fa-circle"></i></li>
-                                            </ul>
-                                        </div>
-                                        <p>Kids / <span>$37</span></p>
-                                    </div>
-                                    <div class="icon-wrapper">
-                                        <div class="pro-icon">
-                                            <ul>
-                                                <li><a href="#"><i class="flaticon-valentines-heart"></i></a></li>
-                                                <li><a href="#"><i class="flaticon-compare"></i></a></li>
-                                                <li><a class="trigger" href="#"><i class="flaticon-eye"></i></a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="add-to-cart">
-                                            <a href="#">add to cart</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="sin-prod-car">
-                                <!-- Single Product-->
-                                <div class="sin-product style-two small">
-                                    <div class="pro-img">
-                                        <img src="media/images/product/sp12.jpg" alt="">
-                                    </div>
-                                    <span class="new-tag">NEW!</span>
-
-                                    <div class="mid-wrapper">
-                                        <h5 class="pro-title"><a href="product.html">Men winter dress</a></h5>
-                                        <div class="color-variation">
-                                            <ul>
-                                                <li><i class="fas fa-circle"></i></li>
-                                                <li><i class="fas fa-circle"></i></li>
-                                                <li><i class="fas fa-circle"></i></li>
-                                                <li><i class="fas fa-circle"></i></li>
-                                            </ul>
-                                        </div>
-                                        <p>Kids / <span>$37</span></p>
-                                    </div>
-                                    <div class="icon-wrapper">
-                                        <div class="pro-icon">
-                                            <ul>
-                                                <li><a href="#"><i class="flaticon-valentines-heart"></i></a></li>
-                                                <li><a href="#"><i class="flaticon-compare"></i></a></li>
-                                                <li><a class="trigger" href="#"><i class="flaticon-eye"></i></a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="add-to-cart">
-                                            <a href="#">add to cart</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Single Product-->
-                                <div class="sin-product style-two small">
-                                    <div class="pro-img">
-                                        <img src="media/images/product/sp12.jpg" alt="">
-                                    </div>
-                                    <div class="mid-wrapper">
-                                        <h5 class="pro-title"><a href="product.html">Women shirt top</a></h5>
-                                        <div class="color-variation">
-                                            <ul>
-                                                <li><i class="fas fa-circle"></i></li>
-                                                <li><i class="fas fa-circle"></i></li>
-                                                <li><i class="fas fa-circle"></i></li>
-                                                <li><i class="fas fa-circle"></i></li>
-                                            </ul>
-                                        </div>
-                                        <p>Kids / <span>$37</span></p>
-                                    </div>
-                                    <div class="icon-wrapper">
-                                        <div class="pro-icon">
-                                            <ul>
-                                                <li><a href="#"><i class="flaticon-valentines-heart"></i></a></li>
-                                                <li><a href="#"><i class="flaticon-compare"></i></a></li>
-                                                <li><a class="trigger" href="#"><i class="flaticon-eye"></i></a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="add-to-cart">
-                                            <a href="#">add to cart</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Col end-->
-                </div>
-                <!-- /.row -->
-            </div>
-            <!-- Container End -->
-        </section>
-        <!-- main-product End -->
-
-        <!--=========================-->
-        <!--=   Subscribe area      =-->
-        <!--=========================-->
-
-        <section class="subscribe-area style-two">
-            <div class="container container-two">
-                <div class="row">
-                    <div class="col-lg-5">
-                        <div class="subscribe-text">
-                            <h6>Join our newsletter</h6>
-                        </div>
-                    </div>
-                    <!-- col-xl-6 -->
-
-                    <div class="col-lg-7">
-                        <div class="subscribe-wrapper">
-                            <input placeholder="Enter Keyword" type="text">
-                            <button type="submit">SUBSCRIBE</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- /.container-two -->
-        </section>
-        <!-- subscribe-area -->
 
 
         <!-- footer -->

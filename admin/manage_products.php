@@ -3,7 +3,7 @@ require("../config/dbconnect.php");
 $productid = (isset($_GET["productid"]) ? intval($_GET["productid"]) : '');
 $product_method = (isset($_GET["productid"]) ? 'edit' : 'add');
 $setsubcategory = $setstatus = $getcategoryforscdropdown = '';
-$set_product_category  = $set_product_description =  $set_product_status = '';
+$set_product_category  = $set_product_description =  $set_product_status = $set_product_name = '';
 if ($product_method == 'edit') {
     $getproductquery = "select * from product_master where pm_productid=$productid ";
     $res = mysqli_query($conn, $getproductquery);
@@ -17,7 +17,6 @@ if ($product_method == 'edit') {
         $set_product_price = (($getrow['pm_price'] != '') ? $getrow['pm_price'] : '');
         $set_product_discount = (($getrow['pm_discountid'] != '') ? $getrow['pm_discountid'] : '');
         $set_product_stock = (($getrow['pm_stock'] != '') ? $getrow['pm_stock'] : '');
-        $set_product_image = (($getrow['pm_image'] != '') ? $getrow['pm_image'] : '');
         $set_product_type = (($getrow['pm_type'] != '') ? $getrow['pm_type'] : '');
         $set_product_status = (($getrow['pm_isactive'] != '') ? $getrow['pm_isactive'] : '');
     }
@@ -120,6 +119,8 @@ if ($product_method == 'edit') {
                                             <label class="col-lg-4 col-form-label" for="product_category">Category
                                             </label>
                                             <div class="col-lg-6">
+                                                <!-- CATEGORY ID FOR EDIT     -->
+                                                <input type="hidden" value="<?= $set_product_subcategory ?>" name="getsubcategory" id="getsubcategory">
                                                 <select class="form-control" id="categorydropdown" name="product_category">
                                                     <option disabled selected value=''>Choose...</option>
                                                     <?php
@@ -158,8 +159,13 @@ if ($product_method == 'edit') {
                                                     $res = mysqli_query($conn, $sql);
                                                     if (mysqli_num_rows($res) > 0) {
                                                         while ($row = mysqli_fetch_array($res)) { ?>
-                                                            <option value="<?= $row['bm_brandid'] ?>"><?= $row['bm_brandname'] ?></option>
-                                                    <?php  }
+                                                            <?php if ($product_method == 'edit' && $set_product_brand == $row['bm_brandid']) { ?>
+                                                                <option selected value="<?= $row['bm_brandid'] ?>"><?= $row['bm_brandname'] ?></option>
+                                                            <?php } else {  ?>
+                                                                <option value="<?= $row['bm_brandid'] ?>"><?= $row['bm_brandname'] ?></option>
+
+                                                    <?php }
+                                                        }
                                                     }
                                                     ?>
                                                 </select>
@@ -169,14 +175,14 @@ if ($product_method == 'edit') {
                                             <label class="col-lg-4 col-form-label" for="product_name">Product Name
                                             </label>
                                             <div class="col-lg-6">
-                                                <input type="text" class="customtext" id="product_name" name="product_name" placeholder="Enter a productname..">
+                                                <input type="text" value="<?= $set_product_name ?>" class="customtext" id="product_name" name="product_name" placeholder="Enter a productname..">
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label class="col-lg-4 col-form-label" for="product_description">Description
                                             </label>
                                             <div class="col-lg-6">
-                                                <textarea class="customtext" id="product_description" name="product_description" rows="5" placeholder="give desired description..."></textarea>
+                                                <textarea class="customtext" id="product_description" name="product_description" rows="5" placeholder="give desired description..."><?= $set_product_description ?></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -184,65 +190,652 @@ if ($product_method == 'edit') {
                                             </label>
                                             <div class="col-lg-6">
                                                 <select name="product_sizes[]" multiple="multiple" class="3col active form-control">
-                                                    <optgroup label="Upperwear">
-                                                        <option value="XS">XS</option>
-                                                        <option value="S">S</option>
-                                                        <option value="M">M</option>
-                                                        <option value="L">L</option>
-                                                        <option value="XL">XL</option>
-                                                        <option value="XXL">XXL</option>
-                                                        <option value="XXXL">XXXL</option>
-                                                    </optgroup>
-                                                    <optgroup label="Footwear">
-                                                        <option value="5">5</option>
-                                                        <option value="5.5">5.5</option>
-                                                        <option value="6">6</option>
-                                                        <option value="6.5">6.5</option>
-                                                        <option value="7">7</option>
-                                                        <option value="7.5">7.5</option>
-                                                        <option value="8">8</option>
-                                                        <option value="8.5">8.5</option>
-                                                        <option value="9">9</option>
-                                                        <option value="9.5">9.5</option>
-                                                        <option value="10">10</option>
-                                                        <option value="10.5">10.5</option>
-                                                        <option value="11">11</option>
-                                                        <option value="11.5">11.5</option>
-                                                        <option value="12">12</option>
-                                                        <option value="12.5">12.5</option>
-                                                        <option value="13">13</option>
-                                                        <option value="13.5">13.5</option>
-                                                        <option value="14">14</option>
-                                                        <option value="14.5">14.5</option>
-                                                        <option value="15">15</option>
-                                                    </optgroup>
-                                                    <optgroup label="Bottomwear">
-                                                        <option value="26">26</option>
-                                                        <option value="28">28</option>
-                                                        <option value="30">30</option>
-                                                        <option value="32">32</option>
-                                                        <option value="34">34</option>
-                                                        <option value="36">36</option>
-                                                        <option value="38">38</option>
-                                                        <option value="40">40</option>
-                                                        <option value="42">42</option>
-                                                        <option value="44">44</option>
-                                                    </optgroup>
-                                                    <optgroup label="Accessories">
-                                                    <optgroup label="Bagpack">
-                                                        <option value="10-20L">10-20L</option>
-                                                        <option value="30-50L">30-50L</option>
-                                                        <option value="50-70L">50-70L</option>
-                                                        <option value="70L+">70L+</option>
-                                                    </optgroup>
-                                                    <optgroup label="Watches">
-                                                        <option value="36mm">36mm</option>
-                                                        <option value="38mm">38mm</option>
-                                                        <option value="42mm">42mm</option>
-                                                        <option value="44mm">44mm</option>
-                                                        <option value="46mm">46mm</option>
-                                                    </optgroup>
-                                                    </optgroup>
+                                                    <?php
+                                                    $getsizes = "SELECT * from al_productsize where ps_productid=$productid";
+                                                    $sizearr = array();
+                                                    $selectedflag = 0;
+                                                    $sizeresult = mysqli_query($conn, $getsizes);
+                                                    if (mysqli_num_rows($sizeresult) > 0) {
+                                                        while ($getsizes = mysqli_fetch_array($sizeresult)) {
+                                                            array_push($sizearr, $getsizes['ps_size']);
+                                                        } ?>
+                                                        <optgroup label="Upperwear">
+
+                                                            <?php foreach ($sizearr as $size) {
+                                                                if ($size == 'XS') {
+                                                                    $selectedflag = 1; ?>
+                                                                    <option selected value="XS">XS</option>
+                                                                <?php break;
+                                                                }
+                                                            }
+                                                            if ($selectedflag != 1) { ?>
+                                                                <option value="XS">XS</option>
+                                                            <?php } else {
+                                                                $selectedflag = 0;
+                                                            }
+                                                            ?>
+
+                                                            <?php foreach ($sizearr as $size) {
+                                                                if ($size == 'S') {
+                                                                    $selectedflag = 1; ?>
+                                                                    <option selected value="S">S</option>
+                                                                <?php break;
+                                                                }
+                                                            }
+                                                            if ($selectedflag != 1) { ?>
+                                                                <option value="S">S</option>
+                                                            <?php } else {
+                                                                $selectedflag = 0;
+                                                            } ?>
+
+                                                            <?php foreach ($sizearr as $size) {
+                                                                if ($size == 'M') {
+                                                                    $selectedflag = 1; ?>
+                                                                    <option selected value="M">M</option>
+                                                                <?php break;
+                                                                }
+                                                            }
+                                                            if ($selectedflag != 1) { ?>
+                                                                <option value="M">M</option>
+                                                            <?php } else {
+                                                                $selectedflag = 0;
+                                                            } ?>
+
+                                                            <?php foreach ($sizearr as $size) {
+                                                                if ($size == 'L') {
+                                                                    $selectedflag = 1; ?>
+                                                                    <option selected value="L">L</option>
+                                                                <?php break;
+                                                                }
+                                                            }
+                                                            if ($selectedflag != 1) { ?>
+                                                                <option value="L">L</option>
+                                                            <?php } else {
+                                                                $selectedflag = 0;
+                                                            } ?>
+
+                                                            <?php foreach ($sizearr as $size) {
+                                                                if ($size == 'XL') {
+                                                                    $selectedflag = 1; ?>
+                                                                    <option selected value="XL">XL</option>
+                                                                <?php break;
+                                                                }
+                                                            }
+                                                            if ($selectedflag != 1) { ?>
+                                                                <option value="XL">XL</option>
+                                                            <?php } else {
+                                                                $selectedflag = 0;
+                                                            } ?>
+
+                                                            <?php foreach ($sizearr as $size) {
+                                                                if ($size == 'XXL') {
+                                                                    $selectedflag = 1; ?>
+                                                                    <option selected value="XXL">XXL</option>
+                                                                <?php break;
+                                                                }
+                                                            }
+                                                            if ($selectedflag != 1) { ?>
+                                                                <option value="XXL">XXL</option>
+                                                            <?php } else {
+                                                                $selectedflag = 0;
+                                                            } ?>
+
+                                                            <?php foreach ($sizearr as $size) {
+                                                                if ($size == 'XXXL') {
+                                                                    $selectedflag = 1; ?>
+                                                                    <option selected value="XXXL">XXXL</option>
+                                                                <?php break;
+                                                                }
+                                                            }
+                                                            if ($selectedflag != 1) { ?>
+                                                                <option value="XXXL">XXXL</option>
+                                                            <?php } else {
+                                                                $selectedflag = 0;
+                                                            } ?>
+
+                                                        </optgroup>
+
+                                                        <optgroup label="Footwear">
+
+                                                            <?php foreach ($sizearr as $size) {
+                                                                if ($size == '5') {
+                                                                    $selectedflag = 1; ?>
+                                                                    <option selected value="5">5</option>
+                                                                <?php break;
+                                                                }
+                                                            }
+                                                            if ($selectedflag != 1) { ?>
+                                                                <option value="5">5</option>
+                                                            <?php } else {
+                                                                $selectedflag = 0;
+                                                            } ?>
+
+                                                            <?php foreach ($sizearr as $size) {
+                                                                if ($size == '5.5') {
+                                                                    $selectedflag = 1; ?>
+                                                                    <option selected value="5.5">5.5</option>
+                                                                <?php break;
+                                                                }
+                                                            }
+                                                            if ($selectedflag != 1) { ?>
+                                                                <option value="5.5">5.5</option>
+                                                            <?php } else {
+                                                                $selectedflag = 0;
+                                                            } ?>
+
+                                                            <?php foreach ($sizearr as $size) {
+                                                                if ($size == '6') {
+                                                                    $selectedflag = 1; ?>
+                                                                    <option selected value="6">6</option>
+                                                                <?php break;
+                                                                }
+                                                            }
+                                                            if ($selectedflag != 1) { ?>
+                                                                <option value="6">6</option>
+                                                            <?php } else {
+                                                                $selectedflag = 0;
+                                                            } ?>
+
+                                                            <?php foreach ($sizearr as $size) {
+                                                                if ($size == '6.5') {
+                                                                    $selectedflag = 1; ?>
+                                                                    <option selected value="6.5">6.5</option>
+                                                                <?php break;
+                                                                }
+                                                            }
+                                                            if ($selectedflag != 1) { ?>
+                                                                <option value="6.5">6.5</option>
+                                                            <?php } else {
+                                                                $selectedflag = 0;
+                                                            } ?>
+
+                                                            <?php foreach ($sizearr as $size) {
+                                                                if ($size == '7') {
+                                                                    $selectedflag = 1; ?>
+                                                                    <option selected value="7">7</option>
+                                                                <?php break;
+                                                                }
+                                                            }
+                                                            if ($selectedflag != 1) { ?>
+                                                                <option value="7">7</option>
+                                                            <?php } else {
+                                                                $selectedflag = 0;
+                                                            } ?>
+
+                                                            <?php foreach ($sizearr as $size) {
+                                                                if ($size == '7.5') {
+                                                                    $selectedflag = 1; ?>
+                                                                    <option selected value="7.5">7.5</option>
+                                                                <?php break;
+                                                                }
+                                                            }
+                                                            if ($selectedflag != 1) { ?>
+                                                                <option value="7.5">7.5</option>
+                                                            <?php } else {
+                                                                $selectedflag = 0;
+                                                            } ?>
+
+                                                            <?php foreach ($sizearr as $size) {
+                                                                if ($size == '8') {
+                                                                    $selectedflag = 1; ?>
+                                                                    <option selected value="8">8</option>
+                                                                <?php break;
+                                                                }
+                                                            }
+                                                            if ($selectedflag != 1) { ?>
+                                                                <option value="8">8</option>
+                                                            <?php } else {
+                                                                $selectedflag = 0;
+                                                            } ?>
+
+                                                            <?php foreach ($sizearr as $size) {
+                                                                if ($size == '8.5') {
+                                                                    $selectedflag = 1; ?>
+                                                                    <option selected value="8.5">8.5</option>
+                                                                <?php break;
+                                                                }
+                                                            }
+                                                            if ($selectedflag != 1) { ?>
+                                                                <option value="8.5">8.5</option>
+                                                            <?php } else {
+                                                                $selectedflag = 0;
+                                                            } ?>
+
+                                                            <?php foreach ($sizearr as $size) {
+                                                                if ($size == '9') {
+                                                                    $selectedflag = 1; ?>
+                                                                    <option selected value="9">9</option>
+                                                                <?php break;
+                                                                }
+                                                            }
+                                                            if ($selectedflag != 1) { ?>
+                                                                <option value="9">9</option>
+                                                            <?php } else {
+                                                                $selectedflag = 0;
+                                                            } ?>
+
+                                                            <?php foreach ($sizearr as $size) {
+                                                                if ($size == '9.5') {
+                                                                    $selectedflag = 1; ?>
+                                                                    <option selected value="9.5">9.5</option>
+                                                                <?php break;
+                                                                }
+                                                            }
+                                                            if ($selectedflag != 1) { ?>
+                                                                <option value="9.5">9.5</option>
+                                                            <?php } else {
+                                                                $selectedflag = 0;
+                                                            } ?>
+
+                                                            <?php foreach ($sizearr as $size) {
+                                                                if ($size == '10') {
+                                                                    $selectedflag = 1; ?>
+                                                                    <option selected value="10">10</option>
+                                                                <?php break;
+                                                                }
+                                                            }
+                                                            if ($selectedflag != 1) { ?>
+                                                                <option value="10">10</option>
+                                                            <?php } else {
+                                                                $selectedflag = 0;
+                                                            } ?>
+
+                                                            <?php foreach ($sizearr as $size) {
+                                                                if ($size == '10.5') {
+                                                                    $selectedflag = 1; ?>
+                                                                    <option selected value="10.5">10.5</option>
+                                                                <?php break;
+                                                                }
+                                                            }
+                                                            if ($selectedflag != 1) { ?>
+                                                                <option value="10.5">10.5</option>
+                                                            <?php } else {
+                                                                $selectedflag = 0;
+                                                            } ?>
+
+                                                            <?php foreach ($sizearr as $size) {
+                                                                if ($size == '11') {
+                                                                    $selectedflag = 1; ?>
+                                                                    <option selected value="11">11</option>
+                                                                <?php break;
+                                                                }
+                                                            }
+                                                            if ($selectedflag != 1) { ?>
+                                                                <option value="11">11</option>
+                                                            <?php } else {
+                                                                $selectedflag = 0;
+                                                            } ?>
+
+                                                            <?php foreach ($sizearr as $size) {
+                                                                if ($size == '11.5') {
+                                                                    $selectedflag = 1; ?>
+                                                                    <option selected value="11.5">11.5</option>
+                                                                <?php break;
+                                                                }
+                                                            }
+                                                            if ($selectedflag != 1) { ?>
+                                                                <option value="11.5">11.5</option>
+                                                            <?php } else {
+                                                                $selectedflag = 0;
+                                                            } ?>
+
+                                                            <?php foreach ($sizearr as $size) {
+                                                                if ($size == '12') {
+                                                                    $selectedflag = 1; ?>
+                                                                    <option selected value="12">12</option>
+                                                                <?php break;
+                                                                }
+                                                            }
+                                                            if ($selectedflag != 1) { ?>
+                                                                <option value="12">12</option>
+                                                            <?php } else {
+                                                                $selectedflag = 0;
+                                                            } ?>
+
+                                                            <?php foreach ($sizearr as $size) {
+                                                                if ($size == '12.5') {
+                                                                    $selectedflag = 1; ?>
+                                                                    <option selected value="12.5">12.5</option>
+                                                                <?php break;
+                                                                }
+                                                            }
+                                                            if ($selectedflag != 1) { ?>
+                                                                <option value="12.5">12.5</option>
+                                                            <?php } else {
+                                                                $selectedflag = 0;
+                                                            } ?>
+
+                                                            <?php foreach ($sizearr as $size) {
+                                                                if ($size == '13') {
+                                                                    $selectedflag = 1; ?>
+                                                                    <option selected value="13">13</option>
+                                                                <?php break;
+                                                                }
+                                                            }
+                                                            if ($selectedflag != 1) { ?>
+                                                                <option value="13">13</option>
+                                                            <?php } else {
+                                                                $selectedflag = 0;
+                                                            } ?>
+
+                                                            <?php foreach ($sizearr as $size) {
+                                                                if ($size == '13.5') {
+                                                                    $selectedflag = 1; ?>
+                                                                    <option selected value="13.5">13.5</option>
+                                                                <?php break;
+                                                                }
+                                                            }
+                                                            if ($selectedflag != 1) { ?>
+                                                                <option value="13.5">13.5</option>
+                                                            <?php } else {
+                                                                $selectedflag = 0;
+                                                            } ?>
+
+                                                            <?php foreach ($sizearr as $size) {
+                                                                if ($size == '14') {
+                                                                    $selectedflag = 1; ?>
+                                                                    <option selected value="14">14</option>
+                                                                <?php break;
+                                                                }
+                                                            }
+                                                            if ($selectedflag != 1) { ?>
+                                                                <option value="14">14</option>
+                                                            <?php } else {
+                                                                $selectedflag = 0;
+                                                            } ?>
+
+                                                            <?php foreach ($sizearr as $size) {
+                                                                if ($size == '14.5') {
+                                                                    $selectedflag = 1; ?>
+                                                                    <option selected value="14.5">14.5</option>
+                                                                <?php break;
+                                                                }
+                                                            }
+                                                            if ($selectedflag != 1) { ?>
+                                                                <option value="14.5">14.5</option>
+                                                            <?php } else {
+                                                                $selectedflag = 0;
+                                                            } ?>
+
+                                                            <?php foreach ($sizearr as $size) {
+                                                                if ($size == '15') {
+                                                                    $selectedflag = 1; ?>
+                                                                    <option selected value="15">15</option>
+                                                                <?php break;
+                                                                }
+                                                            }
+                                                            if ($selectedflag != 1) { ?>
+                                                                <option value="15">15</option>
+                                                            <?php } else {
+                                                                $selectedflag = 0;
+                                                            } ?>
+
+                                                        </optgroup>
+
+                                                        <optgroup label="Bottomwear">
+
+                                                            <?php foreach ($sizearr as $size) {
+                                                                if ($size == '26') {
+                                                                    $selectedflag = 1; ?>
+                                                                    <option selected value="26">26</option>
+                                                                <?php break;
+                                                                }
+                                                            }
+                                                            if ($selectedflag != 1) { ?>
+                                                                <option value="26">26</option>
+                                                            <?php } else {
+                                                                $selectedflag = 0;
+                                                            } ?>
+
+                                                            <?php foreach ($sizearr as $size) {
+                                                                if ($size == '28') {
+                                                                    $selectedflag = 1; ?>
+                                                                    <option selected value="28">28</option>
+                                                                <?php break;
+                                                                }
+                                                            }
+                                                            if ($selectedflag != 1) { ?>
+                                                                <option value="28">28</option>
+                                                            <?php } else {
+                                                                $selectedflag = 0;
+                                                            } ?>
+
+                                                            <?php foreach ($sizearr as $size) {
+                                                                if ($size == '30') {
+                                                                    $selectedflag = 1; ?>
+                                                                    <option selected value="30">30</option>
+                                                                <?php break;
+                                                                }
+                                                            }
+                                                            if ($selectedflag != 1) { ?>
+                                                                <option value="30">30</option>
+                                                            <?php } else {
+                                                                $selectedflag = 0;
+                                                            } ?>
+
+                                                            <?php foreach ($sizearr as $size) {
+                                                                if ($size == '32') {
+                                                                    $selectedflag = 1; ?>
+                                                                    <option selected value="32">32</option>
+                                                                <?php break;
+                                                                }
+                                                            }
+                                                            if ($selectedflag != 1) { ?>
+                                                                <option value="32">32</option>
+                                                            <?php } else {
+                                                                $selectedflag = 0;
+                                                            } ?>
+
+                                                            <?php foreach ($sizearr as $size) {
+                                                                if ($size == '34') {
+                                                                    $selectedflag = 1; ?>
+                                                                    <option selected value="34">34</option>
+                                                                <?php break;
+                                                                }
+                                                            }
+                                                            if ($selectedflag != 1) { ?>
+                                                                <option value="34">34</option>
+                                                            <?php } else {
+                                                                $selectedflag = 0;
+                                                            } ?>
+
+                                                            <?php foreach ($sizearr as $size) {
+                                                                if ($size == '36') {
+                                                                    $selectedflag = 1; ?>
+                                                                    <option selected value="36">36</option>
+                                                                <?php break;
+                                                                }
+                                                            }
+                                                            if ($selectedflag != 1) { ?>
+                                                                <option value="36">36</option>
+                                                            <?php } else {
+                                                                $selectedflag = 0;
+                                                            } ?>
+
+                                                            <?php foreach ($sizearr as $size) {
+                                                                if ($size == '38') {
+                                                                    $selectedflag = 1; ?>
+                                                                    <option selected value="38">38</option>
+                                                                <?php break;
+                                                                }
+                                                            }
+                                                            if ($selectedflag != 1) { ?>
+                                                                <option value="38">38</option>
+                                                            <?php } else {
+                                                                $selectedflag = 0;
+                                                            } ?>
+
+                                                            <?php foreach ($sizearr as $size) {
+                                                                if ($size == '40') {
+                                                                    $selectedflag = 1; ?>
+                                                                    <option selected value="40">40</option>
+                                                                <?php break;
+                                                                }
+                                                            }
+                                                            if ($selectedflag != 1) { ?>
+                                                                <option value="40">40</option>
+                                                            <?php } else {
+                                                                $selectedflag = 0;
+                                                            } ?>
+
+                                                            <?php foreach ($sizearr as $size) {
+                                                                if ($size == '42') {
+                                                                    $selectedflag = 1; ?>
+                                                                    <option selected value="42">42</option>
+                                                                <?php break;
+                                                                }
+                                                            }
+                                                            if ($selectedflag != 1) { ?>
+                                                                <option value="42">42</option>
+                                                            <?php } else {
+                                                                $selectedflag = 0;
+                                                            } ?>
+
+                                                            <?php foreach ($sizearr as $size) {
+                                                                if ($size == '44') {
+                                                                    $selectedflag = 1; ?>
+                                                                    <option selected value="44">44</option>
+                                                                <?php break;
+                                                                }
+                                                            }
+                                                            if ($selectedflag != 1) { ?>
+                                                                <option value="44">44</option>
+                                                            <?php } else {
+                                                                $selectedflag = 0;
+                                                            } ?>
+
+                                                        </optgroup>
+
+                                                        <optgroup label="Accessories">
+                                                        <optgroup label="Bagpack">
+
+                                                            <?php foreach ($sizearr as $size) {
+                                                                if ($size == '10-20L') {
+                                                                    $selectedflag = 1; ?>
+                                                                    <option selected value="10-20L">10-20L</option>
+                                                                <?php break;
+                                                                }
+                                                            }
+                                                            if ($selectedflag != 1) { ?>
+                                                                <option value="10-20L">10-20L</option>
+                                                            <?php } else {
+                                                                $selectedflag = 0;
+                                                            } ?>
+
+                                                            <?php foreach ($sizearr as $size) {
+                                                                if ($size == '30-50L') {
+                                                                    $selectedflag = 1; ?>
+                                                                    <option selected value="30-50L">30-50L</option>
+                                                                <?php break;
+                                                                }
+                                                            }
+                                                            if ($selectedflag != 1) { ?>
+                                                                <option value="30-50L">30-50L</option>
+                                                            <?php } else {
+                                                                $selectedflag = 0;
+                                                            } ?>
+
+                                                            <?php foreach ($sizearr as $size) {
+                                                                if ($size == '50-70L') {
+                                                                    $selectedflag = 1; ?>
+                                                                    <option selected value="50-70L">50-70L</option>
+                                                                <?php break;
+                                                                }
+                                                            }
+                                                            if ($selectedflag != 1) { ?>
+                                                                <option value="50-70L">50-70L</option>
+                                                            <?php } else {
+                                                                $selectedflag = 0;
+                                                            } ?>
+
+                                                            <?php foreach ($sizearr as $size) {
+                                                                if ($size == '70L+') {
+                                                                    $selectedflag = 1; ?>
+                                                                    <option selected value="70L+">70L+</option>
+                                                                <?php break;
+                                                                }
+                                                            }
+                                                            if ($selectedflag != 1) { ?>
+                                                                <option value="70L+">70L+</option>
+                                                            <?php } else {
+                                                                $selectedflag = 0;
+                                                            } ?>
+
+                                                        </optgroup>
+
+                                                        <optgroup label="Watches">
+
+                                                            <?php foreach ($sizearr as $size) {
+                                                                if ($size == '36mm') {
+                                                                    $selectedflag = 1; ?>
+                                                                    <option selected value="36mm">36mm</option>
+                                                                <?php break;
+                                                                }
+                                                            }
+                                                            if ($selectedflag != 1) { ?>
+                                                                <option value="36mm">36mm</option>
+                                                            <?php } else {
+                                                                $selectedflag = 0;
+                                                            } ?>
+
+                                                            <?php foreach ($sizearr as $size) {
+                                                                if ($size == '38mm') {
+                                                                    $selectedflag = 1; ?>
+                                                                    <option selected value="38mm">38mm</option>
+                                                                <?php break;
+                                                                }
+                                                            }
+                                                            if ($selectedflag != 1) { ?>
+                                                                <option value="38mm">38mm</option>
+                                                            <?php } else {
+                                                                $selectedflag = 0;
+                                                            } ?>
+
+                                                            <?php foreach ($sizearr as $size) {
+                                                                if ($size == '42mm') {
+                                                                    $selectedflag = 1; ?>
+                                                                    <option selected value="42mm">42mm</option>
+                                                                <?php break;
+                                                                }
+                                                            }
+                                                            if ($selectedflag != 1) { ?>
+                                                                <option value="42mm">42mm</option>
+                                                            <?php } else {
+                                                                $selectedflag = 0;
+                                                            } ?>
+
+                                                            <?php foreach ($sizearr as $size) {
+                                                                if ($size == '44mm') {
+                                                                    $selectedflag = 1; ?>
+                                                                    <option selected value="44mm">44mm</option>
+                                                                <?php break;
+                                                                }
+                                                            }
+                                                            if ($selectedflag != 1) { ?>
+                                                                <option value="44mm">44mm</option>
+                                                            <?php } else {
+                                                                $selectedflag = 0;
+                                                            } ?>
+
+                                                            <?php foreach ($sizearr as $size) {
+                                                                if ($size == '46mm') {
+                                                                    $selectedflag = 1; ?>
+                                                                    <option selected value="46mm">46mm</option>
+                                                                <?php break;
+                                                                }
+                                                            }
+                                                            if ($selectedflag != 1) { ?>
+                                                                <option value="46mm">46mm</option>
+                                                            <?php } else {
+                                                                $selectedflag = 0;
+                                                            } ?>
+
+
+                                                        </optgroup>
+                                                        </optgroup>
+
+                                                    <?php }
+                                                    ?>
                                                 </select>
                                             </div>
 
@@ -252,18 +845,186 @@ if ($product_method == 'edit') {
                                             </label>
                                             <div class="col-lg-6">
                                                 <select name="product_colors[]" multiple="colors" class="4col active form-control">
-                                                    <option value="Red">Red</option>
-                                                    <option value="Green">Green</option>
-                                                    <option value="Blue">Blue</option>
-                                                    <option value="Yellow">Yellow</option>
-                                                    <option value="Black">Black</option>
-                                                    <option value="White">White</option>
-                                                    <option value="Orange">Orange</option>
-                                                    <option value="Maroon">Maroon</option>
-                                                    <option value="Brown">Brown</option>
-                                                    <option value="Mustard">Mustard</option>
-                                                    <option value="Grey">Grey</option>
-                                                    <option value="Olive">Olive</option>
+                                                    <?php
+                                                    $getcolours = "SELECT * from al_productcolor ";
+                                                    $selectedflag = 0;
+                                                    $colorarr = array();
+                                                    $colorresult = mysqli_query($conn, $getcolours);
+                                                    if (mysqli_num_rows($colorresult) > 0) {
+                                                        while ($getrows = mysqli_fetch_array($colorresult)) {
+                                                            array_push($colorarr, $getrows['pc_colorname']);
+                                                        } ?>
+
+                                                        <?php foreach ($colorarr as $color) {
+                                                            if ($color == 'Red') {
+                                                                $selectedflag = 1; ?>
+                                                                <option selected value="Red">Red</option>
+                                                            <?php break;
+                                                            }
+                                                        }
+                                                        if ($selectedflag != 1) { ?>
+                                                            <option value="Red">Red</option>
+                                                        <?php } else {
+                                                            $selectedflag = 0;
+                                                        }
+                                                        ?>
+
+                                                        <?php foreach ($colorarr as $color) {
+                                                            if ($color == 'Green') {
+                                                                $selectedflag = 1; ?>
+                                                                <option selected value="Green">Green</option>
+                                                            <?php break;
+                                                            }
+                                                        }
+                                                        if ($selectedflag != 1) { ?>
+                                                            <option value="Green">Green</option>
+                                                        <?php } else {
+                                                            $selectedflag = 0;
+                                                        }
+                                                        ?>
+
+                                                        <?php foreach ($colorarr as $color) {
+                                                            if ($color == 'Blue') {
+                                                                $selectedflag = 1; ?>
+                                                                <option selected value="Blue">Blue</option>
+                                                            <?php break;
+                                                            }
+                                                        }
+                                                        if ($selectedflag != 1) { ?>
+                                                            <option value="Blue">Blue</option>
+                                                        <?php } else {
+                                                            $selectedflag = 0;
+                                                        }
+                                                        ?>
+
+                                                        <?php foreach ($colorarr as $color) {
+                                                            if ($color == 'Yellow') {
+                                                                $selectedflag = 1; ?>
+                                                                <option selected value="Yellow">Yellow</option>
+                                                            <?php break;
+                                                            }
+                                                        }
+                                                        if ($selectedflag != 1) { ?>
+                                                            <option value="Yellow">Yellow</option>
+                                                        <?php } else {
+                                                            $selectedflag = 0;
+                                                        }
+                                                        ?>
+
+                                                        <?php foreach ($colorarr as $color) {
+                                                            if ($color == 'Black') {
+                                                                $selectedflag = 1; ?>
+                                                                <option selected value="Black">Black</option>
+                                                            <?php break;
+                                                            }
+                                                        }
+                                                        if ($selectedflag != 1) { ?>
+                                                            <option value="Black">Black</option>
+                                                        <?php } else {
+                                                            $selectedflag = 0;
+                                                        }
+                                                        ?>
+
+                                                        <?php foreach ($colorarr as $color) {
+                                                            if ($color == 'White') {
+                                                                $selectedflag = 1; ?>
+                                                                <option selected value="White">White</option>
+                                                            <?php break;
+                                                            }
+                                                        }
+                                                        if ($selectedflag != 1) { ?>
+                                                            <option value="White">White</option>
+                                                        <?php } else {
+                                                            $selectedflag = 0;
+                                                        }
+                                                        ?>
+
+                                                        <?php foreach ($colorarr as $color) {
+                                                            if ($color == 'Orange') {
+                                                                $selectedflag = 1; ?>
+                                                                <option selected value="Orange">Orange</option>
+                                                            <?php break;
+                                                            }
+                                                        }
+                                                        if ($selectedflag != 1) { ?>
+                                                            <option value="Orange">Orange</option>
+                                                        <?php } else {
+                                                            $selectedflag = 0;
+                                                        }
+                                                        ?>
+
+                                                        <?php foreach ($colorarr as $color) {
+                                                            if ($color == 'Maroon') {
+                                                                $selectedflag = 1; ?>
+                                                                <option selected value="Maroon">Maroon</option>
+                                                            <?php break;
+                                                            }
+                                                        }
+                                                        if ($selectedflag != 1) { ?>
+                                                            <option value="Maroon">Maroon</option>
+                                                        <?php } else {
+                                                            $selectedflag = 0;
+                                                        }
+                                                        ?>
+
+                                                        <?php foreach ($colorarr as $color) {
+                                                            if ($color == 'Brown') {
+                                                                $selectedflag = 1; ?>
+                                                                <option selected value="Brown">Brown</option>
+                                                            <?php break;
+                                                            }
+                                                        }
+                                                        if ($selectedflag != 1) { ?>
+                                                            <option value="Brown">Brown</option>
+                                                        <?php } else {
+                                                            $selectedflag = 0;
+                                                        }
+                                                        ?>
+
+                                                        <?php foreach ($colorarr as $color) {
+                                                            if ($color == 'Mustard') {
+                                                                $selectedflag = 1; ?>
+                                                                <option selected value="Mustard">Mustard</option>
+                                                            <?php break;
+                                                            }
+                                                        }
+                                                        if ($selectedflag != 1) { ?>
+                                                            <option value="Mustard">Mustard</option>
+                                                        <?php } else {
+                                                            $selectedflag = 0;
+                                                        }
+                                                        ?>
+
+                                                        <?php foreach ($colorarr as $color) {
+                                                            if ($color == 'Gray') {
+                                                                $selectedflag = 1; ?>
+                                                                <option selected value="Gray">Gray</option>
+                                                            <?php break;
+                                                            }
+                                                        }
+                                                        if ($selectedflag != 1) { ?>
+                                                            <option value="Gray">Gray</option>
+                                                        <?php } else {
+                                                            $selectedflag = 0;
+                                                        }
+                                                        ?>
+
+                                                        <?php foreach ($colorarr as $color) {
+                                                            if ($color == 'Olive') {
+                                                                $selectedflag = 1; ?>
+                                                                <option selected value="Olive">Olive</option>
+                                                            <?php break;
+                                                            }
+                                                        }
+                                                        if ($selectedflag != 1) { ?>
+                                                            <option value="Olive">Olive</option>
+                                                        <?php } else {
+                                                            $selectedflag = 0;
+                                                        }
+                                                        ?>
+
+                                                    <?php } ?>
+
                                                 </select>
                                             </div>
 
@@ -272,7 +1033,7 @@ if ($product_method == 'edit') {
                                             <label class="col-lg-4 col-form-label" for="product_price">Price
                                             </label>
                                             <div class="col-lg-6">
-                                                <input type="number" class="customtext" id="product_price" name="product_price" placeholder="Enter price..">
+                                                <input type="number" value="<?= $set_product_price ?>" class="customtext" id="product_price" name="product_price" placeholder="Enter price..">
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -285,8 +1046,13 @@ if ($product_method == 'edit') {
                                                     $sql = "SELECT * from discount_master";
                                                     $res = mysqli_query($conn, $sql);
                                                     if (mysqli_num_rows($res) > 0) {
-                                                        while ($row = mysqli_fetch_array($res)) { ?>
-                                                            <option value="<?= $row['dm_discountid'] ?>"><?= $row['dm_discountname'] ?></option>
+                                                        while ($row = mysqli_fetch_array($res)) {
+                                                            if ($product_method == 'edit' && $set_product_discount == $row['dm_discountid']) { ?>
+                                                                <option selected value="<?= $row['dm_discountid'] ?>"><?= $row['dm_discountname'] ?></option>
+                                                            <?php  } else { ?>
+                                                                <option value="<?= $row['dm_discountid'] ?>"><?= $row['dm_discountname'] ?></option>
+                                                            <?php  }
+                                                            ?>
                                                     <?php  }
                                                     }
                                                     ?>
@@ -297,7 +1063,7 @@ if ($product_method == 'edit') {
                                             <label class="col-lg-4 col-form-label" for="product_stock">Stock
                                             </label>
                                             <div class="col-lg-6">
-                                                <input type="number" class="customtext" id="product_stock" name="product_stock" placeholder="Enter stock..">
+                                                <input type="number" value="<?= $set_product_stock ?>" class="customtext" id="product_stock" name="product_stock" placeholder="Enter stock..">
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -319,9 +1085,20 @@ if ($product_method == 'edit') {
                                             </label>
                                             <div class="col-lg-6">
                                                 <select class="form-control" name="product_gender">
-                                                    <option value="" selected disabled>Choose...</option>
-                                                    <option value="M">Male</option>
-                                                    <option value="F">Female</option>
+                                                    <?php
+                                                    if ($set_product_type == null) { ?>
+                                                        <option value="" selected disabled>Choose...</option>
+                                                        <option value="M">Male</option>
+                                                        <option value="F">Female</option>
+                                                    <?php } else if ($set_product_type == 'M') { ?>
+                                                        <option value="" disabled>Choose...</option>
+                                                        <option selected value="M">Male</option>
+                                                        <option value="F">Female</option>
+                                                    <?php } else if ($set_product_type == 'F') { ?>
+                                                        <option value="" disabled>Choose...</option>
+                                                        <option value="M">Male</option>
+                                                        <option selected value="F">Female</option>
+                                                    <?php } ?>
                                                 </select>
                                             </div>
                                         </div>
@@ -331,27 +1108,27 @@ if ($product_method == 'edit') {
                                             <div class="col-lg-6">
                                                 <select id="product_status" name="product_status" class="form-control">
                                                     <?php
-                                                    if ($setstatus == null) { ?>
+                                                    if ($set_product_status == null) { ?>
                                                         <option value="" selected disabled>Choose...</option>
                                                         <option value="1">Enabled</option>
                                                         <option value="0">Disabled</option>
-                                                    <?php } else if ($setstatus == 1) { ?>
+                                                    <?php } else if ($set_product_status == 1) { ?>
                                                         <option value="" disabled>Choose...</option>
                                                         <option selected value="1">Enabled</option>
                                                         <option value="0">Disabled</option>
-                                                    <?php } else if ($setstatus == 0) { ?>
+                                                    <?php } else if ($set_product_status == 0) { ?>
                                                         <option value="" disabled>Choose...</option>
                                                         <option value="1">Enabled</option>
                                                         <option selected value="0">Disabled</option>
                                                     <?php } ?>
                                                 </select>
                                             </div>
-                                            
+
                                 </div>
                                 <?php if ($product_method == 'add') { ?>
                                     <button type="submit" id="product_addbtn" name="product_addbtn" class="btn btn-dark">Add</button>
                                 <?php } else if ($product_method == 'edit') { ?>
-                                    <button type="submit" name="product_editbtn" class="btn btn-dark">Edit</button>
+                                    <button type="submit" id="product_editbtn" name="product_editbtn" class="btn btn-dark">Edit</button>
                                 <?php } ?>
                                 </form>
                             </div>
@@ -370,7 +1147,7 @@ if ($product_method == 'edit') {
     <!--**********************************
             Footer start
         ***********************************-->
-    <?php include(INCLUDESCOMP_DIR . "footer.php"); ?>
+    <?php include(INCLUDESCOMP_DIR . "footer.php");    ?>
     <!--**********************************
             Footer end
         ***********************************-->
@@ -392,20 +1169,19 @@ if ($product_method == 'edit') {
     <script src="multiselect-15/js/jquery.multiselect.js"></script>
     <script src="multiselect-15/js/main.js"></script>
     <script src="multiselect-15/js/color.js"></script>
-    <script src="multiselect-15/js/styleSwitcher.js"></script>
     <script src="<?php echo PLUGINS_DIR ?>validation/jquery.validate.min.js"></script>
     <script>
         //jquery validation
         $(document).ready(function() {
-            $(document).ready(function() {
-                $('#ingredients').multiselect();
-            });
-            edit_category_id = $('#categorydropdown').val();
-            if (edit_category_id) {
+            getcategory = $('#categorydropdown').val();
+            getsubcategory = $('#getsubcategory').val();
+            if (getsubcategory != '') {
                 $.ajax({
                     url: "populatesubcategory.php",
                     data: {
-                        c_id: edit_category_id
+                        c_id: getcategory,
+                        product_method: "edit",
+                        s_id: getsubcategory
                     },
                     type: 'POST',
                     success: function(response) {
@@ -435,6 +1211,38 @@ if ($product_method == 'edit') {
                     $("#subcategorydropdown").html("<option selected disabled value=''>Choose...</option>");
                 }
             });
+
+            $('#product_editbtn').click(function() {
+                jQuery(".product_frm").validate({
+                    rules: {
+                        product_category: 'required',
+                        product_subcategory: 'required',
+                        product_brand: 'required',
+                        product_name: 'required',
+                        product_price: 'required',
+                        product_stock: 'required',
+                        product_gender: 'required',
+                        product_status: 'required'
+                    },
+                    messages: {
+                        product_category: 'select a category',
+                        product_subcategory: 'select a subcategory',
+                        product_brand: 'select a brand',
+                        product_name: 'product name is required',
+                        product_price: ' product price is required',
+                        product_stock: ' product stock is required',
+                        product_gender: 'choose the gender',
+                        product_status: 'status is required'
+                    },
+                    highlight: function(element) {
+                        $(element).last().addClass('error')
+                    },
+                    unhighlight: function(element) {
+                        $(element).last().removeClass('error')
+                    }
+                });
+            });
+
             $("#product_addbtn").click(function() {
                 // e.preventDefault();
                 jQuery(".product_frm").validate({

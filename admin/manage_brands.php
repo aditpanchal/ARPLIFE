@@ -120,6 +120,36 @@ if ($brandid != '' && $brand_method == 'edit') {
                                         </div>
 
                                         <div class="form-row">
+                                        <div class="form-group col-md-4">
+                                            <label>Gender</label>
+                                            <select id="" name="gender" class="form-control">
+                                                <?php
+                                                if ($setgender == null) { ?>
+                                                    <option value="" selected disabled>Choose...</option>
+                                                    <option value="M">Male</option>
+                                                    <option value="F">Female</option>
+                                                    <option value="B">Both</option>
+                                                <?php } else if ($setgender == 'M') { ?>
+                                                    <option value="M" selected>Male</option>
+                                                    <option value="F">Female</option>
+                                                    <option value="B">Both</option>
+                                                <?php } else if ($setgender == 'F') { ?>
+                                                    
+                                                    <option value="M">Male</option>
+                                                    <option value="F" selected>Female</option>
+                                                    <option value="B">Both</option>
+                                                <?php } else if ($setgender == 'B') { ?>
+                                                    
+                                                    <option value="M">Male</option>
+                                                    <option value="F">Female</option>
+                                                    <option value="B" selected>Both</option>
+                                                <?php  } ?>
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+                                        <div class="form-row">
                                             <div class="form-group col-md-4">
                                                 <label>Status</label>
                                                 <select id="brandstatus" name="status" class="form-control">
@@ -189,12 +219,14 @@ if ($brandid != '' && $brand_method == 'edit') {
                 jQuery(".managebrand_frm").validate({
                     rules: {
                         brandname: 'required',
+                        gender: 'required',
                         status: 'required',
                         brand_category: 'required'
                     },
                     messages: {
                         brandname: 'Brand Name is required',
                         status: 'Status is required',
+                        gender: 'Choose a gender',
                         brand_category:'Choose the category'
                     },
                     highlight: function(element) {
@@ -216,12 +248,15 @@ if ($brandid != '' && $brand_method == 'edit') {
                     rules: {
                         brandname: 'required',
                         status: 'required',
+                        gender: 'required',
                         brand_category: 'required'
                     },
                     messages: {
                         brandname: 'Brand Name is required',
                         status: 'Status is required',
-                        brand_category:'Choose the category'
+                        brand_category:'Choose the category',
+                        gender: 'Choose a gender'
+
                     },
                     highlight: function(element) {
                         $(element).last().addClass('error')

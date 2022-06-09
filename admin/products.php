@@ -1,7 +1,7 @@
 <?php
 
 require("../config/dbconnect.php");
-$query = "select * from product_master";
+$query = "select * from product_master ";
 $res = mysqli_query($conn, $query);
 $rowcount = mysqli_num_rows($res);
 
@@ -67,7 +67,7 @@ $rowcount = mysqli_num_rows($res);
                     <div class="card">
                         <div class="card-body">
                             <div style="width:100% ; display:flex ;  justify-content: flex-end ; margin-bottom: 20px; ">
-                            <a  href="manage_products.php" data-toggle="tooltip" title="Add product" style="margin-right:4px ;" type="button" class="btn btn-primary">
+                                <a href="manage_products.php" data-toggle="tooltip" title="Add product" style="margin-right:4px ;" type="button" class="btn btn-primary">
                                     <i class="fa fa-plus"></i>
                                 </a>
                                 <?php if ($rowcount > 0) { ?>
@@ -83,6 +83,8 @@ $rowcount = mysqli_num_rows($res);
                                             <th><input type="checkbox" name="" class="checkall"></th>
                                             <th>Image</th>
                                             <th>Product Name</th>
+                                            <th>Category Name</th>
+                                            <th>subcategory Name</th>
                                             <th>Price</th>
                                             <th>Stock</th>
                                             <th>IsActive</th>
@@ -92,18 +94,29 @@ $rowcount = mysqli_num_rows($res);
                                     <tbody>
                                         <?php
                                         if ($rowcount > 0) {
-                                            while ($getrows = mysqli_fetch_array($res)) { ?>
+
+                                            while ($getrows = mysqli_fetch_array($res)) {
+                                                $getcategory = "SELECT catm_categoryname from category_master where catm_categoryid=" . $getrows['pm_categoryid'];
+                                                $getsubcategory = "SELECT sc_subcategoryname from al_subcategory where sc_subcategoryid=" . $getrows['pm_subcategoryid'];
+                                                $res1 = mysqli_query($conn, $getcategory);
+                                                $res2 = mysqli_query($conn, $getsubcategory);
+                                                if (mysqli_num_rows($res1) > 0 && mysqli_num_rows($res2) > 0) {
+                                                    $getcategory = mysqli_fetch_array($res1);
+                                                    $getsubcategory = mysqli_fetch_array($res2);
+                                                }
+                                        ?>
                                                 <tr>
                                                     <td><input type="checkbox" class="productchkbox" value="<?= $getrows['pm_productid'] ?>" id="product_chk<?= $getrows['pm_productid'] ?>"></td>
-                                                    <td><img  src="images/uploads/<?= $getrows['pm_image'] ?>" width="80%" height="80px" ></td>
+                                                    <td><img src="images/uploads/<?= $getrows['pm_image'] ?>" width="80%" height="80px"></td>
                                                     <td><?= $getrows['pm_productname'] ?></td>
+                                                    <td><?= $getcategory['catm_categoryname'] ?></td>
+                                                    <td><?= $getsubcategory['sc_subcategoryname'] ?></td>
                                                     <td><?= $getrows['pm_price'] ?></td>
                                                     <td><?= $getrows['pm_stock'] ?></td>
                                                     <td><?= $getrows['pm_isactive'] ?></td>
                                                     <td>
                                                         <a href="manage_products.php?productid=<?= $getrows['pm_productid'] ?>" data-toggle="tooltip" title="Edit" type="button" class="btn btn-primary">
                                                             <i class="fa fa-pencil"></i>
-
                                                         </a>
                                                     </td>
                                                 </tr>
@@ -125,6 +138,8 @@ $rowcount = mysqli_num_rows($res);
                                             <th><input type="checkbox" name="" id="bottomchkall" class="checkall"></th>
                                             <th>Image</th>
                                             <th>Product Name</th>
+                                            <th>Category Name</th>
+                                            <th>subcategory Name</th>
                                             <th>Price</th>
                                             <th>Stock</th>
                                             <th>IsActive</th>
@@ -172,7 +187,7 @@ $rowcount = mysqli_num_rows($res);
             // ALL-CHECKBOX
             $(".checkall").click(function() {
                 $(".productchkbox").attr('checked', this.checked);
-                $("#bottomchkall").attr('checked',this.checked);
+                $("#bottomchkall").attr('checked', this.checked);
             });
 
             // DELETE-BUTTON

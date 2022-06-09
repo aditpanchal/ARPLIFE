@@ -16,7 +16,6 @@ if (isset($_POST['modal1_savebtn'])) {
 
     $editqry = "update admin_master set am_adminname='$newadminname', am_profileimage='$profileimagename' where am_adminid=$getadminid";
     mysqli_query($conn, $editqry);
-    $_SESSION['profilechanged']=$profileimagename;
      header("location:../adminprofile.php");
 } elseif (isset($_POST['modal2_savebtn'])) {
     $newdesc = $_POST['desc'];
