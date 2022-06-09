@@ -1,10 +1,5 @@
 <?php
 require("config/dbconnect.php");
-<<<<<<< HEAD
-$product_name='';
-$product_price='';
-=======
->>>>>>> 0cf5136ae4f7e614abda2b0f7a35f0a8c871e9fe
 ?>
 
 <!doctype html>
@@ -187,11 +182,7 @@ $product_price='';
                                     </a>
 
                                                 <div class="mid-wrapper">
-<<<<<<< HEAD
-                                                    <h5 class="pro-title"><a href="product.html"><?= $product_name= $row['pm_productname'] ?></a></h5>
-=======
                                                     <h5 class="pro-title"><a href=""><?= $row['pm_productname'] ?></a></h5>
->>>>>>> 0cf5136ae4f7e614abda2b0f7a35f0a8c871e9fe
                                                     <div class="color-variation">
                                                         <ul>
                                                             <li><i class="fas fa-circle"></i></li>
@@ -200,13 +191,8 @@ $product_price='';
                                                             <li><i class="fas fa-circle"></i></li>
                                                         </ul>
                                                     </div>
-<<<<<<< HEAD
-                                                    <p><?php if ($row['pm_type'] == "M") echo "Male";
-                                                        else echo "Female"; ?> / <span>&#X20B9;<?= $product_price= $row['pm_price'] ?></span></p>
-=======
                                                     <p><?php if ($row['pm_type'] == 'M') echo "Male";
                                                         else echo "Female"; ?> / <span><?= $row['pm_price'] ?></span></p>
->>>>>>> 0cf5136ae4f7e614abda2b0f7a35f0a8c871e9fe
                                                 </div>
 
                                                 <div class="icon-wrapper">
@@ -223,9 +209,6 @@ $product_price='';
                                                 </div>
                                             </div>
                                         </div>
-<<<<<<< HEAD
-
-=======
                                         <?php
                                         $sizeqry = "SELECT * from al_productsize where ps_productid = $p_id";
                                         $sizeres = mysqli_query($conn, $sizeqry);
@@ -370,7 +353,6 @@ $product_price='';
                                             </div>
                                         </div>
                                         
->>>>>>> 0cf5136ae4f7e614abda2b0f7a35f0a8c871e9fe
                                 <?php
                                     }
                                 }
@@ -387,8 +369,6 @@ $product_price='';
         </section>
         <!-- main-product -->
 
-<<<<<<< HEAD
-=======
         <!--=========================-->
         <!--=   Discount Countdown area      =-->
         <!--=========================-->
@@ -652,7 +632,6 @@ $product_price='';
             <!-- /.container-two -->
         </section>
         <!-- subscribe-area -->
->>>>>>> 0cf5136ae4f7e614abda2b0f7a35f0a8c871e9fe
 
 
         <!-- footer -->
