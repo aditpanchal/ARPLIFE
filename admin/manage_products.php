@@ -695,6 +695,24 @@ if ($product_method == 'edit') {
                                                         </optgroup>
 
                                                         <optgroup label="Accessories">
+
+                                                        <optgroup label="Side Bag">
+
+                                                            <?php foreach ($sizearr as $size) {
+                                                                if ($size == 'OS') {
+                                                                    $selectedflag = 1; ?>
+                                                                    <option selected value="OS">One Size</option>
+                                                                <?php break;
+                                                                }
+                                                            }
+                                                            if ($selectedflag != 1) { ?>
+                                                                <option value="OS">One Size</option>
+                                                            <?php } else {
+                                                                $selectedflag = 0;
+                                                            } ?>
+
+                                                        </optgroup>
+
                                                         <optgroup label="Bagpack">
 
                                                             <?php foreach ($sizearr as $size) {
@@ -868,6 +886,9 @@ if ($product_method == 'edit') {
                                                             <option value="44">44</option>
                                                         </optgroup>
                                                         <optgroup label="Accessories">
+                                                        <optgroup label="Side Bag">
+                                                            <option value="OS">One Size</option>
+                                                        </optgroup>
                                                         <optgroup label="Bagpack">
                                                             <option value="10-20L">10-20L</option>
                                                             <option value="30-50L">30-50L</option>
