@@ -9,7 +9,7 @@ session_start();
 include("constant.php");
 require(CONFIG_DIR . "dbconnect.php");
 ?>
-<header id="header" class="header-area">
+<header id="header" class="header-area"  >
     <div class="container-fluid custom-container menu-rel-container">
         <div class="row">
             <!-- Logo

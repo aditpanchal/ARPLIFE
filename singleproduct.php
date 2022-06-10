@@ -1,3 +1,7 @@
+<?php
+require("config/dbconnect.php");
+$productid = $_GET['productid'];
+?>
 <!doctype html>
 <html>
 
@@ -41,16 +45,32 @@
                                 <!-- Product View Slider -->
                                 <div class="quickview-slider">
                                     <div class="slider-for">
-                                        <div class="">
-                                            <img src="admin/images/uploads/hehe.jpeg" alt="Thumb">
-                                        </div>
+                                        <?php
+                                        $getimages = "SELECT * from al_productimages where pi_productid=$productid";
+                                        $imgres = mysqli_query($conn, $getimages);
+                                        if (mysqli_num_rows($imgres) > 0) {
+                                            while ($getrow = mysqli_fetch_array($imgres)) { ?>
+                                                <div class="">
+                                                    <img height="500rem" src="admin/images/uploads/<?= $getrow['pi_imagename'] ?>" alt="<?= $getrow['pi_imagename'] ?>">
+                                                </div>
+                                        <?php }
+                                        }
+                                        ?>
                                     </div>
 
                                     <div class="slider-nav">
+                                        <?php
+                                        $getimages = "SELECT * from al_productimages where pi_productid=$productid";
+                                        $imgres = mysqli_query($conn, $getimages);
+                                        if (mysqli_num_rows($imgres) > 0) {
+                                            while ($getrow = mysqli_fetch_array($imgres)) { ?>
+                                                <div class="">
+                                                    <img height="150rem" src="admin/images/uploads/<?= $getrow['pi_imagename'] ?>" alt="<?= $getrow['pi_imagename'] ?>">
+                                                </div>
+                                        <?php }
+                                        }
+                                        ?>
 
-                                        <div class="">
-                                            <img src="admin/images/uploads/hehe.jpeg" alt="thumb">
-                                        </div>
                                     </div>
                                 </div>
                                 <!-- /.quickview-slider -->
