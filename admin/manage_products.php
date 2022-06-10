@@ -116,6 +116,7 @@ if ($product_method == 'edit') {
                                 <div class="form-validation">
                                     <form class="product_frm" method="POST" action="products_operation.php" enctype="multipart/form-data">
                                         <div class="form-group row">
+                                            <input type="hidden" value="<?= $productid ?>" name="productid" id="productid">
                                             <label class="col-lg-4 col-form-label" for="product_category">Category
                                             </label>
                                             <div class="col-lg-6">
@@ -152,22 +153,9 @@ if ($product_method == 'edit') {
                                             <label class="col-lg-4 col-form-label" for="product_brand">Brand
                                             </label>
                                             <div class="col-lg-6">
-                                                <select class="form-control" name="product_brand">
+                                                <input type="hidden" value="<?= $set_product_brand ?>" name="getbrand" id="getbrand">
+                                                <select class="form-control" id="branddropdown" name="product_brand">
                                                     <option value="" disabled selected>Choose...</option>
-                                                    <?php
-                                                    $sql = "SELECT * from brand_master";
-                                                    $res = mysqli_query($conn, $sql);
-                                                    if (mysqli_num_rows($res) > 0) {
-                                                        while ($row = mysqli_fetch_array($res)) { ?>
-                                                            <?php if ($product_method == 'edit' && $set_product_brand == $row['bm_brandid']) { ?>
-                                                                <option selected value="<?= $row['bm_brandid'] ?>"><?= $row['bm_brandname'] ?></option>
-                                                            <?php } else {  ?>
-                                                                <option value="<?= $row['bm_brandid'] ?>"><?= $row['bm_brandname'] ?></option>
-
-                                                    <?php }
-                                                        }
-                                                    }
-                                                    ?>
                                                 </select>
                                             </div>
                                         </div>
@@ -834,6 +822,66 @@ if ($product_method == 'edit') {
                                                         </optgroup>
                                                         </optgroup>
 
+                                                    <?php } else { ?>
+                                                        <optgroup label="Upperwear">
+                                                            <option value="XS">XS</option>
+                                                            <option value="S">S</option>
+                                                            <option value="M">M</option>
+                                                            <option value="L">L</option>
+                                                            <option value="XL">XL</option>
+                                                            <option value="XXL">XXL</option>
+                                                            <option value="XXXL">XXXL</option>
+                                                        </optgroup>
+                                                        <optgroup label="Footwear">
+                                                            <option value="5">5</option>
+                                                            <option value="5.5">5.5</option>
+                                                            <option value="6">6</option>
+                                                            <option value="6.5">6.5</option>
+                                                            <option value="7">7</option>
+                                                            <option value="7.5">7.5</option>
+                                                            <option value="8">8</option>
+                                                            <option value="8.5">8.5</option>
+                                                            <option value="9">9</option>
+                                                            <option value="9.5">9.5</option>
+                                                            <option value="10">10</option>
+                                                            <option value="10.5">10.5</option>
+                                                            <option value="11">11</option>
+                                                            <option value="11.5">11.5</option>
+                                                            <option value="12">12</option>
+                                                            <option value="12.5">12.5</option>
+                                                            <option value="13">13</option>
+                                                            <option value="13.5">13.5</option>
+                                                            <option value="14">14</option>
+                                                            <option value="14.5">14.5</option>
+                                                            <option value="15">15</option>
+                                                        </optgroup>
+                                                        <optgroup label="Bottomwear">
+                                                            <option value="26">26</option>
+                                                            <option value="28">28</option>
+                                                            <option value="30">30</option>
+                                                            <option value="32">32</option>
+                                                            <option value="34">34</option>
+                                                            <option value="36">36</option>
+                                                            <option value="38">38</option>
+                                                            <option value="40">40</option>
+                                                            <option value="42">42</option>
+                                                            <option value="44">44</option>
+                                                        </optgroup>
+                                                        <optgroup label="Accessories">
+                                                        <optgroup label="Bagpack">
+                                                            <option value="10-20L">10-20L</option>
+                                                            <option value="30-50L">30-50L</option>
+                                                            <option value="50-70L">50-70L</option>
+                                                            <option value="70L+">70L+</option>
+                                                        </optgroup>
+                                                        <optgroup label="Watches">
+                                                            <option value="36mm">36mm</option>
+                                                            <option value="38mm">38mm</option>
+                                                            <option value="42mm">42mm</option>
+                                                            <option value="44mm">44mm</option>
+                                                            <option value="46mm">46mm</option>
+                                                        </optgroup>
+                                                        </optgroup>
                                                     <?php }
                                                     ?>
                                                 </select>
@@ -1023,7 +1071,20 @@ if ($product_method == 'edit') {
                                                         }
                                                         ?>
 
-                                                    <?php } ?>
+                                                    <?php } else { ?>
+                                                        <option value="Red">Red</option>
+                                                        <option value="Green">Green</option>
+                                                        <option value="Blue">Blue</option>
+                                                        <option value="Yellow">Yellow</option>
+                                                        <option value="Black">Black</option>
+                                                        <option value="White">White</option>
+                                                        <option value="Orange">Orange</option>
+                                                        <option value="Maroon">Maroon</option>
+                                                        <option value="Brown">Brown</option>
+                                                        <option value="Mustard">Mustard</option>
+                                                        <option value="Gray">Gray</option>
+                                                        <option value="Olive">Olive</option>
+                                                    <?php  } ?>
 
                                                 </select>
                                             </div>
@@ -1193,6 +1254,26 @@ if ($product_method == 'edit') {
                 $("#subcategorydropdown").html("<option selected disabled value=''>Choose...</option>");
             }
 
+            getbrand = $('#getbrand').val();
+            if (getcategory != '') {
+                $.ajax({
+                    url: "populatebrands.php",
+                    data: {
+                        cat_id: getcategory,
+                        product_method: "edit",
+                        b_id: getbrand
+                    },
+                    type: 'POST',
+                    success: function(response) {
+                        var resp = $.trim(response);
+                        $("#branddropdown").html(resp);
+                    }
+                });
+            } else {
+                $("#branddropdown").html("<option selected disabled value=''>Choose...</option>");
+            }
+
+            //ON CHANGE
             $("#categorydropdown").change(function() {
                 var category_id = $(this).val();
                 if (category_id != "") {
@@ -1209,6 +1290,25 @@ if ($product_method == 'edit') {
                     });
                 } else {
                     $("#subcategorydropdown").html("<option selected disabled value=''>Choose...</option>");
+                }
+            });
+
+            $("#categorydropdown").change(function() {
+                var category_id = $(this).val();
+                if (category_id != "") {
+                    $.ajax({
+                        url: "populatebrands.php",
+                        data: {
+                            cat_id: category_id
+                        },
+                        type: 'POST',
+                        success: function(response) {
+                            var resp = $.trim(response);
+                            $("#branddropdown").html(resp);
+                        }
+                    });
+                } else {
+                    $("#branddropdown").html("<option selected disabled value=''>Choose...</option>");
                 }
             });
 

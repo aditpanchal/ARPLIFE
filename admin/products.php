@@ -125,7 +125,7 @@ $rowcount = mysqli_num_rows($res);
                                         } else { ?>
 
                                             <tr>
-                                                <td colspan="7" align="center">No Record Found</td>
+                                                <td colspan="9" align="center">No Record Found</td>
                                             </tr>
 
                                         <?php

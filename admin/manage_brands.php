@@ -2,7 +2,7 @@
 require("../config/dbconnect.php");
 $brandid = (isset($_GET["brandid"]) ? intval($_GET["brandid"]) : '');
 $brand_method = (isset($_GET["brandid"]) ? 'edit' : 'add');
-$setbrandname = $setstatus = $setcategory = '';
+$setbrandname = $setstatus = $setcategory = $setgender = '';
 if ($brandid != '' && $brand_method == 'edit') {
     $query = "SELECT * from brand_master , category_master where bm_categoryid=catm_categoryid and bm_brandid=$brandid ";
     $res = mysqli_query($conn, $query);
@@ -11,6 +11,7 @@ if ($brandid != '' && $brand_method == 'edit') {
         $setcategory = $getrow['catm_categoryid'];
         $setbrandname = $getrow['bm_brandname'];
         $setstatus = $getrow['bm_isactive'];
+        $setgender= $getrow['bm_gender'];
     }
 }
 ?>
@@ -124,21 +125,21 @@ if ($brandid != '' && $brand_method == 'edit') {
                                             <label>Gender</label>
                                             <select id="" name="gender" class="form-control">
                                                 <?php
-                                                if ($setgender == null) { ?>
+                                                if ($setgender == '') { ?>
                                                     <option value="" selected disabled>Choose...</option>
                                                     <option value="M">Male</option>
                                                     <option value="F">Female</option>
                                                     <option value="B">Both</option>
-                                                <?php } else if ($setgender == 'M') { ?>
+                                                <?php } else if ($setgender == 'm' || $setgender == 'M' ) { ?>
                                                     <option value="M" selected>Male</option>
                                                     <option value="F">Female</option>
                                                     <option value="B">Both</option>
-                                                <?php } else if ($setgender == 'F') { ?>
+                                                <?php } else if ($setgender == 'f' || $setgender == 'F' ) { ?>
                                                     
                                                     <option value="M">Male</option>
                                                     <option value="F" selected>Female</option>
                                                     <option value="B">Both</option>
-                                                <?php } else if ($setgender == 'B') { ?>
+                                                <?php } else if ($setgender == 'b' ||$setgender == 'B' ) { ?>
                                                     
                                                     <option value="M">Male</option>
                                                     <option value="F">Female</option>
