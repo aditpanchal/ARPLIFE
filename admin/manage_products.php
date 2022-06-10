@@ -1071,6 +1071,90 @@ if ($product_method == 'edit') {
                                                         }
                                                         ?>
 
+                                                        <?php foreach ($colorarr as $color) {
+                                                            if ($color == 'Pink') {
+                                                                $selectedflag = 1; ?>
+                                                                <option selected value="Pink">Pink</option>
+                                                            <?php break;
+                                                            }
+                                                        }
+                                                        if ($selectedflag != 1) { ?>
+                                                            <option value="Pink">Pink</option>
+                                                        <?php } else {
+                                                            $selectedflag = 0;
+                                                        }
+                                                        ?>
+
+                                                        <?php foreach ($colorarr as $color) {
+                                                            if ($color == 'Purple') {
+                                                                $selectedflag = 1; ?>
+                                                                <option selected value="Purple">Purple</option>
+                                                            <?php break;
+                                                            }
+                                                        }
+                                                        if ($selectedflag != 1) { ?>
+                                                            <option value="Purple">Purple</option>
+                                                        <?php } else {
+                                                            $selectedflag = 0;
+                                                        }
+                                                        ?>
+
+                                                        <?php foreach ($colorarr as $color) {
+                                                            if ($color == 'Navy') {
+                                                                $selectedflag = 1; ?>
+                                                                <option selected value="Navy">Navy</option>
+                                                            <?php break;
+                                                            }
+                                                        }
+                                                        if ($selectedflag != 1) { ?>
+                                                            <option value="Navy">Navy</option>
+                                                        <?php } else {
+                                                            $selectedflag = 0;
+                                                        }
+                                                        ?>
+
+                                                        <?php foreach ($colorarr as $color) {
+                                                            if ($color == 'Khakhi') {
+                                                                $selectedflag = 1; ?>
+                                                                <option selected value="Khakhi">Khakhi</option>
+                                                            <?php break;
+                                                            }
+                                                        }
+                                                        if ($selectedflag != 1) { ?>
+                                                            <option value="Khakhi">Khakhi</option>
+                                                        <?php } else {
+                                                            $selectedflag = 0;
+                                                        }
+                                                        ?>
+
+                                                        <?php foreach ($colorarr as $color) {
+                                                            if ($color == 'Mix') {
+                                                                $selectedflag = 1; ?>
+                                                                <option selected value="Mix">Mix</option>
+                                                            <?php break;
+                                                            }
+                                                        }
+                                                        if ($selectedflag != 1) { ?>
+                                                            <option value="Mix">Mix</option>
+                                                        <?php } else {
+                                                            $selectedflag = 0;
+                                                        }
+                                                        ?>
+
+                                                        <?php foreach ($colorarr as $color) {
+                                                            if ($color == 'Demin') {
+                                                                $selectedflag = 1; ?>
+                                                                <option selected value="Demin">Demin</option>
+                                                            <?php break;
+                                                            }
+                                                        }
+                                                        if ($selectedflag != 1) { ?>
+                                                            <option value="Demin">Demin</option>
+                                                        <?php } else {
+                                                            $selectedflag = 0;
+                                                        }
+                                                        ?>
+
                                                     <?php } else { ?>
                                                         <option value="Red">Red</option>
                                                         <option value="Green">Green</option>
@@ -1084,6 +1168,12 @@ if ($product_method == 'edit') {
                                                         <option value="Mustard">Mustard</option>
                                                         <option value="Gray">Gray</option>
                                                         <option value="Olive">Olive</option>
+                                                        <option value="Pink">Pink</option>
+                                                        <option value="Navy">Navy</option>
+                                                        <option value="Khakhi">Khakhi</option>
+                                                        <option value="Purple">Purple</option>
+                                                        <option value="Mix">Mix</option>
+                                                        <option value="Demin">Demin</option>
                                                     <?php  } ?>
 
                                                 </select>
