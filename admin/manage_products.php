@@ -894,7 +894,7 @@ if ($product_method == 'edit') {
                                             <div class="col-lg-6">
                                                 <select name="product_colors[]" multiple="colors" class="4col active form-control">
                                                     <?php
-                                                    $getcolours = "SELECT * from al_productcolor ";
+                                                    $getcolours = "SELECT * from al_productcolor where pc_productid=$productid ";
                                                     $selectedflag = 0;
                                                     $colorarr = array();
                                                     $colorresult = mysqli_query($conn, $getcolours);
