@@ -26,7 +26,11 @@ if (mysqli_num_rows($res) > 0) {
 
 <!-- head-tag -->
 <?php include("mainincludes/csslinks.php"); ?>
-
+<style>
+    .color-checkboxes #col-Purple-label {
+        background: purple;
+    }
+</style>
 
 <body id="home-version-1" class="home-version-1" data-style="default">
     <div class="site-content">
@@ -104,43 +108,40 @@ if (mysqli_num_rows($res) > 0) {
 
                             <div class="col-lg-6 col-xl-6">
                                 <div class="product-details">
-                                    <h5 class="pro-title"><a href="#">Woman fashion dress</a></h5>
-                                    <span class="price">Price : $387</span>
+                                    <h5 class="pro-title"><a href="#"><?= $set_product_name ?></a></h5>
+                                    <span class="price">Price : $<?= $set_product_price ?></span>
                                     <div class="size-variation">
                                         <span>size :</span>
                                         <select name="size-value">
-                                            <option value="">1</option>
-                                            <option value="">2</option>
-                                            <option value="">3</option>
-                                            <option value="">4</option>
-                                            <option value="">5</option>
+                                            <?php
+                                            $getsizequery = "SELECT * from al_productsize where ps_productid= $productid";
+                                            $sizeres = mysqli_query($conn, $getsizequery);
+                                            if (mysqli_num_rows($sizeres) > 0) {
+                                                while ($getsizerow = mysqli_fetch_array($sizeres)) {
+                                            ?>
+                                                    <option value="<?php $getsizerow['ps_sizeid'] ?>"><?= $getsizerow['ps_size'] ?></option>
+                                            <?php  }
+                                            }
+
+                                            ?>
                                         </select>
                                     </div>
                                     <div class="color-checkboxes">
                                         <h4>Color:</h4>
-                                        <input class="color-checkbox__input" id="col-Blue" name="colour" type="radio">
-                                        <label class="color-checkbox" for="col-Blue" id="col-Blue-label"></label>
-                                        <span></span>
-
-                                        <input class="color-checkbox__input" id="col-Green" value="#8bc34a" name="colour" type="radio">
-                                        <label class="color-checkbox" for="col-Green" id="col-Green-label"></label>
-                                        <span></span>
-
-                                        <input class="color-checkbox__input" id="col-Yellow" value="#fdd835" name="colour" type="radio">
-                                        <label class="color-checkbox" for="col-Yellow" id="col-Yellow-label"></label>
-                                        <span></span>
-
-                                        <input class="color-checkbox__input" id="col-Orange" value="#ff9800" name="colour" type="radio">
-                                        <label class="color-checkbox" for="col-Orange" id="col-Orange-label"></label>
-                                        <span></span>
-
-                                        <input class="color-checkbox__input" id="col-Red" value="#f44336" name="colour" type="radio">
-                                        <label class="color-checkbox" for="col-Red" id="col-Red-label"></label>
-                                        <span></span>
-
-                                        <input class="color-checkbox__input" id="col-Black" value="#222222" name="colour" type="radio">
-                                        <label class="color-checkbox" for="col-Black" id="col-Black-label"></label>
-                                        <span></span>
+                                        <?php
+                                        $getcolorsquery = "SELECT * from al_productcolor where pc_productid=$productid";
+                                        $getcolorresult = mysqli_query($conn, $getcolorsquery);
+                                        $colors = array();
+                                        if (mysqli_num_rows($getcolorresult) > 0) {
+                                            while ($getcolors = mysqli_fetch_array($getcolorresult)) {
+                                                array_push($colors, $getcolors['pc_colorname']); ?>
+                                                <input class="color-checkbox__input" id="avail_colors" name="colour" type="radio">
+                                                <label class="color-checkbox" for="avail_colors" id="col-<?= $getcolors['pc_colorname'] ?>-label"></label>
+                                                <span></span>
+                                        <?php }
+                                        }
+                                        ?>
+                                        <div class="printcolors" id="printcolors"></div>
                                     </div>
 
                                     <div class="add-tocart-wrap">
@@ -347,7 +348,15 @@ if (mysqli_num_rows($res) > 0) {
     <!--Google map api -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBsBrMPsyNtpwKXPPpG54XwJXnyobfMAIc"></script>
 
-
+    <script>
+        var html = `<input class="color-checkbox__input" id="avail_colors" name="colour" type="radio">
+                    <label class="color-checkbox" for="avail_colors" id="col-Black-label"></label>
+                    <span></span>`;
+        var jqueryarray = JSON.parse('<?php echo json_encode($colors); ?>');
+        $.each(jqueryarray, function(index, val) {
+            $('#col-' + val + '-label').css("background-color", val);
+        });
+    </script>
     <!-- Site Scripts -->
     <script src="assets/js/app.js"></script>
 
