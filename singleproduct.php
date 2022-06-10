@@ -1,6 +1,25 @@
 <?php
 require("config/dbconnect.php");
 $productid = $_GET['productid'];
+$setsubcategory = $setstatus = $getcategoryforscdropdown = $set_product_brand = $catid = '';
+$set_product_category  = $set_product_description =  $set_product_status = $getbrandid = $getcatid = '';
+$getproductquery = "select * from product_master where pm_productid=$productid ";
+$res = mysqli_query($conn, $getproductquery);
+if (mysqli_num_rows($res) > 0) {
+    while ($getrow = mysqli_fetch_array($res)) {
+        $set_product_category = (($getrow['pm_categoryid'] != '') ? $getrow['pm_categoryid'] : '');
+        $set_product_subcategory = (($getrow['pm_subcategoryid'] != '') ? $getrow['pm_subcategoryid'] : '');
+        $set_product_brand = (($getrow['pm_brandid'] != '') ? $getrow['pm_brandid'] : '');
+        $set_product_name = (($getrow['pm_productname'] != '') ? $getrow['pm_productname'] : '');
+        $set_product_description = (($getrow['pm_description'] != '') ? $getrow['pm_description'] : '');
+        $set_product_price = (($getrow['pm_price'] != '') ? $getrow['pm_price'] : '');
+        $set_product_discount = (($getrow['pm_discountid'] != '') ? $getrow['pm_discountid'] : '');
+        $set_product_stock = (($getrow['pm_stock'] != '') ? $getrow['pm_stock'] : '');
+        $set_product_image = (($getrow['pm_image'] != '') ? $getrow['pm_image'] : '');
+        $set_product_type = (($getrow['pm_type'] != '') ? $getrow['pm_type'] : '');
+        $set_product_status = (($getrow['pm_isactive'] != '') ? $getrow['pm_isactive'] : '');
+    }
+}
 ?>
 <!doctype html>
 <html>
@@ -45,6 +64,9 @@ $productid = $_GET['productid'];
                                 <!-- Product View Slider -->
                                 <div class="quickview-slider">
                                     <div class="slider-for">
+                                        <div class="">
+                                            <img height="500rem" src="admin/images/uploads/<?= $set_product_image ?>" alt="<?= $set_product_image ?>">
+                                        </div>
                                         <?php
                                         $getimages = "SELECT * from al_productimages where pi_productid=$productid";
                                         $imgres = mysqli_query($conn, $getimages);
@@ -59,6 +81,9 @@ $productid = $_GET['productid'];
                                     </div>
 
                                     <div class="slider-nav">
+                                        <div class="">
+                                            <img height="150rem" src="admin/images/uploads/<?= $set_product_image ?>" alt="<?= $set_product_image ?>">
+                                        </div>
                                         <?php
                                         $getimages = "SELECT * from al_productimages where pi_productid=$productid";
                                         $imgres = mysqli_query($conn, $getimages);
