@@ -19,6 +19,17 @@ if (mysqli_num_rows($res) > 0) {
         $set_product_type = (($getrow['pm_type'] != '') ? $getrow['pm_type'] : '');
         $set_product_status = (($getrow['pm_isactive'] != '') ? $getrow['pm_isactive'] : '');
     }
+    if ($set_product_brand != '') {
+        $getbrandquery = "SELECT bm_brandname from brand_master where bm_brandid=$set_product_brand";
+        $brandresult = mysqli_query($conn, $getbrandquery);
+        $getbrandrow = mysqli_fetch_array($brandresult);
+        $getbrand = $getbrandrow['bm_brandname'];
+    }
+    if ($set_product_stock > 0) {
+        $available = 1;
+    } else {
+        $available = 0;
+    }
 }
 ?>
 <!doctype html>
@@ -108,8 +119,10 @@ if (mysqli_num_rows($res) > 0) {
 
                             <div class="col-lg-6 col-xl-6">
                                 <div class="product-details">
-                                    <h5 class="pro-title"><a href="#"><?= $set_product_name ?></a></h5>
-                                    <span class="price">Price : $<?= $set_product_price ?></span>
+                                    <h5 class="pro-title"><a href="javascript:void()"><?= strtoupper($getbrand) ?></a></h5>
+                                    <h5 class="pro-title"><a href="javascript:void()"><?= $set_product_name ?></a></h5>
+                                    <span class="price"  >Availibility: <span style="<?= ($available!=1) ? 'color:red; font-size:large;' : 'font-size:large;' ?> " ><?= ($available) == 1 ? 'In stock' : 'Out of stock' ?></span></span><span class="price">|</span>
+                                    <span class="price">Price : &#X20B9;<?= $set_product_price ?><?= $set_product_discount ?></span>
                                     <div class="size-variation">
                                         <span>size :</span>
                                         <select name="size-value">
@@ -149,26 +162,23 @@ if (mysqli_num_rows($res) > 0) {
                                         <div class="cart-plus-minus-button">
                                             <input type="text" value="1" name="qtybutton" class="cart-plus-minus">
                                         </div>
-                                        <a href="#" class="add-to-cart"><i class="flaticon-shopping-purse-icon"></i>Add to Cart</a>
+                                        <?php
+                                        if ($available == 1) { ?>
+                                            <a href="cart.php" class="add-to-cart"><i class="flaticon-shopping-purse-icon"></i>Add to Cart</a>
+                                        <?php } else { ?>
+                                            <a href="javascript:void()" style="text-decoration:line-through ;" class="add-to-cart"><i class="flaticon-shopping-purse-icon"></i>Add to Cart</a>
+                                        <?php }
+                                        ?>
+
                                     </div>
 
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+                                    <!-- <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
                                         irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
                                     <ul>
                                         <li>Lorem ipsum dolor sit amet</li>
                                         <li>quis nostrud exercitation ullamco</li>
                                         <li>Duis aute irure dolor in reprehenderit</li>
-                                    </ul>
-                                    <div class="product-social">
-                                        <span>Share :</span>
-                                        <ul>
-                                            <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                                            <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                                            <li><a href="#"><i class="fab fa-instagram"></i></a></li>
-                                            <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
-                                        </ul>
-                                    </div>
-
+                                    </ul> -->
                                 </div>
                                 <!-- /.product-details -->
                             </div>
