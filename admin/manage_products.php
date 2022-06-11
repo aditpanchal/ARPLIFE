@@ -867,12 +867,10 @@ if ($product_method == 'edit') {
                                                             <option value="42">42</option>
                                                             <option value="44">44</option>
                                                         </optgroup>
-                                                        <optgroup label="Accessories">
+                                                        <optgroup label="Accessories & bags">
                                                         <optgroup label="Bagpack">
-                                                            <option value="10-20L">10-20L</option>
-                                                            <option value="30-50L">30-50L</option>
-                                                            <option value="50-70L">50-70L</option>
-                                                            <option value="70L+">70L+</option>
+                                                            <option value="Onesize">One size</option>
+                                                            
                                                         </optgroup>
                                                         <optgroup label="Watches">
                                                             <option value="36mm">36mm</option>
