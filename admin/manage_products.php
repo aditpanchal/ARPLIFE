@@ -695,24 +695,6 @@ if ($product_method == 'edit') {
                                                         </optgroup>
 
                                                         <optgroup label="Accessories">
-
-                                                        <optgroup label="Side Bag">
-
-                                                            <?php foreach ($sizearr as $size) {
-                                                                if ($size == 'OS') {
-                                                                    $selectedflag = 1; ?>
-                                                                    <option selected value="OS">One Size</option>
-                                                                <?php break;
-                                                                }
-                                                            }
-                                                            if ($selectedflag != 1) { ?>
-                                                                <option value="OS">One Size</option>
-                                                            <?php } else {
-                                                                $selectedflag = 0;
-                                                            } ?>
-
-                                                        </optgroup>
-
                                                         <optgroup label="Bagpack">
 
                                                             <?php foreach ($sizearr as $size) {
@@ -885,14 +867,7 @@ if ($product_method == 'edit') {
                                                             <option value="42">42</option>
                                                             <option value="44">44</option>
                                                         </optgroup>
-<<<<<<< HEAD
                                                         <optgroup label="Accessories & bags">
-=======
-                                                        <optgroup label="Accessories">
-                                                        <optgroup label="Side Bag">
-                                                            <option value="OS">One Size</option>
-                                                        </optgroup>
->>>>>>> 92eb25b6e29fbd980a14d20c1e12cb5039f0a2b1
                                                         <optgroup label="Bagpack">
                                                             <option value="Onesize">One size</option>
                                                             
@@ -1137,61 +1112,46 @@ if ($product_method == 'edit') {
                                                         ?>
 
                                                         <?php foreach ($colorarr as $color) {
-                                                            if ($color == 'Khaki') {
+                                                            if ($color == 'Khakhi') {
                                                                 $selectedflag = 1; ?>
-                                                                <option selected value="Khaki">Khaki</option>
+                                                                <option selected value="Khakhi">Khakhi</option>
                                                             <?php break;
                                                             }
                                                         }
                                                         if ($selectedflag != 1) { ?>
-                                                            <option value="Khaki">Khaki</option>
+                                                            <option value="Khakhi">Khakhi</option>
                                                         <?php } else {
                                                             $selectedflag = 0;
                                                         }
                                                         ?>
 
                                                         <?php foreach ($colorarr as $color) {
-                                                            if ($color == 'Silver') {
+                                                            if ($color == 'Mix') {
                                                                 $selectedflag = 1; ?>
-                                                                <option selected value="Silver">Silver</option>
+                                                                <option selected value="Mix">Mix</option>
                                                             <?php break;
                                                             }
                                                         }
                                                         if ($selectedflag != 1) { ?>
-                                                            <option value="Silver">Silver</option>
+                                                            <option value="Mix">Mix</option>
                                                         <?php } else {
                                                             $selectedflag = 0;
                                                         }
                                                         ?>
 
                                                         <?php foreach ($colorarr as $color) {
-                                                            if ($color == 'Gold') {
+                                                            if ($color == 'Demin') {
                                                                 $selectedflag = 1; ?>
-                                                                <option selected value="Gold">Gold</option>
+                                                                <option selected value="Demin">Demin</option>
                                                             <?php break;
                                                             }
                                                         }
                                                         if ($selectedflag != 1) { ?>
-                                                            <option value="Gold">Gold</option>
+                                                            <option value="Demin">Demin</option>
                                                         <?php } else {
                                                             $selectedflag = 0;
                                                         }
                                                         ?>
-
-                                                        <?php foreach ($colorarr as $color) {
-                                                            if ($color == 'Lightpink') {
-                                                                $selectedflag = 1; ?>
-                                                                <option selected value="Lightpink">Rose Gold</option>
-                                                            <?php break;
-                                                            }
-                                                        }
-                                                        if ($selectedflag != 1) { ?>
-                                                            <option value="Lightpink">Rose Gold</option>
-                                                        <?php } else {
-                                                            $selectedflag = 0;
-                                                        }
-                                                        ?>
-
 
                                                     <?php } else { ?>
                                                         <option value="Red">Red</option>
@@ -1208,12 +1168,10 @@ if ($product_method == 'edit') {
                                                         <option value="Olive">Olive</option>
                                                         <option value="Pink">Pink</option>
                                                         <option value="Navy">Navy</option>
-                                                        <option value="Khaki">Khakhi</option>
+                                                        <option value="Khakhi">Khakhi</option>
                                                         <option value="Purple">Purple</option>
-                                                        <option value="Silver">Silver</option>
-                                                        <option value="Gold">Gold</option>
-                                                        <option value="Lightpink">Rose Gold</option>
-
+                                                        <option value="Mix">Mix</option>
+                                                        <option value="Demin">Demin</option>
                                                     <?php  } ?>
 
                                                 </select>
