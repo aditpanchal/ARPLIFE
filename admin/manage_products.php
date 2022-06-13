@@ -1206,7 +1206,7 @@ if ($product_method == 'edit') {
                                                         <option value="Olive">Olive</option>
                                                         <option value="Pink">Pink</option>
                                                         <option value="Navy">Navy</option>
-                                                        <option value="Khaki">Khakhi</option>
+                                                        <option value="Khaki">Khaki</option>
                                                         <option value="Purple">Purple</option>
                                                         <option value="Silver">Silver</option>
                                                         <option value="Gold">Gold</option>

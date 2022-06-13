@@ -1,11 +1,14 @@
 <?php
 require("config/dbconnect.php");
-
 ?>
 
 <!doctype html>
 <html>
-
+<style>
+    .acustom{
+        color:red !important;
+    }
+</style>
 <!-- head-tag -->
 <?php include("mainincludes/csslinks.php"); ?>
 
@@ -16,6 +19,12 @@ require("config/dbconnect.php");
 
         <!-- header -->
         <?php include("mainincludes/header.php") ?>
+        <?php
+
+        $customerid = '';
+        $customerid = ((isset($_SESSION['customerid'])) ? $_SESSION['customerid'] : '');
+
+        ?>
         <!--=========================-->
         <!--=        Slider         =-->
         <!--=========================-->
@@ -190,18 +199,14 @@ require("config/dbconnect.php");
                                                 <div class="mid-wrapper">
                                                     <h5 class="pro-title"><a href="javascript:void()"><?= $getbrand ?></a></h5>
                                                     <h5 class="pro-title"><a href="singleproduct.php?productid=<?= $row['pm_productid'] ?>"><?= $row['pm_productname'] ?></a></h5>
-                                                    <h5 class="pro-title"><?= ($row['pm_type'] == 'M' ? 'Male' : 'Female') ?> / <span>&nbsp; &#X20B9;<?= $row['pm_price'] ?><?= $row['pm_discountid'] ?></span></h5>
+                                                    <h5 class="pro-title"><?= ($row['pm_type'] == 'M' ? 'Male' : 'Female') ?> / <span>&nbsp; &#X20B9;<?= $row['pm_price'] ?></span></h5>
                                                 </div>
 
                                                 <div class="icon-wrapper">
-                                                    <div class="pro-icon">
-                                                        <ul>
-                                                            <li><a href="#"><i class="flaticon-valentines-heart"></i></a></li>
-                                                            <li><a href="#"><i class="flaticon-compare"></i></a></li>
-                                                        </ul>
-                                                    </div>
                                                     <div class="add-to-cart">
-                                                        <a href="#">add to cart</a>
+                                                        <?php if ($customerid != '') { ?>
+                                                            <a onclick="addtowishlist(<?= $p_id ?>,<?= $customerid ?>)"  href="javascript:void()"><i class="flaticon-valentines-heart"></i> Add to Wishlist</a>
+                                                        <?php } ?>
                                                     </div>
                                                 </div>
                                             </div>
@@ -244,14 +249,10 @@ require("config/dbconnect.php");
                                                 </div>
 
                                                 <div class="icon-wrapper">
-                                                    <div class="pro-icon">
-                                                        <ul>
-                                                            <li><a href="#"><i class="flaticon-valentines-heart"></i></a></li>
-                                                            <li><a href="#"><i class="flaticon-compare"></i></a></li>
-                                                        </ul>
-                                                    </div>
                                                     <div class="add-to-cart">
-                                                        <a href="#">add to cart</a>
+                                                        <?php if ($customerid != '') { ?>
+                                                            <a  href="wishlist.php?customerid=<?= $customerid ?>"><i class="flaticon-valentines-heart"></i> Add to Wishlist</a>
+                                                        <?php } ?>
                                                     </div>
                                                 </div>
                                             </div>
@@ -293,14 +294,10 @@ require("config/dbconnect.php");
                                                 </div>
 
                                                 <div class="icon-wrapper">
-                                                    <div class="pro-icon">
-                                                        <ul>
-                                                            <li><a href="#"><i class="flaticon-valentines-heart"></i></a></li>
-                                                            <li><a href="#"><i class="flaticon-compare"></i></a></li>
-                                                        </ul>
-                                                    </div>
                                                     <div class="add-to-cart">
-                                                        <a href="#">add to cart</a>
+                                                        <?php if ($customerid != '') { ?>
+                                                            <a href="wishlist.php?customerid=<?= $customerid ?>"><i class="flaticon-valentines-heart"></i> Add to Wishlist</a>
+                                                        <?php } ?>
                                                     </div>
                                                 </div>
                                             </div>
@@ -343,14 +340,10 @@ require("config/dbconnect.php");
                                                 </div>
 
                                                 <div class="icon-wrapper">
-                                                    <div class="pro-icon">
-                                                        <ul>
-                                                            <li><a href="#"><i class="flaticon-valentines-heart"></i></a></li>
-                                                            <li><a href="#"><i class="flaticon-compare"></i></a></li>
-                                                        </ul>
-                                                    </div>
                                                     <div class="add-to-cart">
-                                                        <a href="#">add to cart</a>
+                                                        <?php if ($customerid != '') { ?>
+                                                            <a href="wishlist.php?customerid=<?= $customerid ?>"><i class="flaticon-valentines-heart"></i> Add to Wishlist</a>
+                                                        <?php } ?>
                                                     </div>
                                                 </div>
                                             </div>
@@ -370,237 +363,6 @@ require("config/dbconnect.php");
             <!-- Container -->
         </section>
         <!-- main-product -->
-
-
-        <!--=========================-->
-        <!--=   Product  area with  banner      =-->
-        <!--=========================-->
-
-        <section class="banner-product">
-            <div class="container-fluid custom-container">
-                <div class="section-heading pb-30">
-                    <h3>NEW <span>TRENDING</span></h3>
-                </div>
-                <!-- section-heading-->
-                <div class="row">
-                    <div class="col-xl-4 col-lg-4">
-                        <!-- Product baneer-->
-                        <div class="prod-banner-two mt-0">
-                            <a href="#">
-                                <img src="media/images/banner/s5.jpg" alt="">
-                                <div class="pb-info">
-                                    <p>Woman's Shop</p>
-                                    <h6>40% Off</h6>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <!-- Col end-->
-                    <div class="no-padding col-xl-8 col-lg-8">
-                        <div class="prod-carousel owl-carousel owl-theme">
-                            <div class="sin-prod-car">
-                                <!-- SingleProduct-->
-                                <div class="sin-product style-two small">
-                                    <div class="pro-img">
-                                        <img src="media/images/product/sp8.jpg" alt="">
-                                    </div>
-                                    <div class="mid-wrapper">
-                                        <h5 class="pro-title"><a href="product.html">Embellished white dress</a></h5>
-                                        <div class="color-variation">
-                                            <ul>
-                                                <li><i class="fas fa-circle"></i></li>
-                                                <li><i class="fas fa-circle"></i></li>
-                                                <li><i class="fas fa-circle"></i></li>
-                                                <li><i class="fas fa-circle"></i></li>
-                                            </ul>
-                                        </div>
-                                        <p>Woman / <span></span></p>
-                                    </div>
-                                    <div class="icon-wrapper">
-                                        <div class="pro-icon">
-                                            <ul>
-                                                <li><a href="#"><i class="flaticon-valentines-heart"></i></a></li>
-                                                <li><a href="#"><i class="flaticon-compare"></i></a></li>
-                                                <li><a class="trigger" href="#"><i class="flaticon-eye"></i></a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="add-to-cart">
-                                            <a href="#">add to cart</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Single Product-->
-                                <div class="sin-product style-two small">
-                                    <div class="pro-img">
-                                        <img src="media/images/product/sp9.jpg" alt="">
-                                    </div>
-                                    <span class="new-tag">NEW!</span>
-
-                                    <div class="mid-wrapper">
-                                        <h5 class="pro-title"><a href="product.html">Kids small dress</a></h5>
-                                        <div class="color-variation">
-                                            <ul>
-                                                <li><i class="fas fa-circle"></i></li>
-                                                <li><i class="fas fa-circle"></i></li>
-                                                <li><i class="fas fa-circle"></i></li>
-                                                <li><i class="fas fa-circle"></i></li>
-                                            </ul>
-                                        </div>
-                                        <p>Kids / <span>$37</span></p>
-                                    </div>
-                                    <div class="icon-wrapper">
-                                        <div class="pro-icon">
-                                            <ul>
-                                                <li><a href="#"><i class="flaticon-valentines-heart"></i></a></li>
-                                                <li><a href="#"><i class="flaticon-compare"></i></a></li>
-                                                <li><a class="trigger" href="#"><i class="flaticon-eye"></i></a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="add-to-cart">
-                                            <a href="#">add to cart</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="sin-prod-car">
-                                <!-- Single Product-->
-                                <div class="sin-product style-two small">
-                                    <div class="pro-img">
-                                        <img src="media/images/product/sp10.jpg" alt="">
-                                    </div>
-                                    <div class="mid-wrapper">
-                                        <h5 class="pro-title"><a href="product.html">Womens exclusive shirt </a></h5>
-                                        <div class="color-variation">
-                                            <ul>
-                                                <li><i class="fas fa-circle"></i></li>
-                                                <li><i class="fas fa-circle"></i></li>
-                                                <li><i class="fas fa-circle"></i></li>
-                                                <li><i class="fas fa-circle"></i></li>
-                                            </ul>
-                                        </div>
-                                        <p>Kids / <span>$37</span></p>
-                                    </div>
-                                    <div class="icon-wrapper">
-                                        <div class="pro-icon">
-                                            <ul>
-                                                <li><a href="#"><i class="flaticon-valentines-heart"></i></a></li>
-                                                <li><a href="#"><i class="flaticon-compare"></i></a></li>
-                                                <li><a class="trigger" href="#"><i class="flaticon-eye"></i></a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="add-to-cart">
-                                            <a href="#">add to cart</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Single Product-->
-                                <div class="sin-product style-two small">
-                                    <div class="pro-img">
-                                        <img src="media/images/product/sp11.jpg" alt="">
-                                    </div>
-                                    <span class="new-tag">NEW!</span>
-
-                                    <div class="mid-wrapper">
-                                        <h5 class="pro-title"><a href="product.html">Cotton full sleeve</a></h5>
-                                        <div class="color-variation">
-                                            <ul>
-                                                <li><i class="fas fa-circle"></i></li>
-                                                <li><i class="fas fa-circle"></i></li>
-                                                <li><i class="fas fa-circle"></i></li>
-                                                <li><i class="fas fa-circle"></i></li>
-                                            </ul>
-                                        </div>
-                                        <p>Kids / <span>$37</span></p>
-                                    </div>
-                                    <div class="icon-wrapper">
-                                        <div class="pro-icon">
-                                            <ul>
-                                                <li><a href="#"><i class="flaticon-valentines-heart"></i></a></li>
-                                                <li><a href="#"><i class="flaticon-compare"></i></a></li>
-                                                <li><a class="trigger" href="#"><i class="flaticon-eye"></i></a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="add-to-cart">
-                                            <a href="#">add to cart</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="sin-prod-car">
-                                <!-- Single Product-->
-                                <div class="sin-product style-two small">
-                                    <div class="pro-img">
-                                        <img src="media/images/product/sp12.jpg" alt="">
-                                    </div>
-                                    <span class="new-tag">NEW!</span>
-
-                                    <div class="mid-wrapper">
-                                        <h5 class="pro-title"><a href="product.html">Men winter dress</a></h5>
-                                        <div class="color-variation">
-                                            <ul>
-                                                <li><i class="fas fa-circle"></i></li>
-                                                <li><i class="fas fa-circle"></i></li>
-                                                <li><i class="fas fa-circle"></i></li>
-                                                <li><i class="fas fa-circle"></i></li>
-                                            </ul>
-                                        </div>
-                                        <p>Kids / <span>$37</span></p>
-                                    </div>
-                                    <div class="icon-wrapper">
-                                        <div class="pro-icon">
-                                            <ul>
-                                                <li><a href="#"><i class="flaticon-valentines-heart"></i></a></li>
-                                                <li><a href="#"><i class="flaticon-compare"></i></a></li>
-                                                <li><a class="trigger" href="#"><i class="flaticon-eye"></i></a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="add-to-cart">
-                                            <a href="#">add to cart</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Single Product-->
-                                <div class="sin-product style-two small">
-                                    <div class="pro-img">
-                                        <img src="media/images/product/sp12.jpg" alt="">
-                                    </div>
-                                    <div class="mid-wrapper">
-                                        <h5 class="pro-title"><a href="product.html">Women shirt top</a></h5>
-                                        <div class="color-variation">
-                                            <ul>
-                                                <li><i class="fas fa-circle"></i></li>
-                                                <li><i class="fas fa-circle"></i></li>
-                                                <li><i class="fas fa-circle"></i></li>
-                                                <li><i class="fas fa-circle"></i></li>
-                                            </ul>
-                                        </div>
-                                        <p>Kids / <span>$37</span></p>
-                                    </div>
-                                    <div class="icon-wrapper">
-                                        <div class="pro-icon">
-                                            <ul>
-                                                <li><a href="#"><i class="flaticon-valentines-heart"></i></a></li>
-                                                <li><a href="#"><i class="flaticon-compare"></i></a></li>
-                                                <li><a class="trigger" href="#"><i class="flaticon-eye"></i></a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="add-to-cart">
-                                            <a href="#">add to cart</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Col end-->
-                </div>
-                <!-- /.row -->
-            </div>
-            <!-- Container End -->
-        </section>
-        <!-- main-product End -->
 
         <!--=========================-->
         <!--=   Subscribe area      =-->
@@ -645,9 +407,26 @@ require("config/dbconnect.php");
 
 
     </div>
-    <!-- Quick View -->
-
     <!-- /#site -->
+
+    <script>
+        function addtowishlist(pid, cid) {
+            if (pid != '' && cid != '') {
+                $.ajax({
+                    url: "wishlistinsert.php",
+                    data: {
+                        customerid: cid,
+                        productid: pid
+                    },
+                    type: 'POST',
+                    success: function(response) {
+                        var resp = $.trim(response);
+
+                    }
+                });
+            }
+        }
+    </script>
 
     <!-- Dependency Scripts -->
     <script src="dependencies/jquery/jquery.min.js"></script>
@@ -663,10 +442,6 @@ require("config/dbconnect.php");
     <script src="dependencies/slick-carousel/js/slick.js"></script>
     <script src="dependencies/headroom/js/headroom.js"></script>
     <script src="dependencies/jquery-ui/js/jquery-ui.min.js"></script>
-    <!--Google map api -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBsBrMPsyNtpwKXPPpG54XwJXnyobfMAIc"></script>
-
-
     <!-- Site Scripts -->
     <script src="assets/js/app.js"></script>
 

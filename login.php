@@ -88,7 +88,7 @@ function get_Safe_value($con, $str)
 		}
 		if ($_SESSION['customerloginerrorflag'] == 1) { ?>
 			<div style="margin-bottom:0px; text-align:center; font-size: large; " id="danger-alert" class="alert alert-danger"><b> Incorrect credentials !</b> Please try again .</div>
-		<?php  }
+		<?php $_SESSION['customerloginerrorflag'] = 0; }
 		?>
 
 		<section class="contact-area">
