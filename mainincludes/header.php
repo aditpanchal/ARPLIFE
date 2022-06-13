@@ -9,7 +9,7 @@ session_start();
 include("constant.php");
 require(CONFIG_DIR . "dbconnect.php");
 ?>
-<header id="header" class="header-area"  >
+<header id="header" class="header-area">
     <div class="container-fluid custom-container menu-rel-container">
         <div class="row">
             <!-- Logo
@@ -17,7 +17,7 @@ require(CONFIG_DIR . "dbconnect.php");
 
             <div class="col-lg-12 col-xl-2">
                 <div style="padding-top : 10px" class="logo">
-                    <a href="index.html">
+                    <a href="index.php">
                         <img src="cover.png" width="300px" alt="">
                     </a>
                 </div>
@@ -32,7 +32,7 @@ require(CONFIG_DIR . "dbconnect.php");
                         <li><a style="font-size: 20px;" href="index.php">home</a>
 
                         </li>
-                        <li class="has-child"><a style="font-size: 20px;" href="index.php">Men</a>
+                        <li class="has-child"><a style="font-size: 20px;" href="shop.php?gender=M">Men</a>
                             <div class="mega-menu">
                                 <ul id="navigation">
                                     <label> <b> Shop by :</b></label>
@@ -54,12 +54,12 @@ require(CONFIG_DIR . "dbconnect.php");
                                             if (mysqli_num_rows($res1) > 0) { ?>
                                                 <div class="mega-catagory per-20">
                                                     <h4 class="mega-button">
-                                                        <a class="font-red" href="shop.php?categoryid=<?= $row['catm_categoryid'] ?> & gender=M"><b><?= $row['catm_categoryname'] ?></b></a>
+                                                        <a class="font-red" href="shop.php?categoryid=<?= $row['catm_categoryid'] ?>&gender=M"><b><?= $row['catm_categoryname'] ?></b></a>
                                                     </h4>
                                                     <ul class="mega-button">
                                                         <?php
                                                         while ($row1 = mysqli_fetch_array($res1)) { ?>
-                                                            <li><a href="shop.php?subcategoryid=<?= $row1['sc_subcategoryid'] ?> & gender=M"><?= $row1['sc_subcategoryname'] ?></a></li>
+                                                            <li><a href="shop.php?subcategoryid=<?= $row1['sc_subcategoryid'] ?>&gender=M"><?= $row1['sc_subcategoryname'] ?></a></li>
                                                         <?php }
                                                         ?>
                                                     </ul>
@@ -75,7 +75,7 @@ require(CONFIG_DIR . "dbconnect.php");
                         </li>
 
 
-                        <li class="has-child"><a style="font-size: 20px;" href="index.html">Women</a>
+                        <li class="has-child"><a style="font-size: 20px;" href="shop.php?gender=F">Women</a>
                             <div class="mega-menu">
                                 <ul id="navigation">
                                     <label><b> Shop by :</b></label>
@@ -97,12 +97,12 @@ require(CONFIG_DIR . "dbconnect.php");
                                             if (mysqli_num_rows($res1) > 0) { ?>
                                                 <div class="mega-catagory per-20">
                                                     <h4 class="mega-button">
-                                                        <a class="font-red" href="shop.php?categoryid=<?= $row['catm_categoryid'] ?> & gender=F"><b><?= $row['catm_categoryname'] ?></b></a>
+                                                        <a class="font-red" href="shop.php?categoryid=<?= $row['catm_categoryid'] ?>&gender=F"><b><?= $row['catm_categoryname'] ?></b></a>
                                                     </h4>
                                                     <ul class="mega-button">
                                                         <?php
                                                         while ($row1 = mysqli_fetch_array($res1)) { ?>
-                                                            <li><a href="shop.php?subcategoryid=<?= $row1['sc_subcategoryid'] ?> & gender=F"><?= $row1['sc_subcategoryname'] ?></a></li>
+                                                            <li><a href="shop.php?subcategoryid=<?= $row1['sc_subcategoryid'] ?>&gender=F"><?= $row1['sc_subcategoryname'] ?></a></li>
                                                         <?php }
                                                         ?>
                                                     </ul>
