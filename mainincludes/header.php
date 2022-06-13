@@ -6,8 +6,21 @@
 </style>
 <?php
 session_start();
+if (!isset($_SESSION['reloadheader']) || $_SESSION['reloadheader'] == '') {
+    $_SESSION['reloadheader'] = 0;
+}
 include("constant.php");
 require(CONFIG_DIR . "dbconnect.php");
+
+$noidfound = 0;
+$customerid = '';
+
+if (isset($_SESSION['customerid']) && $_SESSION['customerid'] != '') {
+    $customerid = $_SESSION['customerid'];
+}
+if ($customerid == '') {
+    $noidfound = 1;
+}
 ?>
 <header id="header" class="header-area">
     <div class="container-fluid custom-container menu-rel-container">
@@ -15,7 +28,7 @@ require(CONFIG_DIR . "dbconnect.php");
             <!-- Logo
 					============================================= -->
 
-            <div class="col-lg-12 col-xl-2">
+            <div class="col-lg-12 col-xl-3">
                 <div style="padding-top : 10px" class="logo">
                     <a href="index.php">
                         <img src="cover.png" width="300px" alt="">
@@ -26,7 +39,7 @@ require(CONFIG_DIR . "dbconnect.php");
             <!-- Main menu
 					============================================= -->
 
-            <div class="col-lg-12 col-xl-7 order-lg-3 order-xl-2 menu-container">
+            <div class="col-lg-12 col-xl-5 order-lg-3 order-xl-2 menu-container">
                 <div class="mainmenu style-two">
                     <ul id="navigation">
                         <li><a style="font-size: 20px;" href="index.php">home</a>
@@ -120,37 +133,59 @@ require(CONFIG_DIR . "dbconnect.php");
                 </div>
             </div>
 
+
             <!--Main menu end-->
-            <div class="col-lg-6 col-xl-3 order-lg-2 order-xl-3">
+            <div class="col-lg-6 col-xl-4 order-lg-2 order-xl-3">
                 <div class="header-right-one">
                     <ul>
+                        <li class="top-cart">
+                            <a id="myaccount" href="">
+                                My Account
+                            </a>
+                        </li>
                         <li class="top-search">
                             <a href="javascript:void(0)"><i class="fa fa-search" aria-hidden="true"></i>
                             </a>
                             <input type="text" class="search-input" placeholder="Search">
                         </li>
-
+                        <?php
+                        $cartrowcount = '';
+                        $visitorid = session_id();
+                        $customerid = (isset($_SESSION['customerid']) ? $_SESSION['customerid'] : '');
+                        if ($customerid != '') {
+                            $getcartquery = "SELECT * from al_cart where crt_customerid=$customerid";
+                        } else {
+                            $getcartquery = "SELECT * from al_visitorcart where vc_visitorid='$visitorid'";
+                        }
+                        $cartresult = mysqli_query($conn, $getcartquery);
+                        if ($cartresult) {
+                            $cartrowcount = mysqli_num_rows($cartresult);
+                        }
+                        ?>
                         <li class="top-cart">
-                            <a href="javascript:void(0)"><i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                                (2)</a>
-
+                            <a id="cartcount" href="cart.php?customerid=<?= $customerid ?>"><i title="Cart" class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                <?= $cartrowcount; ?>
+                            </a>
                         </li>
 
                         <?php
-                        if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == 'yes') { ?>
+                        if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == 'yes' && $noidfound == 0) { ?>
+                            <li>
+                                <a href="wishlist.php?customerid=<?= $customerid ?>"><i title="Wishlist" class="flaticon-like"></i></a>
+                            </li>
                             <li class="user-logout">
                                 <a href="../ARPLIFE/functions/logout.php">Sign Out</a>
                             </li>
                             <?php } else {
-                            if (!isset($_SESSION['loginredirect'])) {
+                            if (!isset($_SESSION['loginredirect']) || $noidfound == 1) {
                                 $_SESSION['loginredirect'] = 1; ?>
                                 <li class="user-login">
-                                    <a href="login.php"><i style="padding-right: 10px ;" class="fa fa-user" aria-hidden="true"></i> Sign in</a>
+                                    <a href="login.php"><i style="padding-right: 10px ;"></i> Sign in</a>
                                 </li>
                             <?php
                             } else { ?>
                                 <li class="user-login">
-                                    <a href="login.php"><i style="padding-right: 10px ;" class="fa fa-user" aria-hidden="true"></i> Sign in</a>
+                                    <a href="login.php"><i style="padding-right: 10px ;"></i> Sign in</a>
                                 </li>
                             <?php  }
                             ?>

@@ -1,11 +1,14 @@
 <?php
 require("config/dbconnect.php");
-
 ?>
 
 <!doctype html>
 <html>
-
+<style>
+    .acustom{
+        color:red !important;
+    }
+</style>
 <!-- head-tag -->
 <?php include("mainincludes/csslinks.php"); ?>
 
@@ -16,6 +19,12 @@ require("config/dbconnect.php");
 
         <!-- header -->
         <?php include("mainincludes/header.php") ?>
+        <?php
+
+        $customerid = '';
+        $customerid = ((isset($_SESSION['customerid'])) ? $_SESSION['customerid'] : '');
+
+        ?>
         <!--=========================-->
         <!--=        Slider         =-->
         <!--=========================-->
@@ -96,7 +105,7 @@ require("config/dbconnect.php");
                     <div class="sin-category">
                         <img src="media/images/banner/2.png" height="300rem" alt="">
                         <div class="cat-name">
-                            <a href="shop.php?categoryid=25&gender=F">
+                            <a href="shop.php?categoryid=25">
                                 <h5>Women</h5>
                                 <h5>Acces<span>sories</span></h5>
                             </a>
@@ -106,7 +115,7 @@ require("config/dbconnect.php");
                     <div class="sin-category">
                         <img src="media/images/blog/p2.jpg" height="300rem" alt="">
                         <div class="cat-name">
-                            <a href="shop.php?categoryid=20&gender=F">
+                            <a href="shop.php?categoryid=20">
                                 <h5>Women</h5>
                                 <h5>Western<span>Wear</span></h5>
                             </a>
@@ -116,12 +125,14 @@ require("config/dbconnect.php");
                     <div class="sin-category">
                         <img src="media/images/product/f.jpg" height="300rem" alt="">
                         <div class="cat-name">
-                            <a href="shop.php?categoryid=26&gender=M">
-                                <h5>Man</h5>
+                            <a href="shop.php?categoryid=26">
+                                <h5>man</h5>
                                 <h5>Foot<span>wear</span></h5>
                             </a>
                         </div>
                     </div>
+
+
 
                     <div class="sin-category">
                         <img src="media/images/product/c4.jpg" height="300rem" alt="">
@@ -140,561 +151,282 @@ require("config/dbconnect.php");
             <!-- .container-fluid -->
         </section>
 
-        <!-- <div class="sin-category">
-						<img src="media/images/banner/2.png" height="300rem" alt="">
-						<div class="cat-name">
-							<a href="shop.php?categoryid=25">
-								<h5>Women</h5>
-								<h5>Acces<span>sories</span></h5>
-							</a>
-						</div>
-					</div>
-
-					<div class="sin-category">
-						<img src="media/images/blog/p2.jpg" height="300rem"alt="">
-						<div class="cat-name">
-							<a href="shop.php?categoryid=20">
-								<h5>Women</h5>
-								<h5>Western<span>Wear</span></h5>
-							</a>
-						</div>
-					</div>
-
-					<div class="sin-category">
-						<img src="media/images/product/f.jpg" height="300rem" alt="">
-						<div class="cat-name">
-							<a href="shop.php?categoryid=26">
-								<h5>man</h5>
-								<h5>Foot<span>wear</span></h5>
-							</a>
-						</div>
-					</div>
-                   
+        <!--=========================-->
+        <!--= Product banner style two  =-->
+        <!--=========================-->
 
 
-					<div class="sin-category">
-						<img src="media/images/product/c4.jpg" height="300rem" alt="">
-						<div class="cat-name">
-							<a href="shop.php?subcategoryid=22">
-								<h5>watch</h5>
-								<h5>Acces<span>sories</span></h5>
-							</a>
-						</div>
-					</div> -->
+        <section class="main-product">
+            <div class="container container-two">
+                <div class="section-heading">
+                    <h3>Welcome to <span>product</span></h3>
+                </div>
+                <!-- /.section-heading-->
+                <div class="row">
+                    <div class="col-xl-12 ">
+                        <div class="pro-tab-filter style-two">
+                            <ul class="pro-tab-button">
+                                <li class="filter active" data-filter="*">ALL</li>
+                                <li class="filter" data-filter=".two">Bags</li>
+                                <li class="filter" data-filter=".three">Footwear</li>
+                                <li class="filter" data-filter=".four">Ethnic Wear</li>
+                            </ul>
 
+                            <div class="grid row">
+                                <!-- single product -->
+                                <?php
+                                $qry = "select * from product_master ";
+                                $res = mysqli_query($conn, $qry);
+                                $rowcount = mysqli_num_rows($res);
+                                if ($rowcount > 0) {
+                                    while ($row = mysqli_fetch_array($res)) {
+                                        $getbrandquery = "SELECT bm_brandname from brand_master where bm_brandid=" . $row['pm_brandid'];
+                                        $brandresult = mysqli_query($conn, $getbrandquery);
+                                        $getbrandrow = mysqli_fetch_array($brandresult);
+                                        $getbrand = $getbrandrow['bm_brandname'];
+                                        $p_id = $row['pm_productid'];
+                                ?>
+                                        <div class=" grid-item * col-6 col-md-6  col-lg-4 col-xl-3">
 
-    </div>
-    <!-- .row -->
-    </div>
-    <!-- .container-fluid -->
-    </section>
+                                            <div class="sin-product style-two">
+                                                <a href="singleproduct.php?productid=<?= $row['pm_productid'] ?>">
+                                                    <div class="pro-img">
 
-    <!--=========================-->
-    <!--= Product banner style two  =-->
-    <!--=========================-->
+                                                        <img src="admin/images/uploads/<?= $row['pm_image'] ?>" id="single" height="400rem">
+                                                    </div>
+                                                </a>
 
-
-    <section class="main-product">
-        <div class="container container-two">
-            <div class="section-heading">
-                <h3>Welcome to <span>product</span></h3>
-            </div>
-            <!-- /.section-heading-->
-            <div class="row">
-                <div class="col-xl-12 ">
-                    <div class="pro-tab-filter style-two">
-                        <ul class="pro-tab-button">
-                            <li class="filter active" data-filter="*">ALL</li>
-                            <li class="filter" data-filter=".two">Bags</li>
-                            <li class="filter" data-filter=".three">Footwear</li>
-                            <li class="filter" data-filter=".four">Ethnic Wear</li>
-                        </ul>
-
-                        <div class="grid row">
-                            <!-- single product -->
-                            <?php
-                            $qry = "select * from product_master ";
-                            $res = mysqli_query($conn, $qry);
-                            $rowcount = mysqli_num_rows($res);
-                            if ($rowcount > 0) {
-                                while ($row = mysqli_fetch_array($res)) {
-                                    $getbrandquery = "SELECT bm_brandname from brand_master where bm_brandid=" . $row['pm_brandid'];
-                                    $brandresult = mysqli_query($conn, $getbrandquery);
-                                    $getbrandrow = mysqli_fetch_array($brandresult);
-                                    $getbrand = $getbrandrow['bm_brandname'];
-                                    $p_id = $row['pm_productid'];
-                            ?>
-                                    <div class=" grid-item * col-6 col-md-6  col-lg-4 col-xl-3">
-
-                                        <div class="sin-product style-two">
-                                            <a href="singleproduct.php?productid=<?= $row['pm_productid'] ?>">
-                                                <div class="pro-img">
-
-                                                    <img src="admin/images/uploads/<?= $row['pm_image'] ?>" id="single" height="400rem">
+                                                <div class="mid-wrapper">
+                                                    <h5 class="pro-title"><a href="javascript:void()"><?= $getbrand ?></a></h5>
+                                                    <h5 class="pro-title"><a href="singleproduct.php?productid=<?= $row['pm_productid'] ?>"><?= $row['pm_productname'] ?></a></h5>
+                                                    <h5 class="pro-title"><?= ($row['pm_type'] == 'M' ? 'Male' : 'Female') ?> / <span>&nbsp; &#X20B9;<?= $row['pm_price'] ?></span></h5>
                                                 </div>
-                                            </a>
 
-                                            <div class="mid-wrapper">
-                                                <h5 class="pro-title"><a href="javascript:void()"><?= $getbrand ?></a></h5>
-                                                <h5 class="pro-title"><a href="singleproduct.php?productid=<?= $row['pm_productid'] ?>"><?= $row['pm_productname'] ?></a></h5>
-                                                <h5 class="pro-title"><?= ($row['pm_type'] == 'M' ? 'Male' : 'Female') ?> / <span>&nbsp; &#X20B9;<?= $row['pm_price'] ?></span></h5>
-                                            </div>
-
-                                            <div class="icon-wrapper">
-                                                <div class="pro-icon">
-                                                    <ul>
-                                                        <li><a href="#"><i class="flaticon-valentines-heart"></i></a></li>
-                                                        <li><a href="#"><i class="flaticon-compare"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                                <div class="add-to-cart">
-                                                    <a href="cart.php">add to cart</a>
+                                                <div class="icon-wrapper">
+                                                    <div class="add-to-cart">
+                                                        <?php if ($customerid != '') { ?>
+                                                            <a onclick="addtowishlist(<?= $p_id ?>,<?= $customerid ?>)"  href="javascript:void()"><i class="flaticon-valentines-heart"></i> Add to Wishlist</a>
+                                                        <?php } ?>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                            <?php
+                                <?php
+                                    }
                                 }
-                            }
-                            ?>
-                        </div>
+                                ?>
+                            </div>
 
-                        <div class="grid row">
-                            <!-- single product -->
-                            <?php
-                            $qry = "select * from product_master where pm_categoryid=28 ";
-                            $res = mysqli_query($conn, $qry);
-                            $rowcount = mysqli_num_rows($res);
+                            <div class="grid row">
+                                <!-- single product -->
+                                <?php
+                                $qry = "select * from product_master where pm_categoryid=28 ";
+                                $res = mysqli_query($conn, $qry);
+                                $rowcount = mysqli_num_rows($res);
 
-                            if ($rowcount > 0) {
-                                while ($row = mysqli_fetch_array($res)) {
-                                    $p_id = $row['pm_productid'];
-                                    $getbrandquery = "SELECT bm_brandname from brand_master where bm_brandid=" . $row['pm_brandid'];
-                                    $brandresult = mysqli_query($conn, $getbrandquery);
-                                    $getbrandrow = mysqli_fetch_array($brandresult);
-                                    $getbrand = $getbrandrow['bm_brandname'];
-                            ?>
-                                    <div class=" grid-item two col-6 col-md-6  col-lg-4 col-xl-3">
+                                if ($rowcount > 0) {
+                                    while ($row = mysqli_fetch_array($res)) {
+                                        $p_id = $row['pm_productid'];
+                                        $getbrandquery = "SELECT bm_brandname from brand_master where bm_brandid=" . $row['pm_brandid'];
+                                        $brandresult = mysqli_query($conn, $getbrandquery);
+                                        $getbrandrow = mysqli_fetch_array($brandresult);
+                                        $getbrand = $getbrandrow['bm_brandname'];
+                                ?>
+                                        <div class=" grid-item two col-6 col-md-6  col-lg-4 col-xl-3">
 
-                                        <div class="sin-product style-two">
-                                            <a href="singleproduct.php?productid=<?= $row['pm_productid'] ?>">
-                                                <div class="pro-img">
+                                            <div class="sin-product style-two">
+                                                <a href="singleproduct.php?productid=<?= $row['pm_productid'] ?>">
+                                                    <div class="pro-img">
 
-                                                    <img src="admin/images/uploads/<?= $row['pm_image'] ?>" id="single" height="400rem">
+                                                        <img src="admin/images/uploads/<?= $row['pm_image'] ?>" id="single" height="400rem">
+                                                    </div>
+                                                </a>
+
+                                                <div class="mid-wrapper">
+                                                    <h5 class="pro-title"><a href="javascript:void()"><?= $getbrand ?></a></h5>
+                                                    <h5 class="pro-title"><a href="singleproduct.php?productid=<?= $row['pm_productid'] ?>"><?= $row['pm_productname'] ?></a></h5>
+                                                    <h5 class="pro-title"><?= ($row['pm_type'] == 'M' ? 'Male' : 'Female') ?> / <span>&nbsp; &#X20B9;<?= $row['pm_price'] ?></span></h5>
                                                 </div>
-                                            </a>
 
-                                            <div class="mid-wrapper">
-                                                <h5 class="pro-title"><a href="javascript:void()"><?= $getbrand ?></a></h5>
-                                                <h5 class="pro-title"><a href="singleproduct.php?productid=<?= $row['pm_productid'] ?>"><?= $row['pm_productname'] ?></a></h5>
-                                                <h5 class="pro-title"><?= ($row['pm_type'] == 'M' ? 'Male' : 'Female') ?> / <span>&nbsp; &#X20B9;<?= $row['pm_price'] ?></span></h5>
-                                            </div>
-
-                                            <div class="icon-wrapper">
-                                                <div class="pro-icon">
-                                                    <ul>
-                                                        <li><a href="#"><i class="flaticon-valentines-heart"></i></a></li>
-                                                        <li><a href="#"><i class="flaticon-compare"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                                <div class="add-to-cart">
-                                                    <a href="cart.php">add to cart</a>
+                                                <div class="icon-wrapper">
+                                                    <div class="add-to-cart">
+                                                        <?php if ($customerid != '') { ?>
+                                                            <a  href="wishlist.php?customerid=<?= $customerid ?>"><i class="flaticon-valentines-heart"></i> Add to Wishlist</a>
+                                                        <?php } ?>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                            <?php }
-                            }
-                            ?>
-                        </div>
-
-                        <div class="grid row">
-                            <!-- single product -->
-                            <?php
-                            $qry = "select * from product_master where pm_categoryid=26 ";
-                            $res = mysqli_query($conn, $qry);
-                            $rowcount = mysqli_num_rows($res);
-
-                            if ($rowcount > 0) {
-                                while ($row = mysqli_fetch_array($res)) {
-                                    $p_id = $row['pm_productid'];
-                                    $getbrandquery = "SELECT bm_brandname from brand_master where bm_brandid=" . $row['pm_brandid'];
-                                    $brandresult = mysqli_query($conn, $getbrandquery);
-                                    $getbrandrow = mysqli_fetch_array($brandresult);
-                                    $getbrand = $getbrandrow['bm_brandname'];
-                            ?>
-                                    <div class=" grid-item three col-6 col-md-6  col-lg-4 col-xl-3">
-
-                                        <div class="sin-product style-two">
-                                            <a href="singleproduct.php?productid=<?= $row['pm_productid'] ?>">
-                                                <div class="pro-img">
-
-                                                    <img src="admin/images/uploads/<?= $row['pm_image'] ?>" id="single" height="400rem">
-                                                </div>
-                                            </a>
-
-                                            <div class="mid-wrapper">
-                                                <h5 class="pro-title"><a href="javascript:void()"><?= $getbrand ?></a></h5>
-                                                <h5 class="pro-title"><a href="singleproduct.php?productid=<?= $row['pm_productid'] ?>"><?= $row['pm_productname'] ?></a></h5>
-                                                <h5 class="pro-title"><?= ($row['pm_type'] == 'M' ? 'Male' : 'Female') ?> / <span>&nbsp; &#X20B9;<?= $row['pm_price'] ?></span></h5>
-                                            </div>
-
-                                            <div class="icon-wrapper">
-                                                <div class="pro-icon">
-                                                    <ul>
-                                                        <li><a href="#"><i class="flaticon-valentines-heart"></i></a></li>
-                                                        <li><a href="#"><i class="flaticon-compare"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                                <div class="add-to-cart">
-                                                    <a href="cart.php">add to cart</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                            <?php }
-                            }
-                            ?>
-                        </div>
-
-
-                        <div class="grid row">
-                            <!-- single product -->
-                            <?php
-                            $qry = "select * from product_master where pm_categoryid=11 ";
-                            $res = mysqli_query($conn, $qry);
-                            $rowcount = mysqli_num_rows($res);
-
-                            if ($rowcount > 0) {
-                                while ($row = mysqli_fetch_array($res)) {
-                                    $p_id = $row['pm_productid'];
-                                    $getbrandquery = "SELECT bm_brandname from brand_master where bm_brandid=" . $row['pm_brandid'];
-                                    $brandresult = mysqli_query($conn, $getbrandquery);
-                                    $getbrandrow = mysqli_fetch_array($brandresult);
-                                    $getbrand = $getbrandrow['bm_brandname'];
-                            ?>
-                                    <div class=" grid-item four col-6 col-md-6  col-lg-4 col-xl-3">
-
-                                        <div class="sin-product style-two">
-                                            <a href="singleproduct.php?productid=<?= $row['pm_productid'] ?>">
-                                                <div class="pro-img">
-
-                                                    <img src="admin/images/uploads/<?= $row['pm_image'] ?>" id="single" height="400rem">
-                                                </div>
-                                            </a>
-
-                                            <div class="mid-wrapper">
-                                                <h5 class="pro-title"><a href="javascript:void()"><?= $getbrand ?></a></h5>
-                                                <h5 class="pro-title"><a href="singleproduct.php?productid=<?= $row['pm_productid'] ?>"><?= $row['pm_productname'] ?></a></h5>
-                                                <h5 class="pro-title"><?= ($row['pm_type'] == 'M' ? 'Male' : 'Female') ?> / <span>&nbsp; &#X20B9;<?= $row['pm_price'] ?></span></h5>
-                                            </div>
-
-                                            <div class="icon-wrapper">
-                                                <div class="pro-icon">
-                                                    <ul>
-                                                        <li><a href="#"><i class="flaticon-valentines-heart"></i></a></li>
-                                                        <li><a href="#"><i class="flaticon-compare"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                                <div class="add-to-cart">
-                                                    <a href="cart.php">add to cart</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                            <?php
+                                <?php }
                                 }
-                            }
-                            ?>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-            <!-- Row End -->
-        </div>
-
-        <!-- Container -->
-    </section>
-    <!-- main-product -->
-
-
-    <!--=========================-->
-    <!--=   Product  area with  banner      =-->
-    <!--=========================-->
-
-    <section class="banner-product">
-        <div class="container-fluid custom-container">
-            <div class="section-heading pb-30">
-                <h3>NEW <span>TRENDING</span></h3>
-            </div>
-            <!-- section-heading-->
-            <div class="row">
-                <div class="col-xl-4 col-lg-4">
-                    <!-- Product baneer-->
-                    <div class="prod-banner-two mt-0">
-                        <a href="#">
-                            <img src="media/images/banner/s5.jpg" alt="">
-                            <div class="pb-info">
-                                <p>Woman's Shop</p>
-                                <h6>40% Off</h6>
+                                ?>
                             </div>
-                        </a>
-                    </div>
-                </div>
-                <!-- Col end-->
-                <div class="no-padding col-xl-8 col-lg-8">
-                    <div class="prod-carousel owl-carousel owl-theme">
-                        <div class="sin-prod-car">
-                            <!-- SingleProduct-->
-                            <div class="sin-product style-two small">
-                                <div class="pro-img">
-                                    <img src="media/images/product/sp8.jpg" alt="">
-                                </div>
-                                <div class="mid-wrapper">
-                                    <h5 class="pro-title"><a href="product.html">Embellished white dress</a></h5>
-                                    <div class="color-variation">
-                                        <ul>
-                                            <li><i class="fas fa-circle"></i></li>
-                                            <li><i class="fas fa-circle"></i></li>
-                                            <li><i class="fas fa-circle"></i></li>
-                                            <li><i class="fas fa-circle"></i></li>
-                                        </ul>
-                                    </div>
-                                    <p>Woman / <span></span></p>
-                                </div>
-                                <div class="icon-wrapper">
-                                    <div class="pro-icon">
-                                        <ul>
-                                            <li><a href="#"><i class="flaticon-valentines-heart"></i></a></li>
-                                            <li><a href="#"><i class="flaticon-compare"></i></a></li>
-                                            <li><a class="trigger" href="#"><i class="flaticon-eye"></i></a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="add-to-cart">
-                                        <a href="#">add to cart</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Single Product-->
-                            <div class="sin-product style-two small">
-                                <div class="pro-img">
-                                    <img src="media/images/product/sp9.jpg" alt="">
-                                </div>
-                                <span class="new-tag">NEW!</span>
 
-                                <div class="mid-wrapper">
-                                    <h5 class="pro-title"><a href="product.html">Kids small dress</a></h5>
-                                    <div class="color-variation">
-                                        <ul>
-                                            <li><i class="fas fa-circle"></i></li>
-                                            <li><i class="fas fa-circle"></i></li>
-                                            <li><i class="fas fa-circle"></i></li>
-                                            <li><i class="fas fa-circle"></i></li>
-                                        </ul>
-                                    </div>
-                                    <p>Kids / <span>$37</span></p>
-                                </div>
-                                <div class="icon-wrapper">
-                                    <div class="pro-icon">
-                                        <ul>
-                                            <li><a href="#"><i class="flaticon-valentines-heart"></i></a></li>
-                                            <li><a href="#"><i class="flaticon-compare"></i></a></li>
-                                            <li><a class="trigger" href="#"><i class="flaticon-eye"></i></a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="add-to-cart">
-                                        <a href="#">add to cart</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                            <div class="grid row">
+                                <!-- single product -->
+                                <?php
+                                $qry = "select * from product_master where pm_categoryid=26 ";
+                                $res = mysqli_query($conn, $qry);
+                                $rowcount = mysqli_num_rows($res);
 
-                        <div class="sin-prod-car">
-                            <!-- Single Product-->
-                            <div class="sin-product style-two small">
-                                <div class="pro-img">
-                                    <img src="media/images/product/sp10.jpg" alt="">
-                                </div>
-                                <div class="mid-wrapper">
-                                    <h5 class="pro-title"><a href="product.html">Womens exclusive shirt </a></h5>
-                                    <div class="color-variation">
-                                        <ul>
-                                            <li><i class="fas fa-circle"></i></li>
-                                            <li><i class="fas fa-circle"></i></li>
-                                            <li><i class="fas fa-circle"></i></li>
-                                            <li><i class="fas fa-circle"></i></li>
-                                        </ul>
-                                    </div>
-                                    <p>Kids / <span>$37</span></p>
-                                </div>
-                                <div class="icon-wrapper">
-                                    <div class="pro-icon">
-                                        <ul>
-                                            <li><a href="#"><i class="flaticon-valentines-heart"></i></a></li>
-                                            <li><a href="#"><i class="flaticon-compare"></i></a></li>
-                                            <li><a class="trigger" href="#"><i class="flaticon-eye"></i></a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="add-to-cart">
-                                        <a href="#">add to cart</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Single Product-->
-                            <div class="sin-product style-two small">
-                                <div class="pro-img">
-                                    <img src="media/images/product/sp11.jpg" alt="">
-                                </div>
-                                <span class="new-tag">NEW!</span>
+                                if ($rowcount > 0) {
+                                    while ($row = mysqli_fetch_array($res)) {
+                                        $p_id = $row['pm_productid'];
+                                        $getbrandquery = "SELECT bm_brandname from brand_master where bm_brandid=" . $row['pm_brandid'];
+                                        $brandresult = mysqli_query($conn, $getbrandquery);
+                                        $getbrandrow = mysqli_fetch_array($brandresult);
+                                        $getbrand = $getbrandrow['bm_brandname'];
+                                ?>
+                                        <div class=" grid-item three col-6 col-md-6  col-lg-4 col-xl-3">
 
-                                <div class="mid-wrapper">
-                                    <h5 class="pro-title"><a href="product.html">Cotton full sleeve</a></h5>
-                                    <div class="color-variation">
-                                        <ul>
-                                            <li><i class="fas fa-circle"></i></li>
-                                            <li><i class="fas fa-circle"></i></li>
-                                            <li><i class="fas fa-circle"></i></li>
-                                            <li><i class="fas fa-circle"></i></li>
-                                        </ul>
-                                    </div>
-                                    <p>Kids / <span>$37</span></p>
-                                </div>
-                                <div class="icon-wrapper">
-                                    <div class="pro-icon">
-                                        <ul>
-                                            <li><a href="#"><i class="flaticon-valentines-heart"></i></a></li>
-                                            <li><a href="#"><i class="flaticon-compare"></i></a></li>
-                                            <li><a class="trigger" href="#"><i class="flaticon-eye"></i></a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="add-to-cart">
-                                        <a href="#">add to cart</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                                            <div class="sin-product style-two">
+                                                <a href="singleproduct.php?productid=<?= $row['pm_productid'] ?>">
+                                                    <div class="pro-img">
 
-                        <div class="sin-prod-car">
-                            <!-- Single Product-->
-                            <div class="sin-product style-two small">
-                                <div class="pro-img">
-                                    <img src="media/images/product/sp12.jpg" alt="">
-                                </div>
-                                <span class="new-tag">NEW!</span>
+                                                        <img src="admin/images/uploads/<?= $row['pm_image'] ?>" id="single" height="400rem">
+                                                    </div>
+                                                </a>
 
-                                <div class="mid-wrapper">
-                                    <h5 class="pro-title"><a href="product.html">Men winter dress</a></h5>
-                                    <div class="color-variation">
-                                        <ul>
-                                            <li><i class="fas fa-circle"></i></li>
-                                            <li><i class="fas fa-circle"></i></li>
-                                            <li><i class="fas fa-circle"></i></li>
-                                            <li><i class="fas fa-circle"></i></li>
-                                        </ul>
-                                    </div>
-                                    <p>Kids / <span>$37</span></p>
-                                </div>
-                                <div class="icon-wrapper">
-                                    <div class="pro-icon">
-                                        <ul>
-                                            <li><a href="#"><i class="flaticon-valentines-heart"></i></a></li>
-                                            <li><a href="#"><i class="flaticon-compare"></i></a></li>
-                                            <li><a class="trigger" href="#"><i class="flaticon-eye"></i></a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="add-to-cart">
-                                        <a href="#">add to cart</a>
-                                    </div>
-                                </div>
+                                                <div class="mid-wrapper">
+                                                    <h5 class="pro-title"><a href="javascript:void()"><?= $getbrand ?></a></h5>
+                                                    <h5 class="pro-title"><a href="singleproduct.php?productid=<?= $row['pm_productid'] ?>"><?= $row['pm_productname'] ?></a></h5>
+                                                    <h5 class="pro-title"><?= ($row['pm_type'] == 'M' ? 'Male' : 'Female') ?> / <span>&nbsp; &#X20B9;<?= $row['pm_price'] ?></span></h5>
+                                                </div>
+
+                                                <div class="icon-wrapper">
+                                                    <div class="add-to-cart">
+                                                        <?php if ($customerid != '') { ?>
+                                                            <a href="wishlist.php?customerid=<?= $customerid ?>"><i class="flaticon-valentines-heart"></i> Add to Wishlist</a>
+                                                        <?php } ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                <?php }
+                                }
+                                ?>
                             </div>
-                            <!-- Single Product-->
-                            <div class="sin-product style-two small">
-                                <div class="pro-img">
-                                    <img src="media/images/product/sp12.jpg" alt="">
-                                </div>
-                                <div class="mid-wrapper">
-                                    <h5 class="pro-title"><a href="product.html">Women shirt top</a></h5>
-                                    <div class="color-variation">
-                                        <ul>
-                                            <li><i class="fas fa-circle"></i></li>
-                                            <li><i class="fas fa-circle"></i></li>
-                                            <li><i class="fas fa-circle"></i></li>
-                                            <li><i class="fas fa-circle"></i></li>
-                                        </ul>
-                                    </div>
-                                    <p>Kids / <span>$37</span></p>
-                                </div>
-                                <div class="icon-wrapper">
-                                    <div class="pro-icon">
-                                        <ul>
-                                            <li><a href="#"><i class="flaticon-valentines-heart"></i></a></li>
-                                            <li><a href="#"><i class="flaticon-compare"></i></a></li>
-                                            <li><a class="trigger" href="#"><i class="flaticon-eye"></i></a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="add-to-cart">
-                                        <a href="#">add to cart</a>
-                                    </div>
-                                </div>
+
+
+                            <div class="grid row">
+                                <!-- single product -->
+                                <?php
+                                $qry = "select * from product_master where pm_categoryid=11 ";
+                                $res = mysqli_query($conn, $qry);
+                                $rowcount = mysqli_num_rows($res);
+
+                                if ($rowcount > 0) {
+                                    while ($row = mysqli_fetch_array($res)) {
+                                        $p_id = $row['pm_productid'];
+                                        $getbrandquery = "SELECT bm_brandname from brand_master where bm_brandid=" . $row['pm_brandid'];
+                                        $brandresult = mysqli_query($conn, $getbrandquery);
+                                        $getbrandrow = mysqli_fetch_array($brandresult);
+                                        $getbrand = $getbrandrow['bm_brandname'];
+                                ?>
+                                        <div class=" grid-item four col-6 col-md-6  col-lg-4 col-xl-3">
+
+                                            <div class="sin-product style-two">
+                                                <a href="singleproduct.php?productid=<?= $row['pm_productid'] ?>">
+                                                    <div class="pro-img">
+
+                                                        <img src="admin/images/uploads/<?= $row['pm_image'] ?>" id="single" height="400rem">
+                                                    </div>
+                                                </a>
+
+                                                <div class="mid-wrapper">
+                                                    <h5 class="pro-title"><a href="javascript:void()"><?= $getbrand ?></a></h5>
+                                                    <h5 class="pro-title"><a href="singleproduct.php?productid=<?= $row['pm_productid'] ?>"><?= $row['pm_productname'] ?></a></h5>
+                                                    <h5 class="pro-title"><?= ($row['pm_type'] == 'M' ? 'Male' : 'Female') ?> / <span>&nbsp; &#X20B9;<?= $row['pm_price'] ?></span></h5>
+                                                </div>
+
+                                                <div class="icon-wrapper">
+                                                    <div class="add-to-cart">
+                                                        <?php if ($customerid != '') { ?>
+                                                            <a href="wishlist.php?customerid=<?= $customerid ?>"><i class="flaticon-valentines-heart"></i> Add to Wishlist</a>
+                                                        <?php } ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                <?php
+                                    }
+                                }
+                                ?>
                             </div>
+
                         </div>
                     </div>
                 </div>
-                <!-- Col end-->
+                <!-- Row End -->
             </div>
-            <!-- /.row -->
-        </div>
-        <!-- Container End -->
-    </section>
-    <!-- main-product End -->
 
-    <!--=========================-->
-    <!--=   Subscribe area      =-->
-    <!--=========================-->
+            <!-- Container -->
+        </section>
+        <!-- main-product -->
 
-    <section class="subscribe-area style-two">
-        <div class="container container-two">
-            <div class="row">
-                <div class="col-lg-5">
-                    <div class="subscribe-text">
-                        <h6>Join our newsletter</h6>
+        <!--=========================-->
+        <!--=   Subscribe area      =-->
+        <!--=========================-->
+
+        <section class="subscribe-area style-two">
+            <div class="container container-two">
+                <div class="row">
+                    <div class="col-lg-5">
+                        <div class="subscribe-text">
+                            <h6>Join our newsletter</h6>
+                        </div>
+                    </div>
+                    <!-- col-xl-6 -->
+
+                    <div class="col-lg-7">
+                        <div class="subscribe-wrapper">
+                            <input placeholder="Enter Keyword" type="text">
+                            <button type="submit">SUBSCRIBE</button>
+                        </div>
                     </div>
                 </div>
-                <!-- col-xl-6 -->
-
-                <div class="col-lg-7">
-                    <div class="subscribe-wrapper">
-                        <input placeholder="Enter Keyword" type="text">
-                        <button type="submit">SUBSCRIBE</button>
-                    </div>
-                </div>
             </div>
-        </div>
-        <!-- /.container-two -->
-    </section>
-    <!-- subscribe-area -->
+            <!-- /.container-two -->
+        </section>
+        <!-- subscribe-area -->
 
 
-    <!-- footer -->
-    <?php include("mainincludes/footer.php"); ?>
+        <!-- footer -->
+        <?php include("mainincludes/footer.php"); ?>
 
 
-    <!-- Back to top-->
+        <!-- Back to top-->
 
-    <?php include("mainincludes/backtotop.php"); ?>
+        <?php include("mainincludes/backtotop.php"); ?>
 
 
-    <!-- Popup -->
+        <!-- Popup -->
 
-    <?php // include("mainincludes/popup.php"); 
-    ?>
+        <?php // include("mainincludes/popup.php"); 
+        ?>
 
 
     </div>
-    <!-- Quick View -->
-
     <!-- /#site -->
+
+    <script>
+        function addtowishlist(pid, cid) {
+            if (pid != '' && cid != '') {
+                $.ajax({
+                    url: "wishlistinsert.php",
+                    data: {
+                        customerid: cid,
+                        productid: pid
+                    },
+                    type: 'POST',
+                    success: function(response) {
+                        var resp = $.trim(response);
+
+                    }
+                });
+            }
+        }
+    </script>
 
     <!-- Dependency Scripts -->
     <script src="dependencies/jquery/jquery.min.js"></script>
@@ -710,10 +442,6 @@ require("config/dbconnect.php");
     <script src="dependencies/slick-carousel/js/slick.js"></script>
     <script src="dependencies/headroom/js/headroom.js"></script>
     <script src="dependencies/jquery-ui/js/jquery-ui.min.js"></script>
-    <!--Google map api -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBsBrMPsyNtpwKXPPpG54XwJXnyobfMAIc"></script>
-
-
     <!-- Site Scripts -->
     <script src="assets/js/app.js"></script>
 

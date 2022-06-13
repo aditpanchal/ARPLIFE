@@ -1,7 +1,7 @@
 <?php
 require("config/dbconnect.php");
 $productid = $_GET['productid'];
-$setsubcategory = $setstatus = $getcategoryforscdropdown = $set_product_brand = $catid = '';
+$setsubcategory = $setstatus = $getcategoryforscdropdown = $set_product_brand = $catid = $checkrowcount = '';
 $set_product_category  = $set_product_description =  $set_product_status = $getbrandid = $getcatid = '';
 $getproductquery = "select * from product_master where pm_productid=$productid ";
 $res = mysqli_query($conn, $getproductquery);
@@ -83,6 +83,17 @@ if (mysqli_num_rows($res) > 0) {
                                             <img height="500rem" src="admin/images/uploads/<?= $set_product_image ?>" alt="<?= $set_product_image ?>">
                                         </div>
                                         <?php
+                                        $customerid = '';
+                                        $customerid = ((isset($_SESSION['customerid'])) ? $_SESSION['customerid'] : '');
+                                        if ($customerid != '') {
+                                            $checkcartproductquery = "SELECT * from al_cart where crt_productid=$productid ";
+                                        } else {
+                                            $checkcartproductquery = "SELECT * from al_visitorcart where vc_productid=$productid ";
+                                        }
+                                        $checkcartproductresult = mysqli_query($conn, $checkcartproductquery);
+                                        if ($checkcartproductresult) {
+                                            $checkrowcount = mysqli_num_rows($checkcartproductresult);
+                                        }
                                         $getimages = "SELECT * from al_productimages where pi_productid=$productid";
                                         $imgres = mysqli_query($conn, $getimages);
                                         if (mysqli_num_rows($imgres) > 0) {
@@ -125,19 +136,21 @@ if (mysqli_num_rows($res) > 0) {
                                     <span class="price">Price : &#X20B9;<?= $set_product_price ?><?= $set_product_discount ?></span>
                                     <div class="size-variation">
                                         <span>size :</span>
-                                        <select name="size-value">
+                                        <select name="productsizes" class="productsizes" id="sizedropdown">
+                                            <option value="choose" selected disabled>Choose</option>
                                             <?php
                                             $getsizequery = "SELECT * from al_productsize where ps_productid= $productid";
                                             $sizeres = mysqli_query($conn, $getsizequery);
                                             if (mysqli_num_rows($sizeres) > 0) {
                                                 while ($getsizerow = mysqli_fetch_array($sizeres)) {
                                             ?>
-                                                    <option value="<?php $getsizerow['ps_sizeid'] ?>"><?= $getsizerow['ps_size'] ?></option>
+                                                    <option id="productsize" value="<?= $getsizerow['ps_sizeid'] ?>"><?= $getsizerow['ps_size'] ?></option>
                                             <?php  }
                                             }
 
                                             ?>
                                         </select>
+                                        <p id="err"></p>
                                     </div>
                                     <div class="color-checkboxes">
                                         <h4>Color:</h4>
@@ -158,13 +171,14 @@ if (mysqli_num_rows($res) > 0) {
                                     </div>
 
                                     <div class="add-tocart-wrap">
-                                        <!--PRODUCT INCREASE BUTTON START-->
-                                        <div class="cart-plus-minus-button">
-                                            <input type="text" value="1" name="qtybutton" class="cart-plus-minus">
-                                        </div>
                                         <?php
-                                        if ($available == 1) { ?>
-                                            <a href="cart.php" class="add-to-cart"><i class="flaticon-shopping-purse-icon"></i>Add to Cart</a>
+                                        if ($available == 1) {
+                                            if ($checkrowcount > 0) { ?>
+                                                <a href="cart.php?customerid=<?= $customerid ?>" class="add-to-cart"><i class="flaticon-shopping-purse-icon"></i>Go to Cart</a>
+                                            <?php } else { ?>
+                                                <a href="javascript:void()" id="cartbtn" onclick="cartinsertion(<?= $productid ?>,<?= $customerid ?>)" class="add-to-cart"><i class="flaticon-shopping-purse-icon"></i>Add to Cart</a>
+                                            <?php }
+                                            ?>
                                         <?php } else { ?>
                                             <a href="javascript:void()" style="text-decoration:line-through ;" class="add-to-cart"><i class="flaticon-shopping-purse-icon"></i>Add to Cart</a>
                                         <?php }
@@ -355,10 +369,63 @@ if (mysqli_num_rows($res) > 0) {
     <script src="dependencies/slick-carousel/js/slick.js"></script>
     <script src="dependencies/headroom/js/headroom.js"></script>
     <script src="dependencies/jquery-ui/js/jquery-ui.min.js"></script>
-    <!--Google map api -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBsBrMPsyNtpwKXPPpG54XwJXnyobfMAIc"></script>
-
+    <script src="admin/plugins/validation/jquery.validate.min.js"></script>
     <script>
+        $('#sizedropdown').change(function(){
+            $('#err').css("color","white");
+        })
+        function cartinsertion(pid, cid) {
+            if (pid != '' && cid != '' && cid != undefined) {
+                getsize = $('#sizedropdown').val();
+                if (getsize!=null ) {
+                    $.ajax({
+                        url: "cartinsertion.php",
+                        data: {
+                            productid: pid,
+                            customerid: cid,
+                            mode: 'insert'
+                        },
+                        type: 'POST',
+                        success: function(response) {
+                            $('#cartcount').html('<i class="fa fa-shopping-cart" aria-hidden="true"></i>' + response);
+                            $('.add-to-cart').html('<i class="flaticon-shopping-purse-icon"></i>' + 'Go to Cart');
+                            $('.add-to-cart').attr("href", "cart.php?customerid=<?= $customerid ?>");
+                            $(".add-to-cart").prop("onclick", null).off("click");
+                            alert("Added to cart");
+
+                        }
+                    });
+                } else {
+                    $('#err').css("color","red");
+                    $('#err').html("Please select a size");
+                }
+            } else if (pid != '') {
+                getsize = $('#sizedropdown').val()
+                if (getsize!=null ) {
+                    $.ajax({
+                        url: "visitorcartinsertion.php",
+                        data: {
+                            productid: pid,
+                            mode: 'insert'
+                        },
+                        type: 'POST',
+                        success: function(response) {
+                            $('#cartcount').html('<i class="fa fa-shopping-cart" aria-hidden="true"></i>' + response);
+                            $('.add-to-cart').html('<i class="flaticon-shopping-purse-icon"></i>' + 'Go to Cart');
+                            $('.add-to-cart').attr("href", "cart.php");
+                            $(".add-to-cart").prop("onclick", null).off("click");
+                            alert("Added to cart");
+
+                        }
+                    });
+
+                }else{
+                    $('#err').css("color","red");
+                    $('#err').html("Please select a size");
+                }
+            }
+        }
+
         var html = `<input class="color-checkbox__input" id="avail_colors" name="colour" type="radio">
                     <label class="color-checkbox" for="avail_colors" id="col-Black-label"></label>
                     <span></span>`;

@@ -52,7 +52,7 @@ if (isset($_POST['btncreate'])) {
     $email = $_POST['email'];
     $uname = $_POST['uname'];
     $pass = $_POST['pass'];
-
+    $flag = $customer_id = '';
     foreach ($getusernames as $usernames) {
         if ($usernames == $uname) {
             $_SESSION['msg'] = 'Username already exists';
@@ -72,11 +72,26 @@ if (isset($_POST['btncreate'])) {
     if ($flag == 0 && $mobile != '') {
         $query = "insert into customer_master(cm_firstname , cm_lastname ,cm_dob,cm_gender,cm_mobile, cm_email , cm_username , cm_password) values('$fname' , '$lname' ,'$dob' ,'$gender',$mobile,'$email' , '$uname' , '$pass')";
         $res = mysqli_query($conn, $query);
+        $customer_id =  $conn->insert_id;
         $_SESSION['registered']=1;
-        header("location:../login.php");
     } else if ($flag == 0 && $mobile == '') {
         $query = "insert into customer_master(cm_firstname , cm_lastname ,cm_dob,cm_gender, cm_email , cm_username , cm_password) values('$fname' , '$lname' ,'$dob' ,'$gender','$email' , '$uname' , '$pass')";
         $res = mysqli_query($conn, $query);
-        header("location:../login.php");
+        $customer_id =  $conn->insert_id;
+        
     }
+    if($customer_id!=''){
+        $visitorid=session_id();
+        $checkvisitorquery="SELECT * from al_visitorcart where vc_visitorid='$visitorid'";
+        $checkresult=mysqli_query($conn,$checkvisitorquery);
+        if(mysqli_num_rows($checkresult) > 0){
+            while($getcartdata=mysqli_fetch_array($checkresult)){
+                $getproductid=$getcartdata['vc_productid'];
+                $getquantity=$getcartdata['vc_quantity'];
+                $insertintocart="INSERT into al_cart(crt_customerid , crt_productid ,crt_quantity) values($customer_id,$getproductid,$getquantity)";
+                $cartresult=mysqli_query($conn,$insertintocart);
+            }
+        }
+    }
+    header("location:../login.php");
 }

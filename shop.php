@@ -16,6 +16,7 @@ $gender = (isset($_GET["gender"]) ? $_GET["gender"] : '');
 <?php include("mainincludes/csslinks.php"); ?>
 
 <style>
+<<<<<<< HEAD
     .price-range input[type="text"] {
         border: medium none;
         float: none;
@@ -30,6 +31,8 @@ $gender = (isset($_GET["gender"]) ? $_GET["gender"] : '');
         line-height: 23px;
     }
 
+=======
+>>>>>>> f4758cd22ed3abc87816ca97bee193b41e0e0ca2
     .customul {
         overflow: scroll;
         height: 200px;
