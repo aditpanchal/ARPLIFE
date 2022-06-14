@@ -115,7 +115,7 @@
                             </div>
                         </div>
                         <div class="cart-subtotal">
-                            <a href="checkout.php">Place Order</a>
+                            <a href="https://rzp.io/l/0VcFyXkpB3">Payment</a>
                         </div>
                         <!-- /.cart-subtotal -->
                     </div>
