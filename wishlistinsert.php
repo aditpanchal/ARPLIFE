@@ -44,20 +44,14 @@ if (isset($_POST['mode']) && $_POST['mode'] == 'move') {
     if($flag==0){
     $movetocartquery = "INSERT into al_cart(crt_customerid,crt_productid,crt_quantity) values($customerid,$productid,$quantity)";
     $moveresult = mysqli_query($conn, $movetocartquery);
-    $flag=1;
     }
-    if ( $flag==1 ) {
         $wishlistdeletion = "DELETE FROM al_wishlist where wl_wishlistid=$wishlistid";
         $deletionresult = mysqli_query($conn, $wishlistdeletion);
-        if ($deletionresult == 1 && $checkrowcount<0 ) {
-            $flag=0;
+        if ($deletionresult == 1 && $flag==0) {
             echo "success";
         } else if($checkrowcount>0 && $flag==1) {
-            $flag=0;
             echo "exists";
         }else{
-            $flag=0;
             echo "failed";
         }
-    }
 }
