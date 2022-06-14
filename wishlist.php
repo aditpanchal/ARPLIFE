@@ -3,6 +3,9 @@ require("config/dbconnect.php");
 $getcustomerid = '';
 
 $getcustomerid = (isset($_REQUEST['customerid']) ? $_REQUEST['customerid'] : '');
+if (!isset($_SESSION['customerid'])) {
+    header("location:login.php");
+}
 if ($getcustomerid != '') {
     $displaywishlistquery = "SELECT * from al_wishlist where wl_customerid=$getcustomerid";
     $getwishlistresult = mysqli_query($conn, $displaywishlistquery);
@@ -16,7 +19,27 @@ if ($getcustomerid != '') {
 
 <!doctype html>
 <html>
+<style>
+    #deletecross:hover {
+        background-color: orangered;
+        color: black;
+    }
 
+    #deletecross {
+        padding: 10px;
+        border-radius: 50%;
+        border: none;
+    }
+
+    .addtocartbtn {
+        color: white !important;
+        width: 55%;
+    }
+
+    .addtocartbtn:hover {
+        cursor: pointer;
+    }
+</style>
 <!-- head-tag -->
 <?php include("mainincludes/csslinks.php"); ?>
 
@@ -56,6 +79,8 @@ if ($getcustomerid != '') {
                                         <th>Image</th>
                                         <th>Product Name</th>
                                         <th>Quantity</th>
+                                        <th>Unit Price</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -72,17 +97,16 @@ if ($getcustomerid != '') {
                                                     $getproductname = $getproductdata['pm_productname'];
                                                     $getproductprice = $getproductdata['pm_price'];
                                                     $getstock = $getproductdata['pm_stock'];
-
                                                 }
                                             } ?>
                                             <tr>
                                                 <td>
-                                                    <a href="javascript:void()">X</a>
+                                                    <button id="deletecross" onclick="deletefromwishlist(<?= $getwishlistrows['wl_wishlistid'] ?>,'<?= $getproductname ?>')" class="btn btn-danger" href="javascript:void()"><i class="fa fa-trash"></i></button>
                                                 </td>
                                                 <td>
                                                     <a href="singleproduct.php?productid=<?= $getproductid ?>">
                                                         <div class="product-image">
-                                                            <img alt="<?= $getproductimage ?>" height="200rem" src="admin/images/uploads/<?= $getproductimage ?>">
+                                                            <img alt="<?= $getproductimage ?>" height="150rem" src="admin/images/uploads/<?= $getproductimage ?>">
                                                         </div>
                                                     </a>
                                                 </td>
@@ -93,20 +117,17 @@ if ($getcustomerid != '') {
                                                 </td>
                                                 <td>
                                                     <div class="quantity">
-                                                        <input type="number" style="width:60% ;"  min="1" max="<?= (($getstock<50) ? $getstock : '50' ) ?>" value="<?= $getcartrows['wl_quantity'] ?>">
+                                                        <input type="number" style="width:60% ;" min="1" max="<?= (($getstock < 50) ? $getstock : '50') ?>" value="<?= $getwishlistrows['wl_quantity'] ?>">
                                                     </div>
                                                 </td>
                                                 <td>
-                                                <td>
-                                                    <ul>
-                                                        <li>
-                                                            <div class="price-box">
-                                                                <span class="price"><?= $getproductprice ?></span>
-                                                            </div>
-                                                        </li>
-                                                    </ul>
+                                                    <div class="price-box">
+                                                        <span class="price">&#X20B9;<?= $getproductprice ?></span>
+                                                    </div>
                                                 </td>
-
+                                                <td>
+                                                    <a class=" animated fadeIn btn-two addtocartbtn" onclick="movetocart(<?= $getwishlistrows['wl_wishlistid'] ?>,<?= $customerid ?>,<?= $getproductid ?>,<?= $getwishlistrows['wl_quantity'] ?>)"><i class="fa fa-shopping-cart"></i> Add to cart</a>
+                                                </td>
 
                                             </tr>
                                         <?php }
@@ -161,6 +182,56 @@ if ($getcustomerid != '') {
     <script src="dependencies/jquery-ui/js/jquery-ui.min.js"></script>
     <!-- Site Scripts -->
     <script src="assets/js/app.js"></script>
+    <script>
+        function deletefromwishlist(wid, pname) {
+            if (wid != '') {
+                $.ajax({
+                    type: "POST",
+                    url: "wishlistinsert.php",
+                    data: {
+                        wishlistid: wid,
+                        mode: 'delete'
+                    },
+                    success: function(response) {
+
+                        if (response == 'success') {
+                            alert(pname + " removed from wishlist .");
+                            location.reload();
+                        } else {
+                            alert("Delete Operation Failed");
+                        }
+                    }
+                });
+            }
+        }
+
+        function movetocart(wid, cid, pid, qty) {
+            if (pid != '' && cid != '' && wid != '') {
+                $.ajax({
+                    type: "POST",
+                    url: "wishlistinsert.php",
+                    data: {
+                        wishlistid: wid,
+                        productid: pid,
+                        customerid: cid,
+                        quantity: qty,
+                        mode: 'move'
+                    },
+                    success: function(response) {
+                        if (response == 'success') {
+                            alert("moved to cart");
+                            location.reload();
+                        } else if (response == 'exists') {
+                            alert("Product already exists in cart");
+                            location.reload();
+                        } else {
+                            alert("operation failed");
+                        }
+                    }
+                });
+            }
+        }
+    </script>
 
 </body>
 
