@@ -1,10 +1,12 @@
 <?php
 require("config/dbconnect.php");
-$getcustomerid = '';
+$getcustomerid  =  '';
+
 $getcartrowcount = 0;
 $iscustomer = (isset($_REQUEST['customerid']) && $_REQUEST['customerid'] != '' ? 1 : 0);
 $subtotal = 0;
 $gst = 0;
+
 if (isset($_REQUEST['customerid']) && $_REQUEST['customerid'] != '') {
     $getcustomerid = ((isset($_REQUEST['customerid'])) ? $_REQUEST['customerid'] : '');
 
@@ -55,7 +57,7 @@ if (isset($_REQUEST['customerid']) && $_REQUEST['customerid'] != '') {
         <section class="cart-area">
             <div class="container-fluid custom-container">
                 <div class="row">
-                    <div class="col-xl-9">
+                    <div class="col-xl-8">
                         <div class="cart-table">
                             <table class="tables">
                                 <thead>
@@ -146,30 +148,22 @@ if (isset($_REQUEST['customerid']) && $_REQUEST['customerid'] != '') {
 
                         </div>
                         <!-- /.cart-table -->
-                        <div class="row cart-btn-section">
-                            <div class="col-12 col-sm-8 col-lg-6">
-                                <div class="cart-btn-left">
-                                    <a class="coupon-code" href="#">Coupon Code</a>
-                                    <a href="#">Apply Coupon</a>
-                                </div>
-                            </div>
-                            <!-- /.col-xl-6 -->
-                        </div>
                         <!-- /.row -->
                     </div>
                     <!-- /.col-xl-9 -->
-                    <div class="col-xl-3">
+                    <div class="col-xl-4">
                         <div class="cart-subtotal">
                             <p>ORDER DETAILS</p>
                             <ul>
                                 <li><span>BAG TOTAL:</span>
                                     <h1 id="subtotal">&#X20B9;<?= " " . $subtotal ?></h1>
                                 </li>
+
                                 <?php
                                 $gst = $subtotal * 12 / 100;
                                 ?>
                                 <li><span>GST (+12%):</span>
-                                    <h1 id="gst">&#X20B9;<?= " " . $gst ?></h1>
+                                    <h1 id="gst"> &#X20B9;<?= " " . $gst ?></h1>
                                 </li>
                                 <!-- <li><span>Shipping Cost:</span><h1>$00.00</h1></li> -->
                                 <li><span>TOTAL:</span>
@@ -177,12 +171,16 @@ if (isset($_REQUEST['customerid']) && $_REQUEST['customerid'] != '') {
                                 </li>
                             </ul>
                             <a href="functions/checkoutauthenticate.php?subtotal=<?= $subtotal ?>&gst=<?= $gst ?>" name="checkout">Proceed To Checkout</a>
-                        </div>
+                        </div><br>
                         <!-- /.cart-subtotal -->
 
 
+
+
                     </div>
+
                     <!-- /.col-xl-3 -->
+
                 </div>
             </div>
         </section>

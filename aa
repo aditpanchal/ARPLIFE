@@ -3,13 +3,8 @@ INSERT INTO city_master (city_name)('Alipur'),('Andaman Island'),('Anderson Isla
 
 INSERT INTO city_master (cty_cityname)VALUES
 ('Hyderabad'),('Karimnagar'),('Khammam'),('Warangal'),('West Godavari');
-
-
-
 INSERT INTO city_master (cty_cityname)VALUES
-('Kurung Kumey'),('Lohit'),('Tawang'),('Tirap'),
-
-
+('Kurung Kumey'),('Lohit'),('Tawang'),('Tirap');
 INSERT INTO city_master (cty_cityname)VALUES
 ('Silchar'),('Sivasagar'),('Sonitpur'),('Tinsukia'),('Udalguri');
 
