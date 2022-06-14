@@ -176,7 +176,7 @@ if (isset($_REQUEST['customerid']) && $_REQUEST['customerid'] != '') {
                                     <h1 id="total">&#X20B9;<?= " " . $total = $gst + $subtotal ?></h1>
                                 </li>
                             </ul>
-                            <a href="functions/checkoutauthenticate.php">Proceed To Checkout</a>
+                            <a href="functions/checkoutauthenticate.php?subtotal=<?= $subtotal ?>&gst=<?= $gst ?>">Proceed To Checkout</a>
                         </div>
                         <!-- /.cart-subtotal -->
 
