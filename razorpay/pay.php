@@ -14,12 +14,12 @@ $api = new Api($keyId, $keySecret);
 // We create an razorpay order using orders api
 // Docs: https://docs.razorpay.com/docs/orders
 //
-$price = $_POST['price'];
+$price =50000;
 $_SESSION['price'] = $price;
-$customername = $_POST['customername'];
-$email = $_POST['email'];
+$customername = "adit";
+$email = "adit@gmail.com";
 $_SESSION['email'] = $email;
-$contactno = $_POST['contactno'];
+$contactno = 9897878676;
 $orderData = [
     'receipt'         => 3456,
     'amount'          => $price * 100, // 2000 rupees in paise
