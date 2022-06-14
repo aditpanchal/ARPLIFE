@@ -3,9 +3,7 @@ require("config/dbconnect.php");
 $getcustomerid = '';
 
 $getcustomerid = (isset($_REQUEST['customerid']) ? $_REQUEST['customerid'] : '');
-if (!isset($_SESSION['customerid'])) {
-    header("location:login.php");
-}
+
 if ($getcustomerid != '') {
     $displaywishlistquery = "SELECT * from al_wishlist where wl_customerid=$getcustomerid";
     $getwishlistresult = mysqli_query($conn, $displaywishlistquery);
@@ -50,7 +48,11 @@ if ($getcustomerid != '') {
 
         <!-- header -->
         <?php include("mainincludes/header.php") ?>
-
+        <?php
+        if (!isset($_SESSION['customerid'])) {
+            header("location:login.php");
+        }
+        ?>
 
         <!-- Breadcrumb -->
 
