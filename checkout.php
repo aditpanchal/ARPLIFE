@@ -1,3 +1,11 @@
+<?php
+require("config/dbconnect.php");
+$subtotal = 0;
+$gst = 0;
+$subtotal = ((isset($_GET['subtotal'])) ? $_GET['subtotal'] : 0);
+$gst = ((isset($_GET['gst'])) ? $_GET['gst'] : 0);
+?>
+
 <!doctype html>
 <html>
 <style>
@@ -5,7 +13,7 @@
         width: 100%;
         height: 56px;
         border: none;
-        box-shadow:8px 10px 10px whitesmoke ;
+        box-shadow: 8px 10px 10px whitesmoke;
         margin-bottom: 30px;
         padding: 0px 20px;
         -moz-appearance: none;
@@ -113,9 +121,21 @@
                             <div class="section-heading pb-30">
                                 <h3>Your <span>Cart</span></h3>
                             </div>
+
                         </div>
                         <div class="cart-subtotal">
-                            <a href="checkout.php">Place Order</a>
+                            <div class="cart-subtotal">
+                                <p>ORDER DETAILS</p>
+                                <ul>
+                                    <li><span>BAG TOTAL: </span>&#X20B9; <?= $subtotal ?>
+                                    </li>
+                                    <li><span>GST (+12%):</span> &#X20B9; <?= $gst ?>
+                                    </li>
+                                    <li><span>TOTAL:</span>&#X20B9; <?= $subtotal + $gst ?>
+                                    </li>
+                                </ul>
+                            </div>
+                            <a href="payment.php">Proceed to payment</a>
                         </div>
                         <!-- /.cart-subtotal -->
                     </div>
