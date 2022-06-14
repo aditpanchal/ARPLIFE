@@ -70,7 +70,7 @@ if (isset($_REQUEST['customerid']) && $_REQUEST['customerid'] != '') {
                                 </thead>
                                 <tbody>
                                     <?php
-                                    if (!isset($_REQUEST['customerid']) || $_REQUEST['customerid']=='' ) {
+                                    if (!isset($_REQUEST['customerid']) || $_REQUEST['customerid'] == '') {
                                         $getcustomerid = session_id();
                                         if ($getcustomerid != '') {
                                             $displaycartquery = "SELECT * from al_visitorcart where vc_visitorid='$getcustomerid'";
@@ -114,7 +114,7 @@ if (isset($_REQUEST['customerid']) && $_REQUEST['customerid'] != '') {
                                                 </td>
                                                 <td>
                                                     <div class="quantity">
-                                                        <input type="number" style="width:60% ;" onchange="calcprice(this,<?= $getproductprice ?>,<?= (($iscustomer == 1) ? $getcartrows['crt_cartid'] : $getcartrows['vc_cartid']) ?>)" min="1" max="<?= (($getstock<50) ? $getstock : '50' ) ?>" value="<?= (($iscustomer == 1) ? $getcartrows['crt_quantity'] : $getcartrows['vc_quantity']) ?>">
+                                                        <input type="number" style="width:60% ;" onchange="calcprice(this,<?= $getproductprice ?>,<?= (($iscustomer == 1) ? $getcartrows['crt_cartid'] : $getcartrows['vc_cartid']) ?>)" min="1" max="<?= (($getstock < 50) ? $getstock : '50') ?>" value="<?= (($iscustomer == 1) ? $getcartrows['crt_quantity'] : $getcartrows['vc_quantity']) ?>">
                                                     </div>
                                                 </td>
                                                 <td>
@@ -160,9 +160,9 @@ if (isset($_REQUEST['customerid']) && $_REQUEST['customerid'] != '') {
                     <!-- /.col-xl-9 -->
                     <div class="col-xl-3">
                         <div class="cart-subtotal">
-                            <p>SUBTOTAL</p>
+                            <p>ORDER DETAILS</p>
                             <ul>
-                                <li><span>Sub-Total:</span>
+                                <li><span>BAG TOTAL:</span>
                                     <h1 id="subtotal">&#X20B9;<?= " " . $subtotal ?></h1>
                                 </li>
                                 <?php
@@ -176,7 +176,7 @@ if (isset($_REQUEST['customerid']) && $_REQUEST['customerid'] != '') {
                                     <h1 id="total">&#X20B9;<?= " " . $total = $gst + $subtotal ?></h1>
                                 </li>
                             </ul>
-                            <a href="functions/checkoutauthenticate.php?subtotal=<?= $subtotal ?>&gst=<?= $gst ?>">Proceed To Checkout</a>
+                            <a href="functions/checkoutauthenticate.php?subtotal=<?= $subtotal ?>&gst=<?= $gst ?>" name="checkout">Proceed To Checkout</a>
                         </div>
                         <!-- /.cart-subtotal -->
 

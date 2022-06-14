@@ -14,9 +14,21 @@
 
 		<!-- header -->
 		<?php include("mainincludes/header.php") ?>
+		<!-- Breadcrumb -->
 
+		<section class="breadcrumb-area" style="padding: 130px 0 10px;">
+			<div class="container-fluid custom-container">
+				<div class="row">
+					<div class="col-xl-12">
+						<div class="bc-inner">
+							<p><a href="index.php">Home |</a> FAQS</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
 
-		<header class="cd-header flex flex-column flex-center" style="margin-top:20px ;" >
+		<header class="cd-header flex flex-column flex-center" style="margin-top:20px ;">
 			<div class="text-component text-center">
 				<h1>FREQUENTLY ASKED QUESTIONS</h1>
 			</div>
