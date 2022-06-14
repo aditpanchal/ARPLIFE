@@ -33,19 +33,24 @@ if (isset($_REQUEST['customerid']) && $_REQUEST['customerid'] != '') {
 <!doctype html>
 <html>
 <style>
+    .licontainer {
+        display: flex;
+        flex-direction: column;
+        text-align: left;
+        background-color: dimgray;
+        color: white;
+        padding: 20px;
+        margin-top: 20px;
+
+    }
+
+
     #couponcode {
         width: 70%;
         height: 56px;
         background: #f2f1f1;
         border: none;
         padding: 0px 20px;
-    }
-
-    .row {
-        display: flex;
-        -ms-flex-wrap: wrap;
-        flex-wrap: wrap;
-
     }
 
     .customdropdown {
@@ -66,6 +71,89 @@ if (isset($_REQUEST['customerid']) && $_REQUEST['customerid'] != '') {
         text-overflow: ellipsis;
         white-space: nowrap;
         padding-right: 25px;
+    }
+
+
+    .option-input {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        -ms-appearance: none;
+        -o-appearance: none;
+        appearance: none;
+        position: relative;
+        top: 13.33333px;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        height: 40px;
+        width: 40px;
+        transition: all 0.15s ease-out 0s;
+        background: #fff;
+        border: 1px solid darkgray;
+        color: #fff;
+        cursor: pointer;
+        display: inline-block;
+        margin-right: 0.5rem;
+        outline: none;
+        position: relative;
+        z-index: 1000;
+    }
+
+    .option-input:hover {
+        background: #9faab7;
+    }
+
+    .option-input:checked {
+        background: dodgerblue;
+    }
+
+    .option-input:checked::before {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        content: '\f00c';
+        font-size: 25px;
+        font-weight: bold;
+        position: absolute;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Font Awesome 5 Free';
+    }
+
+    .option-input:checked::after {
+        -webkit-animation: click-wave 0.65s;
+        -moz-animation: click-wave 0.65s;
+        animation: click-wave 0.65s;
+        background: #40e0d0;
+        content: '';
+        display: block;
+        position: relative;
+        z-index: 100;
+    }
+
+    .option-input.radio {
+        border-radius: 50%;
+    }
+
+    .option-input.radio::after {
+        border-radius: 50%;
+    }
+
+    @keyframes click-wave {
+        0% {
+            height: 40px;
+            width: 40px;
+            opacity: 0.35;
+            position: relative;
+        }
+
+        100% {
+            height: 200px;
+            width: 200px;
+            margin-left: -80px;
+            margin-top: -80px;
+            opacity: 0;
+        }
     }
 </style>
 <!-- head-tag -->
@@ -93,67 +181,12 @@ if (isset($_REQUEST['customerid']) && $_REQUEST['customerid'] != '') {
         </section>
 
         <!-- Checkout area -->
-        <section class="contact-area" style="padding-bottom:50px ;">
+        <section class="contact-area">
             <div class="container-fluid custom-container">
                 <div class="row">
-                    <div class="col-xl-4" style="padding-left:50px ;">
 
-                        <div class="cart-subtotal">
-                            <p>COUPONS</p>
-                            <input type="text" placeholder="Coupon Code" readonly value="" id="couponcode">
-                            <a href="checkout.php" name="checkout">APPLY</a>
-                            <ul>
-                                <li>
-                                    <?php
-                                    $qry = "select * from coupons_master";
-                                    $res = mysqli_query($conn, $qry);
-                                    if (mysqli_num_rows($res) > 0) {
-                                        while ($getrow = mysqli_fetch_array($res)) {
-                                            $setcouponcode = (($getrow['cpn_couponcode'] != '') ? $getrow['cpn_couponcode'] : '');
-                                            $setallotteddiscount = (($getrow['cpn_allotteddiscount'] != '') ? $getrow['cpn_allotteddiscount'] : '');
-                                            $setminamount = (($getrow['cpn_minamount'] != '') ? $getrow['cpn_minamount'] : '');
-                                            $setmaxamount = (($getrow['cpn_maxamount'] != '') ? $getrow['cpn_maxamount'] : '');
-                                    ?>
-                                            <span><input type="radio" name="coupons" onchange="couponselected('<?= strtoupper($setcouponcode) ?>')" id=""></span>
-                                            <?= strtoupper($setcouponcode) ?><br>
-                                            <label>Get upto <?= $setallotteddiscount ?>% on <?= $setminamount ?> and above.</label>
-                                            <label>Maximum Discount : &#X20B9;<?= $setmaxamount ?> </label><br><br>
-                                    <?php
-                                        }
-                                    } else {
-                                        echo "No Other Coupon Available";
-                                    }
-                                    ?>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-xl-4" style="padding-left:50px ;">
-
-                        <div class="cart-subtotal">
-                            <div class="cart-subtotal">
-                                <p>ORDER DETAILS</p>
-                                <ul>
-                                    <li><span>BAG TOTAL: </span>&#X20B9; <?= $subtotal ?>
-                                    </li>
-                                    <?php $cpn = $subtotal * $setallotteddiscount / 100;
-                                    ?>
-                                    <li><span>Coupon Discount :</span>
-                                        <h1 id="cpn">&#X20B9;<?= " " . $cpn ?></h1>
-                                    </li>
-                                    <li><span>GST (+12%):</span> &#X20B9; <?= $gst ?>
-                                    </li>
-                                    <li><span>TOTAL:</span>&#X20B9; <?= $subtotal + $gst ?>
-                                    </li>
-                                </ul>
-                            </div>
-                            <a href="payment.php">Proceed to payment</a>
-                        </div><br>
-                        <!-- /.cart-subtotal -->
-
-
-                    </div>
-                    <div class="col-sm-9 col-md-9 col-lg-9 col-xl-4">
+                    <!-- BILLING ADDRESS -->
+                    <div class="col-sm-9 col-md-9 col-lg-9 col-xl-8">
                         <div class="contact-form login-form">
                             <form class="signupform" method="POST" action="functions/authenticatecustomer.php">
                                 <div class="row">
@@ -164,7 +197,7 @@ if (isset($_REQUEST['customerid']) && $_REQUEST['customerid'] != '') {
                                         </div>
                                     </div>
                                     <div class="col-xl-7" width="250">
-                                        <input type="text" " placeholder=" Flat/House/Street*" name="" id="" value=<?= $setadd ?>>
+                                        <input type="text" placeholder=" Flat/House/Street*" name="" id="" value=<?= $setadd ?>>
 
                                         <div class="mydiv">
                                             <p class="Err"></p>
@@ -191,9 +224,6 @@ if (isset($_REQUEST['customerid']) && $_REQUEST['customerid'] != '') {
                                             <option>INDIA</option>
 
                                         </select>
-                                        <div class="mydiv">
-                                            <p class="Err"></p>
-                                        </div>
                                     </div>
                                     <div class="col-xl-7">
                                         <select name="" id="" class="customdropdown">
@@ -213,9 +243,6 @@ if (isset($_REQUEST['customerid']) && $_REQUEST['customerid'] != '') {
                                             <?php }
                                             ?>
                                         </select>
-                                        <div class="mydiv">
-                                            <p class="Err"></p>
-                                        </div>
                                     </div>
                                     <div class="col-xl-7">
                                         <select name="" id="" class="customdropdown">
@@ -235,9 +262,6 @@ if (isset($_REQUEST['customerid']) && $_REQUEST['customerid'] != '') {
                                             <?php }
                                             ?>
                                         </select>
-                                        <div class="mydiv">
-                                            <p class="Err"></p>
-                                        </div>
                                     </div>
                                 </div>
 
@@ -245,6 +269,68 @@ if (isset($_REQUEST['customerid']) && $_REQUEST['customerid'] != '') {
                         </div>
                     </div>
 
+                    <!-- CART  -->
+                    <div class="col-xl-4">
+                        <div class="col-xl-12">
+                            <div class="section-heading pb-30" width="250">
+
+                                <h3>Your <span>Cart</span> </h3>
+                            </div>
+                        </div>
+                        <!-- CART TOTAL -->
+                        <div class="cart-subtotal">
+                            <div class="cart-subtotal">
+                                <p>ORDER DETAILS</p>
+                                <ul>
+                                    <li><span>BAG TOTAL: </span>&#X20B9; <?= $subtotal ?>
+                                    </li>
+                                    <?php $cpn = $subtotal * $setallotteddiscount / 100;
+                                    ?>
+                                    <li><span>Coupon Discount :</span>
+                                        <h1 id="cpn">&#X20B9;<?= " " . $cpn ?></h1>
+                                    </li>
+                                    <li><span>GST (+12%):</span> &#X20B9; <?= $gst ?>
+                                    </li>
+                                    <li><span>TOTAL:</span>&#X20B9; <?= $subtotal + $gst ?>
+                                    </li>
+                                </ul>
+                            </div>
+                            <a href="payment.php" id="rzp-button1">Proceed to payment</a><br><br>
+                            <p>COUPONS</p>
+                            <input type="text" placeholder="Coupon Code" readonly value="" id="couponcode">
+                            <a href="checkout.php" name="checkout">APPLY</a>
+                            <ul>
+                                <?php
+                                $qry = "select * from coupons_master";
+                                $res = mysqli_query($conn, $qry);
+                                if (mysqli_num_rows($res) > 0) {
+                                    while ($getrow = mysqli_fetch_array($res)) {
+                                        $setcouponcode = (($getrow['cpn_couponcode'] != '') ? $getrow['cpn_couponcode'] : '');
+                                        $setallotteddiscount = (($getrow['cpn_allotteddiscount'] != '') ? $getrow['cpn_allotteddiscount'] : '');
+                                        $setminamount = (($getrow['cpn_minamount'] != '') ? $getrow['cpn_minamount'] : '');
+                                        $setmaxamount = (($getrow['cpn_maxamount'] != '') ? $getrow['cpn_maxamount'] : '');
+                                ?>
+                                        <li style="text-align:left ;">
+
+                                            <div class="licontainer">
+
+                                                <label><input type="radio" id="couponradio" class="option-input radio" name="coupons" onchange="couponselected('<?= strtoupper($setcouponcode) ?>')" id=""></label>
+                                                <label><?= strtoupper($setcouponcode) ?></label>
+                                                <label>Get upto <?= $setallotteddiscount ?>% on <?= $setminamount ?> and above.</label>
+                                                <label>Maximum Discount : &#X20B9;<?= $setmaxamount ?> </label>
+                                            </div>
+                                        </li>
+                                <?php
+                                    }
+                                } else {
+                                    echo "No Other Coupon Available";
+                                }
+                                ?>
+                            </ul>
+                        </div><br>
+                        <!-- /.cart-subtotal -->
+
+                    </div>
 
 
                 </div>
