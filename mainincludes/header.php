@@ -31,7 +31,7 @@ if ($customerid == '') {
             <div class="col-lg-12 col-xl-3">
                 <div style="padding-top : 10px" class="logo">
                     <a href="index.php">
-                        <img src="cover.png" width="300px" alt="">
+                        <img src="media/images/cover.png" width="300px" alt="">
                     </a>
                 </div>
             </div>
