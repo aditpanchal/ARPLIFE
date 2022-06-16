@@ -85,7 +85,22 @@ $wishlistrowcount = '';
         <section class="slider-wrapper">
             <div class="slider-start slider-2 owl-carousel owl-theme">
 
-
+                <div class="item">
+                    <img src="media/images/banner/f4.jpg" alt="">
+                    <div class="container-fluid custom-container slider-content">
+                        <div class="row align-items-center">
+                            <div class="col-12 col-sm-8 col-md-6 offset-md-1 col-lg-6 offset-xl-2 col-xl-5 mr-auto">
+                                <div class="slider-text style-two mob-align-left">
+                                    <h1 class="animated fadeIn"><span>Apply coupons</span> <br>get 40%!</h1>
+                                    <p class="animated fadeIn">BIGBOLD40.</p>
+                                    <a class="animated fadeIn btn-two" href="shop.php?gender=F">shopping now</a>
+                                </div>
+                            </div>
+                            <!-- Col End -->
+                        </div>
+                        <!-- Row End -->
+                    </div>
+                </div>
 
                 <div class="item">
                     <img src="media/images/banner/f2.jpg" alt="">
@@ -104,22 +119,7 @@ $wishlistrowcount = '';
                     </div>
                 </div>
 
-                <div class="item">
-                    <img src="media/images/banner/f4.jpg" alt="">
-                    <div class="container-fluid custom-container slider-content">
-                        <div class="row align-items-center">
-                            <div class="col-12 col-sm-8 col-md-6 offset-md-1 col-lg-6 offset-xl-2 col-xl-5 mr-auto">
-                                <div class="slider-text style-two mob-align-left">
-                                    <h1 class="animated fadeIn"><span>Sale Discount Off</span> 50%!</h1>
-                                    <p class="animated fadeIn">Here is just a small selection of the work we do, demonstrating how we deliver results for businesses from every sector.</p>
-                                    <a class="animated fadeIn btn-two" href="#">shopping now</a>
-                                </div>
-                            </div>
-                            <!-- Col End -->
-                        </div>
-                        <!-- Row End -->
-                    </div>
-                </div>
+
 
                 <div class="item">
                     <img src="media/images/banner/f1.jpg" alt="">
@@ -127,9 +127,9 @@ $wishlistrowcount = '';
                         <div class="row align-items-center">
                             <div class="col-12 col-sm-8 col-md-8 col-lg-6 ml-auto">
                                 <div class="slider-text style-two">
-                                    <h1 class="animated fadeIn"><span>Sale Discount Off</span> 50%!</h1>
-                                    <p class="animated fadeIn">Here is just a small selection of the work we do, demonstrating how we deliver results for businesses from every sector.</p>
-                                    <a class="animated fadeIn btn-two" href="#">shopping now</a>
+                                    <h1 class="animated fadeIn"><span>COUPON</span> 40%!</h1>
+                                    <p class="animated fadeIn">SURAT40.</p>
+                                    <a class="animated fadeIn btn-two" href="shop.php?gender=F">shopping now</a>
                                 </div>
                             </div>
                             <!-- Col End -->
@@ -156,7 +156,7 @@ $wishlistrowcount = '';
                     <div class="sin-category">
                         <img src="media/images/banner/2.png" height="300rem" alt="">
                         <div class="cat-name">
-                            <a href="shop.php?categoryid=25">
+                            <a href="shop.php?categoryid=25&gender=F">
                                 <h5>Women</h5>
                                 <h5>Acces<span>sories</span></h5>
                             </a>
@@ -166,7 +166,7 @@ $wishlistrowcount = '';
                     <div class="sin-category">
                         <img src="media/images/blog/p2.jpg" height="300rem" alt="">
                         <div class="cat-name">
-                            <a href="shop.php?categoryid=20">
+                            <a href="shop.php?categoryid=20&gender=F">
                                 <h5>Women</h5>
                                 <h5>Western<span>Wear</span></h5>
                             </a>
@@ -176,7 +176,7 @@ $wishlistrowcount = '';
                     <div class="sin-category">
                         <img src="media/images/product/f.jpg" height="300rem" alt="">
                         <div class="cat-name">
-                            <a href="shop.php?categoryid=26">
+                            <a href="shop.php?categoryid=26&gender=M">
                                 <h5>man</h5>
                                 <h5>Foot<span>wear</span></h5>
                             </a>
@@ -188,7 +188,7 @@ $wishlistrowcount = '';
                     <div class="sin-category">
                         <img src="media/images/product/c4.jpg" height="300rem" alt="">
                         <div class="cat-name">
-                            <a href="shop.php?subcategoryid=22">
+                            <a href="shop.php?subcategoryid=22&gender=M">
                                 <h5>watch</h5>
                                 <h5>Acces<span>sories</span></h5>
                             </a>
@@ -237,7 +237,7 @@ $wishlistrowcount = '';
                                         $getbrand = $getbrandrow['bm_brandname'];
                                         $p_id = $row['pm_productid'];
                                         //CHECK FOR PRODUCT EXISTING IN WISHLIST
-                                        $wishlistcheck = "SELECT * from al_wishlist where wl_productid=$p_id and wl_customerid=$customerid ";
+                                        $wishlistcheck = "SELECT * from al_wishlist where wl_productid=$p_id";
                                         $wishlistcheckresult = mysqli_query($conn, $wishlistcheck);
                                         if ($wishlistcheckresult) {
                                             $wishlistrowcount = mysqli_num_rows($wishlistcheckresult);
@@ -269,7 +269,7 @@ $wishlistrowcount = '';
                                                                 <a class="add-to-wishlist<?= $p_id ?>" onclick="addtowishlist(<?= $p_id ?>,<?= $customerid ?>)" href="javascript:void()"><i class="flaticon-valentines-heart"></i> Add to Wishlist</a>
                                                             <?php } ?>
                                                         </div>
-                                                    <?php } else if ($wishlistrowcount > 0 && (isset($_SESSION['profileview']) && $_SESSION['profileview'] == 1)) { ?>
+                                                    <?php } else if ($wishlistrowcount > 0) { ?>
                                                         <div class="add-to-cart">
                                                             <a href="javascript:void()" class="acustom"><i class="flaticon-valentines-heart"></i> Added to Wishlist</a>
                                                         </div>
@@ -284,9 +284,7 @@ $wishlistrowcount = '';
                                 ?>
 
                             </div>
-                            <div class="loadmorediv">
-                                <button class="btn-two"></button>
-                            </div>
+                           
 
                             <div class="grid row">
                                 <!-- single product -->
@@ -529,7 +527,7 @@ $wishlistrowcount = '';
                 classBtn: 'btn-two'
             });
         })
-
+        
 
         function addtowishlist(pid, cid) {
             if (pid != '' && cid != '') {

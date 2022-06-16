@@ -157,6 +157,7 @@ if (mysqli_num_rows($res) > 0) {
                                         <?php
                                         $getcolorsquery = "SELECT * from al_productcolor where pc_productid=$productid";
                                         $getcolorresult = mysqli_query($conn, $getcolorsquery);
+
                                         $colors = array();
                                         if (mysqli_num_rows($getcolorresult) > 0) {
                                             while ($getcolors = mysqli_fetch_array($getcolorresult)) {
@@ -198,126 +199,36 @@ if (mysqli_num_rows($res) > 0) {
                             </div>
                             <!-- /.col-xl-6 -->
 
-
                             <div class="col-xl-12">
                                 <div class="product-des-tab">
-                                    <ul class="nav nav-tabs " role="tablist">
+                                    <ul class="nav nav-tabs">
                                         <li class="nav-item">
-                                            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">DESCRIPTION</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">ADDITIONAL INFORMATION</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">REVIEWS (1)</a>
+                                            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">RELATED PRODUCTS</a>
                                         </li>
                                     </ul>
                                     <div class="tab-content" id="myTabContent">
                                         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                                             <div class="prod-bottom-tab-sin description">
-                                                <h5>Description</h5>
-                                                <p>But I must explain to you how all this taken idea of denouncipleasure and praisi pain was born and I will give you a complete accoun syste and expound the actu teachings of the great explorer of tmaster-builder of human happiness. No one rejects,
-                                                    dislikes, or avoids pleasure beca pleasure, but because those how.But I must explain to you how all this mistaken idea of denouncipleasure and praisi pain was born and I will give you a complete accoun system, and expound the actu teachings
-                                                    of the great explorer of tmaster-builder.</p>
-                                                <p>But I must explain to you how all this taken idea of denouncipleasure and praisi pain was born and I will give you a complete accoun syste and expound the actu teachings of the great explorer mistaken idea of denouncipleasure and praisi pain</p>
-                                                <ul>
-                                                    <li>Lorem ipsum dolor sit amet</li>
-                                                    <li>quis nostrud exercitation ullamco</li>
-                                                    <li>Duis aute irure dolor in reprehenderit</li>
-                                                    <li>Lorem ipsum dolor sit amet</li>
-                                                </ul>
-                                                <p>Lorem ipsum dolor sit amet Duis aute irure dolor in denouncipleasure and praisi pain was born.Lorem ipsum dolor sit amet Duis aute irure dolor in denouncipleasure and praisi pain was born.</p>
+                                                <!-- <h5>Related Products</h5> -->
+                                                <div class="quickview-slider">
+                                                    <div class="slider-nav">
+                                                        <?php
+                                                        $getrelatedproducts = "SELECT * from product_master where pm_subcategoryid=$set_product_subcategory";
+                                                        $relatedproductsres = mysqli_query($conn, $getrelatedproducts);
+                                                        if (mysqli_num_rows($relatedproductsres) > 0) {
+                                                            while ($getrow = mysqli_fetch_array($relatedproductsres)) { ?>
+                                                                <div class="">
+                                                                    <img height="300rem" src="admin/images/uploads/<?= $getrow['pm_image'] ?>" alt="<?= $getrow['pm_image'] ?>">
+                                                                    <div class="mid-wrapper">
+                                                                        <h5 class="pro-title"><a href="javascript:void()"><?= $getbrand ?></a></h5>
+                                                                        <h5 class="pro-title"><a href="singleproduct.php?productid=<?= $getrow['pm_productid'] ?>"><?= $getrow['pm_productname'] ?></a></h5>
+                                                                        <h5 class="pro-title"><?= ($getrow['pm_type'] == 'M' ? 'Male' : 'Female') ?> / <span>&nbsp; &#X20B9;<?= $getrow['pm_price'] ?></span></h5>
+                                                                    </div>
+                                                                </div>
+                                                        <?php }
+                                                        }
+                                                        ?>
 
-                                            </div>
-                                        </div>
-                                        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                                            <div class="prod-bottom-tab-sin">
-                                                <h5>Additional information</h5>
-                                                <div class="info-wrap">
-                                                    <div class="sin-aditional-info">
-                                                        <div class="first">
-                                                            Brand
-                                                        </div>
-                                                        <div class="secound">
-                                                            ThemeIM
-                                                        </div>
-                                                    </div>
-                                                    <div class="sin-aditional-info">
-                                                        <div class="first">
-                                                            Manufacturer
-                                                        </div>
-                                                        <div class="secound">
-                                                            ThemeCity
-                                                        </div>
-                                                    </div>
-                                                    <div class="sin-aditional-info">
-                                                        <div class="first">
-                                                            Colors
-                                                        </div>
-                                                        <div class="secound">
-                                                            Black, Blue, Brown, Gray
-                                                        </div>
-                                                    </div>
-                                                    <div class="sin-aditional-info">
-                                                        <div class="first">
-                                                            Brand
-                                                        </div>
-                                                        <div class="secound">
-                                                            ThemeIM
-                                                        </div>
-                                                    </div>
-                                                    <div class="sin-aditional-info">
-                                                        <div class="first">
-                                                            Brand
-                                                        </div>
-                                                        <div class="secound">
-                                                            ThemeIM
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                                            <div class="prod-bottom-tab-sin">
-                                                <h5>Review (1)</h5>
-                                                <div class="product-review">
-                                                    <div class="reviwer">
-                                                        <img src="media/images/reviewer.png" alt="">
-                                                        <div class="review-details">
-                                                            <span>Posted by Tonoy - Published on March 22, 2018</span>
-                                                            <div class="rating">
-                                                                <ul>
-                                                                    <li><a href="#"><i class="far fa-star"></i></a></li>
-                                                                    <li><a href="#"><i class="far fa-star"></i></a></li>
-                                                                    <li><a href="#"><i class="far fa-star"></i></a></li>
-                                                                    <li><a href="#"><i class="far fa-star"></i></a></li>
-                                                                    <li><a href="#"><i class="far fa-star"></i></a></li>
-                                                                </ul>
-                                                            </div>
-                                                            <p>But I must explain to you how all this mistaken idea of denouncipleasure and praisi pain was born and I will give you a complete.</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="add-your-review">
-                                                        <h6>ADD A REVIEW</h6>
-                                                        <p>YOUR RATING* </p>
-                                                        <div class="rating">
-                                                            <ul>
-                                                                <li><a href="#"><i class="far fa-star"></i></a></li>
-                                                                <li><a href="#"><i class="far fa-star"></i></a></li>
-                                                                <li><a href="#"><i class="far fa-star"></i></a></li>
-                                                                <li><a href="#"><i class="far fa-star"></i></a></li>
-                                                                <li><a href="#"><i class="far fa-star"></i></a></li>
-                                                            </ul>
-                                                        </div>
-
-                                                        <div class="raing-form">
-                                                            <form action="#">
-                                                                <input type="text" placeholder="">
-                                                                <input type="text">
-                                                                <textarea name="rating-form"></textarea>
-                                                                <input type="submit">
-                                                            </form>
-                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -371,13 +282,14 @@ if (mysqli_num_rows($res) > 0) {
     <script src="dependencies/jquery-ui/js/jquery-ui.min.js"></script>
     <script src="admin/plugins/validation/jquery.validate.min.js"></script>
     <script>
-        $('#sizedropdown').change(function(){
-            $('#err').css("color","white");
+        $('#sizedropdown').change(function() {
+            $('#err').css("color", "white");
         })
+
         function cartinsertion(pid, cid) {
             if (pid != '' && cid != '' && cid != undefined) {
                 getsize = $('#sizedropdown').val();
-                if (getsize!=null ) {
+                if (getsize != null) {
                     $.ajax({
                         url: "cartinsertion.php",
                         data: {
@@ -396,12 +308,12 @@ if (mysqli_num_rows($res) > 0) {
                         }
                     });
                 } else {
-                    $('#err').css("color","red");
+                    $('#err').css("color", "red");
                     $('#err').html("Please select a size");
                 }
             } else if (pid != '') {
                 getsize = $('#sizedropdown').val()
-                if (getsize!=null ) {
+                if (getsize != null) {
                     $.ajax({
                         url: "visitorcartinsertion.php",
                         data: {
@@ -419,8 +331,8 @@ if (mysqli_num_rows($res) > 0) {
                         }
                     });
 
-                }else{
-                    $('#err').css("color","red");
+                } else {
+                    $('#err').css("color", "red");
                     $('#err').html("Please select a size");
                 }
             }
