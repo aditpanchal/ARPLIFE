@@ -10,8 +10,8 @@ $gst = ((isset($_GET['gst'])) ? $_GET['gst'] : 0);
 $setadd = $setaddpin = $setaddtype = $setaddcity = $setaddcountry = $setaddstate = '';
 $cpn = 0;
 $setallotteddiscount = 0;
-if (isset($_REQUEST['customerid']) && $_REQUEST['customerid'] != '') {
-    $getcustomerid = ((isset($_REQUEST['customerid'])) ? $_REQUEST['customerid'] : '');
+if (isset($_GET['customerid']) && $_GET['customerid'] != '') {
+    $getcustomerid = ((isset($_GET['customerid'])) ? $_GET['customerid'] : '');
 
     if ($getcustomerid != '') {
         $getcartquery = "SELECT * from al_cart where  crt_customerid=$getcustomerid";
@@ -128,8 +128,8 @@ if (isset($_REQUEST['customerid']) && $_REQUEST['customerid'] != '') {
                 <!-- CART  -->
                 <div class="col-lg-8 col-xl-12">
                     <?php
-                    if ($customerid != '') {
-                        $getcustomer = "SELECT * from customer_master where cm_customerid=$customerid";
+                    if ($getcustomerid != '') {
+                        $getcustomer = "SELECT * from customer_master where cm_customerid=$getcustomerid";
                         $getresult = mysqli_query($conn, $getcustomer);
                         if ($getresult) {
                             $getrowcount = mysqli_num_rows($getresult);
