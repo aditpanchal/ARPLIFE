@@ -118,7 +118,7 @@ $setbrandid = '';
 
                                 <div class="search-filter">
                                     <input type="text" id="search_box" placeholder="Search Product....">
-                                    <!-- <button type="submit" id="search_button"><i class="fas fa-search"></i></button> -->
+                                    
                                 </div>
                                 </br>
 
@@ -434,7 +434,7 @@ $setbrandid = '';
 
             $("#search_box").keyup(function() {
                 var search = $(this).val();
-                // alert(search);
+                //  alert(search);
 
                 if (search != '') {
                     $.ajax({
@@ -466,9 +466,6 @@ $setbrandid = '';
 
         });
     </script>
-
-    <!-- Site Scripts -->
-    <script src="assets/js/app.js"></script>
 
 </body>
 

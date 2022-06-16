@@ -151,7 +151,7 @@ if ($customerid == '') {
                         <li class="top-search">
                             <a href="javascript:void(0)"><i class="fa fa-search" aria-hidden="true"></i>
                             </a>
-                            <input type="text" class="search-input" id="search_box" placeholder="Search">
+                            <input type="text" class="search-input" id="" placeholder="Search">
                         </li>
                         <?php
                         $cartrowcount = '';

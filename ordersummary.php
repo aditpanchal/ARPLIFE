@@ -1,7 +1,7 @@
 <?php
 require("config/dbconnect.php");
-$customerid = $orderid = $paymentid = $date = '';
-
+$customerid = $orderid = $orderstatus = $paymentid = $date = '';
+$orderid=((isset($_GET['orderid'])) ? $_GET['orderid'] : '');
 ?>
 
 <!doctype html>
@@ -79,7 +79,7 @@ $customerid = $orderid = $paymentid = $date = '';
                 <div class="row">
                     <div class="col-xl-12">
                         <div class="bc-inner">
-                            <p><a href="index.php">Home |</a> Contact</p>
+                            <p><a href="index.php">Home |</a> Order History</p>
                         </div>
                     </div>
                 </div>
@@ -94,22 +94,19 @@ $customerid = $orderid = $paymentid = $date = '';
                 <div class="account-table">
                     <?php
                     $customerid = ((isset($_SESSION['customerid'])) ? $_SESSION['customerid'] : '');
-                    $productid = ((isset($_SESSION['customerid'])) ? $_SESSION['customerid']  : '');
-                    $custquery = "select * from al_customerorder where co_customerid=$customerid";
+                    $custquery = "SELECT * from al_customerorder where co_orderid=$orderid ";
                     $res = mysqli_query($conn, $custquery);
                     if (mysqli_num_rows($res) > 0) {
                         while ($getrow = mysqli_fetch_array($res)) {
-                            $orderid = $getrow['co_orderid'];
                             $date = $getrow['co_orderdate'];
                             $price = $getrow['co_productamount'];
                             $status = $getrow['co_orderstatusid'];
                             $disc = $getrow['co_discountamount'];
                             $paid = $getrow['co_amountpaid'];
-                            $orderstatus=$getrow['co_orderstatusid'];
-                            if($orderstatus==1){
-                                $orderstatus='Pending';
-                            }else if($orderstatus==2){
-                                $orderstatus='Fulfilled';
+                            if ($status == 1) {
+                                $orderstatus = 'Pending';
+                            } else if ($status == 2) {
+                                $orderstatus = 'Fulfilled';
                             }
                         }
                     }
@@ -121,9 +118,8 @@ $customerid = $orderid = $paymentid = $date = '';
             </div>
             <div class="col-xl-12">
                 <?php
-                $productid = $_GET['productid'];
-
-                $productqry = "select * from product_master where pm_productid=$productid";
+                $productid = ((isset($_GET['productid'])) ? $_GET['productid']  : '');
+                $productqry = "SELECT * from product_master where pm_productid=$productid";
                 $pres = mysqli_query($conn, $productqry);
 
                 if (mysqli_num_rows($pres) > 0) {
