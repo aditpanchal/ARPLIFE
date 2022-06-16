@@ -237,7 +237,7 @@ $wishlistrowcount = '';
                                         $getbrand = $getbrandrow['bm_brandname'];
                                         $p_id = $row['pm_productid'];
                                         //CHECK FOR PRODUCT EXISTING IN WISHLIST
-                                        $wishlistcheck = "SELECT * from al_wishlist where wl_productid=$p_id";
+                                        $wishlistcheck = "SELECT * from al_wishlist where wl_productid=$p_id and wl_customerid=$customerid ";
                                         $wishlistcheckresult = mysqli_query($conn, $wishlistcheck);
                                         if ($wishlistcheckresult) {
                                             $wishlistrowcount = mysqli_num_rows($wishlistcheckresult);
@@ -269,7 +269,7 @@ $wishlistrowcount = '';
                                                                 <a class="add-to-wishlist<?= $p_id ?>" onclick="addtowishlist(<?= $p_id ?>,<?= $customerid ?>)" href="javascript:void()"><i class="flaticon-valentines-heart"></i> Add to Wishlist</a>
                                                             <?php } ?>
                                                         </div>
-                                                    <?php } else if ($wishlistrowcount > 0) { ?>
+                                                    <?php } else if ($wishlistrowcount > 0 && (isset($_SESSION['profileview']) && $_SESSION['profileview'] == 1)) { ?>
                                                         <div class="add-to-cart">
                                                             <a href="javascript:void()" class="acustom"><i class="flaticon-valentines-heart"></i> Added to Wishlist</a>
                                                         </div>
@@ -529,7 +529,7 @@ $wishlistrowcount = '';
                 classBtn: 'btn-two'
             });
         })
-        
+
 
         function addtowishlist(pid, cid) {
             if (pid != '' && cid != '') {

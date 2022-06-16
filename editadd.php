@@ -3,10 +3,12 @@ require("config/dbconnect.php");
 session_start();
 if (isset($_SESSION['profileview']) && $_SESSION['profileview'] == 0) {
     header("location:index.php");
-}else{
+} else {
     session_abort();
 }
 $setadd = $setaddpin = $setaddtype = $setaddcity = $setaddcountry = $setaddstate = $state = $addr = $pin = '';
+$customerid = ((isset($_POST['customerid'])) ? $_POST['customerid'] : '');
+$addressid = ((isset($_POST['addressid'])) ? $_POST['addressid'] : '');
 ?>
 
 <!doctype html>
@@ -58,15 +60,12 @@ $setadd = $setaddpin = $setaddtype = $setaddcity = $setaddcountry = $setaddstate
 
         <!-- header -->
         <?php include("mainincludes/header.php");
-        $customerid = $_SESSION['customerid'];
-        $addressid=$_POST['addressid'];
-        
         if ($customerid != '') {
-            $qry = "select * from al_addresses where addr_customerid= $customerid AND addr_addressid=$addressid";
+            $qry = "SELECT * from al_addresses where addr_customerid= $customerid AND addr_addressid=$addressid";
             $res = mysqli_query($conn, $qry);
             if (mysqli_num_rows($res) > 0) {
                 while ($getrow = mysqli_fetch_array($res)) {
-                    
+
                     $setaddid = (($getrow['addr_addressid'] != '') ? $getrow['addr_addressid'] : '');
                     $setadd = (($getrow['addr_address'] != '') ? $getrow['addr_address'] : '');
                     $setaddpin = (($getrow['addr_pincode'] != '') ? $getrow['addr_pincode'] : '');
@@ -74,7 +73,6 @@ $setadd = $setaddpin = $setaddtype = $setaddcity = $setaddcountry = $setaddstate
                     $setaddstate = (($getrow['addr_stateid'] != '') ? $getrow['addr_stateid'] : '');
                     $setaddcity = (($getrow['addr_cityid'] != '') ? $getrow['addr_cityid'] : '');
                     $setaddcountry = (($getrow['addr_countryid'] != '') ? $getrow['addr_countryid'] : '');
-
                 }
             }
         }
@@ -106,26 +104,24 @@ $setadd = $setaddpin = $setaddtype = $setaddcity = $setaddcountry = $setaddstate
                             <form class="updateform" method="POST" action="addupdate.php">
                                 <div class="row">
                                     <div class="col-xl-12">
-                                        <input type="hidden" name="addressid" value="<?=$addressid?>">
+
+                                        <!-- HIDDEN FIELD -->
+                                        <input type="hidden" name="addressid" value="<?= $addressid ?>">
+                                        <input type="hidden" name="customerid" value="<?= $customerid ?>">
+                                        <!-- HIDDEN FIELD END -->
+
                                         <input type="text" placeholder=" Flat/House/Street*" name="addr" id="addr" value="<?= $setadd ?>">
-                                        <div class="mydiv">
-                                            <p class="Err"></p>
-                                        </div>
                                     </div>
                                     <div class="col-xl-12">
                                         <input type="number" placeholder="Pincode*" name="pin" id="pin" value="<?= $setaddpin ?>">
-                                        <div class="mydiv">
-                                            <p class="Err"></p>
-                                        </div>
+
                                     </div>
                                     <div class="col-xl-12">
                                         <select name="addtype" id="" class="customdropdown" value=<?= $setaddtype ?>>
                                             <option value="">Home</option>
                                             <option value="">Office</option>
                                         </select>
-                                        <div class="mydiv">
-                                            <p class="Err"></p>
-                                        </div>
+
                                     </div>
                                     <div class="col-xl-12">
                                         <select name="country" id="" class="customdropdown" value="<?= $setaddcountry ?>">
@@ -145,12 +141,10 @@ $setadd = $setaddpin = $setaddtype = $setaddcity = $setaddcountry = $setaddstate
                                                 <option value="<?= $setaddcountry ?>"><?= $country ?></option>
                                             <?php } ?>
                                         </select>
-                                        <div class="mydiv">
-                                            <p class="Err"></p>
-                                        </div>
+
                                     </div>
                                     <div class="col-xl-12">
-                                    <select name="state" id="" class="customdropdown">
+                                        <select name="state" id="" class="customdropdown">
                                             <option selected disabled value="">state</option>
                                             <?php
                                             $getstateqry = "select * from state_master";
@@ -167,9 +161,7 @@ $setadd = $setaddpin = $setaddtype = $setaddcity = $setaddcountry = $setaddstate
                                             <?php }
                                             ?>
                                         </select>
-                                        <div class="mydiv">
-                                            <p class="Err"></p>
-                                        </div>
+
                                     </div>
                                     <div class="col-xl-12">
                                         <select name="city" id="" class="customdropdown">
@@ -189,9 +181,7 @@ $setadd = $setaddpin = $setaddtype = $setaddcity = $setaddcountry = $setaddstate
                                             <?php }
                                             ?>
                                         </select>
-                                        <div class="mydiv">
-                                            <p class="Err"></p>
-                                        </div>
+
                                     </div>
                                     <div class="col-xl-12">
                                         <button type="submit" id="updatebtn" name="updatebtn" class="btn btn-dark">Update</button>
@@ -203,7 +193,7 @@ $setadd = $setaddpin = $setaddtype = $setaddcity = $setaddcountry = $setaddstate
                 </div>
             </div>
         </section>
-       
+
 
         <!-- footer -->
         <?php include("mainincludes/footer.php"); ?>

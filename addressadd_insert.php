@@ -7,8 +7,7 @@ if (isset($_SESSION['profileview']) && $_SESSION['profileview'] == 0) {
 if(isset($_POST['addbtn'])){
 $addr = $pin = $addtype = $country = $state = $city = '';
 $addressid = $_POST['addressid'];
-$customerid = $_SESSION['customerid'];
-$_SESSION['cid']=$customerid;
+$customerid = $_POST['customerid'];
     $addr = $_POST['addr'];
     $pin = $_POST['pin'];
     $addtype = $_POST['addtype'];
@@ -19,9 +18,10 @@ $_SESSION['cid']=$customerid;
 $addaddr = "insert into al_addresses(addr_stateid,addr_cityid,addr_countryid,addr_customerid,addr_address,addr_pincode,addr_addresstype) values( $state , $city , $country , $customerid , '$addr' , $pin , '$addtype')"; 
 $res = mysqli_query($conn, $addaddr);
 if ($res) {
-    header("location:index.php");
+   header("location:index.php");
 }
 else
 {
+    
 }
 }

@@ -6,9 +6,12 @@ require("config/dbconnect.php");
 $addresscount = $cid = '';
 if (isset($_SESSION['profileview']) && $_SESSION['profileview'] == 0) {
     header("location:index.php");
-}else{
+} else {
     session_abort();
 }
+
+$customerid = ((isset($_GET['customerid'])) ? $_GET['customerid'] : '');
+
 ?>
 <!-- Header -->
 
@@ -37,7 +40,7 @@ if (isset($_SESSION['profileview']) && $_SESSION['profileview'] == 0) {
             width: 30%;
         }
 
-        .plus:hover{
+        .plus:hover {
             cursor: pointer;
         }
 
@@ -46,6 +49,10 @@ if (isset($_SESSION['profileview']) && $_SESSION['profileview'] == 0) {
             padding-top: 23px;
             background: transparent;
             border: none;
+        }
+
+        .iconbtn:hover {
+            cursor: pointer;
         }
 
         .iconbtn:focus {
@@ -60,6 +67,7 @@ if (isset($_SESSION['profileview']) && $_SESSION['profileview'] == 0) {
         .plus i {
             font-size: 50px;
         }
+
 
         .addresses {
             background-color: #ddd;
@@ -88,16 +96,11 @@ if (isset($_SESSION['profileview']) && $_SESSION['profileview'] == 0) {
             </div>
             <div class="container">
                 <div class="plus">
-                    <form action="addressadd.php" method="POST">
+                    <a href="addressadd.php?customerid=<?= $customerid ?>">
                         <button class="iconbtn" name="addbtn"><i class="fa fa-plus"></i></button>
-                    </form>
+                    </a>
                 </div>
                 <?php
-                $customerid = ((isset($_POST['customerid'])) ? $_POST['customerid'] : '');
-                $_SESSION['customerid'] = $customerid;
-                $cid = $_SESSION['customerid'];
-                
-
                 $custquery = "SELECT * from al_addresses where addr_customerid=$customerid";
                 $res = mysqli_query($conn, $custquery);
                 if ($res) {
@@ -139,10 +142,10 @@ if (isset($_SESSION['profileview']) && $_SESSION['profileview'] == 0) {
                             }
                         }
                 ?>
-
                         <div class="addresses">
                             <form action="editadd.php" method="POST">
                                 <input type="hidden" name="addressid" value="<?= $addressid ?>">
+                                <input type="hidden" name="customerid" value="<?= $customerid ?>" >
                                 <div class="street">
                                     <label for="flat"><?= $getrow['addr_address'] . "," ?></label>
                                 </div>
@@ -166,23 +169,24 @@ if (isset($_SESSION['profileview']) && $_SESSION['profileview'] == 0) {
 
                                 <div class="buttons">
                                     <button type="submit" id="editbtn" class="btn btn-dark" name="editbtn">Edit</button><br>
-                    </div>
-                                </form>
+                                </div>
+                            </form>
                             <form action="deleteadd.php" method="POST">
-                            <input type="hidden" name="addressid" value="<?= $addressid ?>">
+                                <input type="hidden" name="addressid" value="<?= $addressid ?>">
+                                <input type="hidden" name="customerid" value="<?= $customerid ?>">
                                 <button type="submit" id="deletebtn" class="btn btn-dark" name="deletebtn">Delete</button>
-                        </form>
-            </div>
-    <?php }
+                            </form>
+                        </div>
+                <?php }
                 }
 
-    ?>
+                ?>
 
 
-    </div>
+            </div>
 
 
-    </section>
+        </section>
 
 
 

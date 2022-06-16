@@ -6,6 +6,9 @@ if (isset($_SESSION['profileview']) && $_SESSION['profileview'] == 0) {
 }else{
     session_abort();
 }
+
+$customerid=((isset($_GET['customerid'])) ? $_GET['customerid'] : '' );
+
 ?>
 
 <!doctype html>
@@ -57,25 +60,22 @@ if (isset($_SESSION['profileview']) && $_SESSION['profileview'] == 0) {
 
         <!-- header -->
         <?php include("mainincludes/header.php");
-        $customerid = $_SESSION['customerid'];
-        $addressid = $_GET['addressid'];
+        // if ($customerid != '') {
+        //     $qry = "select * from al_addresses where addr_customerid= $customerid AND addr_addressid=$addressid";
+        //     $res = mysqli_query($conn, $qry);
+        //     if (mysqli_num_rows($res) > 0) {
+        //         while ($getrow = mysqli_fetch_array($res)) {
 
-        if ($customerid != '') {
-            $qry = "select * from al_addresses where addr_customerid= $customerid AND addr_addressid=$addressid";
-            $res = mysqli_query($conn, $qry);
-            if (mysqli_num_rows($res) > 0) {
-                while ($getrow = mysqli_fetch_array($res)) {
-
-                    $setaddid = (($getrow['addr_addressid'] != '') ? $getrow['addr_addressid'] : '');
-                    $setadd = (($getrow['addr_address'] != '') ? $getrow['addr_address'] : '');
-                    $setaddpin = (($getrow['addr_pincode'] != '') ? $getrow['addr_pincode'] : '');
-                    $setaddtype = (($getrow['addr_addresstype'] != '') ? $getrow['addr_addresstype'] : '');
-                    $setaddstate = (($getrow['addr_stateid'] != '') ? $getrow['addr_stateid'] : '');
-                    $setaddcity = (($getrow['addr_cityid'] != '') ? $getrow['addr_cityid'] : '');
-                    $setaddcountry = (($getrow['addr_countryid'] != '') ? $getrow['addr_countryid'] : '');
-                }
-            }
-        }
+        //             $setaddid = (($getrow['addr_addressid'] != '') ? $getrow['addr_addressid'] : '');
+        //             $setadd = (($getrow['addr_address'] != '') ? $getrow['addr_address'] : '');
+        //             $setaddpin = (($getrow['addr_pincode'] != '') ? $getrow['addr_pincode'] : '');
+        //             $setaddtype = (($getrow['addr_addresstype'] != '') ? $getrow['addr_addresstype'] : '');
+        //             $setaddstate = (($getrow['addr_stateid'] != '') ? $getrow['addr_stateid'] : '');
+        //             $setaddcity = (($getrow['addr_cityid'] != '') ? $getrow['addr_cityid'] : '');
+        //             $setaddcountry = (($getrow['addr_countryid'] != '') ? $getrow['addr_countryid'] : '');
+        //         }
+        //     }
+        // }
 
         ?>
 
@@ -85,7 +85,7 @@ if (isset($_SESSION['profileview']) && $_SESSION['profileview'] == 0) {
                 <div class="row">
                     <div class="col-xl-12">
                         <div class="bc-inner">
-                            <p><a href="index.php">Home |</a> Edit address</p>
+                            <p><a href="index.php">Home |</a> ADD ADDRESS</p>
                         </div>
                     </div>
                 </div>
@@ -96,7 +96,7 @@ if (isset($_SESSION['profileview']) && $_SESSION['profileview'] == 0) {
         <section class="contact-area" style="padding-bottom:50px ;">
             <div class="container-fluid custom-container">
                 <div class="section-heading pb-30">
-                    <h3>Add <span>Address</span></h3>
+                    <h3>Add NEW <span>Address</span></h3>
                 </div>
                 <div class="row justify-content-center">
                     <div class="col-sm-9 col-md-8 col-lg-6 col-xl-4">
@@ -118,6 +118,7 @@ if (isset($_SESSION['profileview']) && $_SESSION['profileview'] == 0) {
                                     </div>
                                     <div class="col-xl-12">
                                         <select name="addtype" id="" class="customdropdown">
+                                            <option value="" selected disabled >TYPE</option>
                                             <option value="">Home</option>
                                             <option value="">Office</option>
                                         </select>
@@ -151,7 +152,7 @@ if (isset($_SESSION['profileview']) && $_SESSION['profileview'] == 0) {
                                         <select name="state" id="" class="customdropdown">
                                             <option selected disabled value="">state</option>
                                             <?php
-                                            $getstateqry = "select * from state_master";
+                                            $getstateqry = "SELECT * from state_master order";
                                             $stateresult = mysqli_query($conn, $getstateqry);
                                             while ($getstate = mysqli_fetch_array($stateresult)) {
                                                 $state = $getstate['sm_statename'];
@@ -192,6 +193,7 @@ if (isset($_SESSION['profileview']) && $_SESSION['profileview'] == 0) {
                                         </div>
                                     </div>
                                     <div class="col-xl-12">
+                                        <input type="hidden" name="customerid" value="<?= $customerid ?>" >
                                         <button type="submit" id="addbtn" name="addbtn" class="btn btn-dark">Add</button>
                                     </div>
                                 </div>

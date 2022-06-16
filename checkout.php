@@ -1,5 +1,11 @@
 <?php
 require("config/dbconnect.php");
+session_start();
+if (isset($_SESSION['profileview']) && $_SESSION['profileview'] == 0) {
+    header("location:cart.php");
+}else{
+    session_abort();
+}
 $setcouponcode = '';
 $setmaxamount = 0;
 $setminamount = 0;
@@ -7,6 +13,7 @@ $productid = array();
 $total = 0;
 $subtotal = ((isset($_GET['subtotal'])) ? $_GET['subtotal'] : 0);
 $gst = ((isset($_GET['gst'])) ? $_GET['gst'] : 0);
+
 $setadd = $setaddpin = $setaddtype = $setaddcity = $setaddcountry = $setaddstate = '';
 $cpn = 0;
 $setallotteddiscount = 0;

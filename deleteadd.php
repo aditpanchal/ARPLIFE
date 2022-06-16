@@ -8,10 +8,11 @@ if (isset($_SESSION['profileview']) && $_SESSION['profileview'] == 0) {
 }
 if (isset($_POST['deletebtn'])) {
     $addid = $_POST['addressid'];
+    $custid=$_POST['customerid'];
     $deleqry = "DELETE from al_addresses where addr_addressid=$addid";
     $deleteresult = mysqli_query($conn, $deleqry);
     if ($deleteresult == 1) {
-            header("location:idex.php");
+            header("location:address.php?customerid=$custid");
     }
     else
     {
