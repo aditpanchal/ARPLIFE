@@ -1,6 +1,3 @@
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -31,6 +28,34 @@
 <body id="home-version-1" class="home-version-1" data-style="default">
 
 	<div class="site-content">
+		<div class="top-bar">
+			<div class="container-fluid custom-container">
+				<div class="row">
+					<div class="col-lg-6">
+						<div class="top-bar-left">
+							<p><i class="far fa-flag"></i><a href="contact.html">Our Location</a></p>
+
+							<p><i class="far fa-envelope"></i><a href="mailto:arplife.customercare@gmail.com">arplife.customercare@gmail.com</a></p>
+						</div>
+					</div>
+					<!-- Col -->
+					<div class="col-lg-6">
+						<div class="top-bar-right">
+							<div class="social">
+								<ul>
+									<li><a href="#"><i class="fab fa-instagram"></i></a></li>
+								</ul>
+							</div>
+							<a href="#" class="my-account">My Account</a>
+						</div>
+						<!--top-bar-right end-->
+					</div>
+					<!-- Col end-->
+				</div>
+				<!--Row end-->
+			</div>
+			<!--container end-->
+		</div>
 
 		<!-- Header -->
 		<?php include("mainincludes/header.php"); ?>
@@ -53,9 +78,11 @@
 			$_SESSION['emailfound'] = 0;
 		} else if (isset($_SESSION['emailfound']) && $_SESSION['emailfound'] == 2) { ?>
 			<div style="margin-bottom:0px; text-align:center; font-size: large; " id="danger-alert" class="alert alert-danger"><b> Opps !</b> Please register first to the website using your email - <a href="create_account.php" style="text-decoration:underline ;">Click Here</a> .</div>
-		<?php $_SESSION['emailfound'] = 0;  } else if (isset($_SESSION['emailfound']) && $_SESSION['emailfound'] == 1) { ?>
+		<?php $_SESSION['emailfound'] = 0;
+		} else if (isset($_SESSION['emailfound']) && $_SESSION['emailfound'] == 1) { ?>
 			<div style="margin-bottom:0px; text-align:center; font-size: large; " id="success-alert" class="alert alert-success"><b> Your inquiry is submitted !</b> We will revert back to you shortly .</div>
-		<?php $_SESSION['emailfound'] = 0; }
+		<?php $_SESSION['emailfound'] = 0;
+		}
 		?>
 		<!-- Contact Area -->
 

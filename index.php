@@ -1,6 +1,6 @@
 <?php
 require("config/dbconnect.php");
-$wishlistrowcount='';
+$wishlistrowcount = '';
 ?>
 
 <!doctype html>
@@ -24,7 +24,7 @@ $wishlistrowcount='';
 
         $customerid = '';
         $customerid = ((isset($_SESSION['customerid'])) ? $_SESSION['customerid'] : '');
-        
+
 
         ?>
         <!--=========================-->
@@ -188,10 +188,10 @@ $wishlistrowcount='';
                                         $getbrand = $getbrandrow['bm_brandname'];
                                         $p_id = $row['pm_productid'];
                                         //CHECK FOR PRODUCT EXISTING IN WISHLIST
-                                        $wishlistcheck="SELECT * from al_wishlist where wl_productid=$p_id";
-                                        $wishlistcheckresult=mysqli_query($conn,$wishlistcheck);
-                                        if($wishlistcheckresult){
-                                            $wishlistrowcount=mysqli_num_rows($wishlistcheckresult);
+                                        $wishlistcheck = "SELECT * from al_wishlist where wl_productid=$p_id";
+                                        $wishlistcheckresult = mysqli_query($conn, $wishlistcheck);
+                                        if ($wishlistcheckresult) {
+                                            $wishlistrowcount = mysqli_num_rows($wishlistcheckresult);
                                         }
                                 ?>
                                         <div class=" grid-item * col-6 col-md-6  col-lg-4 col-xl-3">
@@ -211,14 +211,14 @@ $wishlistrowcount='';
                                                 </div>
 
                                                 <div class="icon-wrapper">
-                                                    <?php if ($wishlistrowcount<0 || $wishlistrowcount=='' ) { ?>
+                                                    <?php if ($wishlistrowcount < 0 || $wishlistrowcount == '') { ?>
                                                         <div class="add-to-cart">
                                                             <input type="hidden" name="" id="flagfield" value="">
                                                             <?php if ($customerid != '') { ?>
                                                                 <a class="add-to-wishlist<?= $p_id ?>" onclick="addtowishlist(<?= $p_id ?>,<?= $customerid ?>)" href="javascript:void()"><i class="flaticon-valentines-heart"></i> Add to Wishlist</a>
                                                             <?php } ?>
                                                         </div>
-                                                    <?php } else if ($wishlistrowcount>0) { ?>
+                                                    <?php } else if ($wishlistrowcount > 0) { ?>
                                                         <div class="add-to-cart">
                                                             <a href="javascript:void()" class="acustom"><i class="flaticon-valentines-heart"></i> Added to Wishlist</a>
                                                         </div>
@@ -247,10 +247,10 @@ $wishlistrowcount='';
                                         $getbrandrow = mysqli_fetch_array($brandresult);
                                         $getbrand = $getbrandrow['bm_brandname'];
                                         //CHECK FOR PRODUCT EXISTING IN WISHLIST
-                                        $wishlistcheck="SELECT * from al_wishlist where wl_productid=$p_id";
-                                        $wishlistcheckresult=mysqli_query($conn,$wishlistcheck);
-                                        if($wishlistcheckresult){
-                                            $wishlistrowcount=mysqli_num_rows($wishlistcheckresult);
+                                        $wishlistcheck = "SELECT * from al_wishlist where wl_productid=$p_id";
+                                        $wishlistcheckresult = mysqli_query($conn, $wishlistcheck);
+                                        if ($wishlistcheckresult) {
+                                            $wishlistrowcount = mysqli_num_rows($wishlistcheckresult);
                                         }
                                 ?>
                                         <div class=" grid-item two col-6 col-md-6  col-lg-4 col-xl-3">
@@ -270,14 +270,14 @@ $wishlistrowcount='';
                                                 </div>
 
                                                 <div class="icon-wrapper">
-                                                    <?php if ($wishlistrowcount<0 || $wishlistrowcount=='' ) { ?>
+                                                    <?php if ($wishlistrowcount < 0 || $wishlistrowcount == '') { ?>
                                                         <div class="add-to-cart">
                                                             <input type="hidden" name="" id="flagfield" value="">
                                                             <?php if ($customerid != '') { ?>
                                                                 <a class="add-to-wishlist<?= $p_id ?>" onclick="addtowishlist(<?= $p_id ?>,<?= $customerid ?>)" href="javascript:void()"><i class="flaticon-valentines-heart"></i> Add to Wishlist</a>
                                                             <?php } ?>
                                                         </div>
-                                                    <?php } else if ($wishlistrowcount>0) { ?>
+                                                    <?php } else if ($wishlistrowcount > 0) { ?>
                                                         <div class="add-to-cart">
                                                             <a href="javascript:void()" class="acustom"><i class="flaticon-valentines-heart"></i> Added to Wishlist</a>
                                                         </div>
@@ -305,10 +305,10 @@ $wishlistrowcount='';
                                         $getbrandrow = mysqli_fetch_array($brandresult);
                                         $getbrand = $getbrandrow['bm_brandname'];
                                         //CHECK FOR PRODUCT EXISTING IN WISHLIST
-                                        $wishlistcheck="SELECT * from al_wishlist where wl_productid=$p_id";
-                                        $wishlistcheckresult=mysqli_query($conn,$wishlistcheck);
-                                        if($wishlistcheckresult){
-                                            $wishlistrowcount=mysqli_num_rows($wishlistcheckresult);
+                                        $wishlistcheck = "SELECT * from al_wishlist where wl_productid=$p_id";
+                                        $wishlistcheckresult = mysqli_query($conn, $wishlistcheck);
+                                        if ($wishlistcheckresult) {
+                                            $wishlistrowcount = mysqli_num_rows($wishlistcheckresult);
                                         }
                                 ?>
                                         <div class=" grid-item three col-6 col-md-6  col-lg-4 col-xl-3">
@@ -328,14 +328,14 @@ $wishlistrowcount='';
                                                 </div>
 
                                                 <div class="icon-wrapper">
-                                                    <?php if ($wishlistrowcount<0 || $wishlistrowcount=='' ) { ?>
+                                                    <?php if ($wishlistrowcount < 0 || $wishlistrowcount == '') { ?>
                                                         <div class="add-to-cart">
                                                             <input type="hidden" name="" id="flagfield" value="">
                                                             <?php if ($customerid != '') { ?>
                                                                 <a class="add-to-wishlist<?= $p_id ?>" onclick="addtowishlist(<?= $p_id ?>,<?= $customerid ?>)" href="javascript:void()"><i class="flaticon-valentines-heart"></i> Add to Wishlist</a>
                                                             <?php } ?>
                                                         </div>
-                                                    <?php } else if ($wishlistrowcount>0) { ?>
+                                                    <?php } else if ($wishlistrowcount > 0) { ?>
                                                         <div class="add-to-cart">
                                                             <a href="javascript:void()" class="acustom"><i class="flaticon-valentines-heart"></i> Added to Wishlist</a>
                                                         </div>
@@ -364,10 +364,10 @@ $wishlistrowcount='';
                                         $getbrandrow = mysqli_fetch_array($brandresult);
                                         $getbrand = $getbrandrow['bm_brandname'];
                                         //CHECK FOR PRODUCT EXISTING IN WISHLIST
-                                        $wishlistcheck="SELECT * from al_wishlist where wl_productid=$p_id";
-                                        $wishlistcheckresult=mysqli_query($conn,$wishlistcheck);
-                                        if($wishlistcheckresult){
-                                            $wishlistrowcount=mysqli_num_rows($wishlistcheckresult);
+                                        $wishlistcheck = "SELECT * from al_wishlist where wl_productid=$p_id";
+                                        $wishlistcheckresult = mysqli_query($conn, $wishlistcheck);
+                                        if ($wishlistcheckresult) {
+                                            $wishlistrowcount = mysqli_num_rows($wishlistcheckresult);
                                         }
                                 ?>
                                         <div class=" grid-item four col-6 col-md-6  col-lg-4 col-xl-3">
@@ -387,14 +387,14 @@ $wishlistrowcount='';
                                                 </div>
 
                                                 <div class="icon-wrapper">
-                                                    <?php if ($wishlistrowcount<0 || $wishlistrowcount=='' ) { ?>
+                                                    <?php if ($wishlistrowcount < 0 || $wishlistrowcount == '') { ?>
                                                         <div class="add-to-cart">
                                                             <input type="hidden" name="" id="flagfield" value="">
                                                             <?php if ($customerid != '') { ?>
                                                                 <a class="add-to-wishlist<?= $p_id ?>" onclick="addtowishlist(<?= $p_id ?>,<?= $customerid ?>)" href="javascript:void()"><i class="flaticon-valentines-heart"></i> Add to Wishlist</a>
                                                             <?php } ?>
                                                         </div>
-                                                    <?php } else if ($wishlistrowcount>0) { ?>
+                                                    <?php } else if ($wishlistrowcount > 0) { ?>
                                                         <div class="add-to-cart">
                                                             <a href="javascript:void()" class="acustom"><i class="flaticon-valentines-heart"></i> Added to Wishlist</a>
                                                         </div>

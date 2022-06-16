@@ -10,19 +10,23 @@ use Razorpay\Api\Api;
 
 $api = new Api($keyId, $keySecret);
 
-//
-// We create an razorpay order using orders api
-// Docs: https://docs.razorpay.com/docs/orders
-//
-$price =50000;
-$_SESSION['price'] = $price;
-$customername = "adit";
-$email = "adit@gmail.com";
-$_SESSION['email'] = $email;
-$contactno = 9897878676;
+$productid=((isset($_SESSION['productidarray'])) ? $_SESSION['productidarray'] : '' );
+$customerid=$_POST['customerid'];
+$finalamount =$_POST['finalamount'];
+$customername = $_POST['yourname'];
+$email = strtolower($_POST['youremail']) ;
+$contactno = ((isset($_POST['yourmobile'])) ? $_POST['yourmobile'] : '' );
+// $discount=((isset($_POST['coupondiscount'])) ? $_POST['coupondiscount'] : 0 );
+$discount=$_POST['coupondiscount'];
+
+// TEMP SESSIONS
+$_SESSION['tempcustomerid']=$customerid;
+$_SESSION['tempfinalamount']=$finalamount;
+$_SESSION['tempdiscountamount']=$discount;
+$_SESSION['tempemail']=$email;
 $orderData = [
     'receipt'         => 3456,
-    'amount'          => $price * 100, // 2000 rupees in paise
+    'amount'          => $finalamount * 100, // 2000 rupees in paise
     'currency'        => 'INR',
     'payment_capture' => 1 // auto capture
 ];
@@ -46,9 +50,9 @@ if ($displayCurrency !== 'INR')
 $data = [
     "key"               => $keyId,
     "amount"            => $amount,
-    "name"              => "Gotham Coding",
-    "description"       => "Coding for Everyone",
-    "image"             => "https://s29.postimg.org/r6dj1g85z/daft_punk.jpg",
+    "name"              => "to ARPLIFE",
+    "description"       => "",
+    "image"             => "",
     "prefill"           => [
     "name"              => $customername,
     "email"             => $email,
@@ -75,7 +79,13 @@ $json = json_encode($data);
 
 
 <form action="verify.php" method="POST">
-  <script
+<script>
+  function loadPaymentModal() {
+    const elem = document.getElementsByClassName('razorpay-payment-button')[0];
+    elem.click();
+  }
+</script>
+  <script onLoad="loadPaymentModal()"
     src="https://checkout.razorpay.com/v1/checkout.js"
     data-key="<?php echo $data['key']?>"
     data-amount="<?php echo $data['amount']?>"

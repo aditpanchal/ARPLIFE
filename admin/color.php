@@ -67,29 +67,13 @@ $rowcount = mysqli_num_rows($res);
                     <div class="card">
                         <div class="card-body">
 
-                            <div style="width:100% ; display:flex ;  justify-content: flex-end ; margin-bottom: 20px; ">
-                            <a id="addcolor" href="manage_color.php" data-toggle="tooltip" title="Add color" style="margin-right:4px ;" type="button" class="btn btn-primary">
-                                    <i class="fa fa-plus"></i>
-
-                                </a>
-                                <?php if ($rowcount > 0) { ?>
-
-                                <button data-toggle="tooltip" title="Delete color/s" type="button"  id="color_deletebtn" class="btn btn-danger">
-                                    <i class="fa fa-trash"></i>
-
-                                </button>
-                                <?php } ?>
-
-                            </div>
                             <div class="table-responsive">
                                 <table class="table table-striped table-bordered zero-configuration">
                                     <thead>
                                         <tr>
-                                            <th><input type="checkbox" class="customcb" name="" id="checkall"></th>
                                             <th scope="col">Product Name</th>
                                             <th scope="col">Color</th>
                                             <th scope="col">IsActive</th>
-                                            <th scope="col">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -98,16 +82,9 @@ $rowcount = mysqli_num_rows($res);
                                     if ($rowcount > 0) {
                                         while ($getrows = mysqli_fetch_array($res)) { ?>
                                             <tr>
-                                                <td><input type="checkbox" class="colorboxes" value="<?= $getrows['pc_colorcode'] ?>" id="chk_color<?= $getrows['pc_colorcode'] ?>"></td>
                                                 <td><?= $getrows['pm_productname'] ?></td>
                                                 <td><?= $getrows['pc_colorname'] ?></td>
                                                 <td><?= $getrows['pc_isactive'] ?></td>
-
-                                                <td>
-                                                    <a href="manage_color.php?colorcode=<?= $getrows['pc_colorcode'] ?>" data-toggle="tooltip" title="Edit" class="btn btn-primary">
-                                                        <i class="fa fa-pencil"></i>
-                                                    </a>
-                                                </td>
                                             </tr>
                                         <?php
                                         }
@@ -159,64 +136,7 @@ $rowcount = mysqli_num_rows($res);
     <script src="./plugins/tables/js/jquery.dataTables.min.js"></script>
     <script src="./plugins/tables/js/datatable/dataTables.bootstrap4.min.js"></script>
     <script src="./plugins/tables/js/datatable-init/datatable-basic.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            // ALL-CHECKBOX
-            $("#checkall").click(function() {
-                $(".colorboxes").attr('checked', this.checked);
-            });
-
-
-            // DELETE-BUTTON
-            $("#color_deletebtn").click(function() {
-                var flag = 0;
-                $(".colorboxes").each(function() {
-                    if ($(this).is(":checked")) {
-                        flag = 1;
-                    }
-                });
-                if (flag == 1) {
-                    if (confirm('Are you sure you want to delete?')) {
-                        var color_codes = [];
-
-                        $(".colorboxes").each(function() {
-                            if ($(this).is(":checked")) {
-                                color_codes.push($(this).val())
-                            }
-                        });
-
-                        if (color_codes.length) {
-                            $.ajax({
-                                type: "POST",
-                                url: "color_operation.php",
-                                data: {
-                                    colorcode: color_codes,
-                                    action_method: 'delete_color'
-                                },
-                                success: function(response) {
-
-                                    if (response == 'success') {
-                                        alert("record/s deleted successfully");
-                                        location.reload();
-                                    } else {
-                                        alert("Delete Operation Failed");
-                                    }
-                                }
-                            });
-                        }
-                    }
-                } else {
-                    alert("Please Select a record !");
-                }
-
-
-            });
-
-
-        });
-    </script>
-     <script src="./plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>
-    <script src="./js/plugins-init/form-pickers-init.js"></script>
+        <script src="./js/plugins-init/form-pickers-init.js"></script>
 </body>
 
 </html>

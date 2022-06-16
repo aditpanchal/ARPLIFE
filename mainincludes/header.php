@@ -1,4 +1,9 @@
-
+<style>
+    .customhover:hover {
+        background-color: black !important;
+        color: goldenrod !important;
+    }
+</style>
 <?php
 session_start();
 if (!isset($_SESSION['reloadheader']) || $_SESSION['reloadheader'] == '') {
@@ -17,12 +22,6 @@ if ($customerid == '') {
     $noidfound = 1;
 }
 ?>
-<style>
-    .customhover:hover {
-        background-color: black !important;
-        color: goldenrod !important;
-    }
-</style>
 <header id="header" class="header-area">
     <div class="container-fluid custom-container menu-rel-container">
         <div class="row">
@@ -140,7 +139,7 @@ if ($customerid == '') {
                 <div class="header-right-one">
                     <ul>
                         <li class="top-cart">
-                            <a id="myaccount" href="">
+                            <a id="myaccount" href="customerprofile.php?customerid=<?= $customerid ?>">
                                 My Account
                             </a>
                         </li>

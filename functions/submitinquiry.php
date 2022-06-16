@@ -39,15 +39,15 @@ if (isset($_POST['btnsubmit'])) {
 			$mail->isSMTP();
 			$mail->Host = "smtp.gmail.com";
 			$mail->SMTPAuth = true;
-			$mail->Username = "aditpanchal102@gmail.com";
-			$mail->Password = "gtdvnpfsvzaxqzml";
+			$mail->Username = "arplife.customercare@gmail.com";
+			$mail->Password = "wiinussjmxdhwkpn";
 			$mail->Port = 587;
 			$mail->SMTPSecure = "tls";
 
 			//EMAIL SETTINGS
 			$mail->isHTML(true);
 			$mail->setFrom($email, $fname);
-			$mail->addAddress("aditpanchal102@gmail.com");
+			$mail->addAddress("arplife.customercare@gmail.com");
 			$mail->Subject = ("$email" . " " . "($title) ");
 			$mail->Body = $message;
 			if ($mail->send()) {

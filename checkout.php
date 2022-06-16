@@ -1,10 +1,10 @@
 <?php
 require("config/dbconnect.php");
 $setcouponcode = '';
-$subtotal = 0;
-$gst = 0;
 $setmaxamount = 0;
 $setminamount = 0;
+$productid = array();
+$total = 0;
 $subtotal = ((isset($_GET['subtotal'])) ? $_GET['subtotal'] : 0);
 $gst = ((isset($_GET['gst'])) ? $_GET['gst'] : 0);
 $setadd = $setaddpin = $setaddtype = $setaddcity = $setaddcountry = $setaddstate = '';
@@ -14,10 +14,21 @@ if (isset($_REQUEST['customerid']) && $_REQUEST['customerid'] != '') {
     $getcustomerid = ((isset($_REQUEST['customerid'])) ? $_REQUEST['customerid'] : '');
 
     if ($getcustomerid != '') {
+        $getcartquery = "SELECT * from al_cart where  crt_customerid=$getcustomerid";
+        $getcartresult = mysqli_query($conn, $getcartquery);
+        if ($getcartresult) {
+            $getcartrowcount = mysqli_num_rows($getcartresult);
+            if ($getcartrowcount > 0) {
+                while ($getcartrows = mysqli_fetch_array($getcartresult)) {
+                    array_push($productid, $getcartrows['crt_productid']);
+                }
+            }
+        }
         $qry = "select * from al_addresses where addr_customerid= $getcustomerid";
         $res = mysqli_query($conn, $qry);
         if (mysqli_num_rows($res) > 0) {
             while ($getrow = mysqli_fetch_array($res)) {
+                $setaddid = (($getrow['addr_addressid'] != '') ? $getrow['addr_addressid'] : '');
                 $setadd = (($getrow['addr_address'] != '') ? $getrow['addr_address'] : '');
                 $setaddpin = (($getrow['addr_pincode'] != '') ? $getrow['addr_pincode'] : '');
                 $setaddtype = (($getrow['addr_addresstype'] != '') ? $getrow['addr_addresstype'] : '');
@@ -33,24 +44,35 @@ if (isset($_REQUEST['customerid']) && $_REQUEST['customerid'] != '') {
 <!doctype html>
 <html>
 <style>
-    .licontainer {
-        display: flex;
-        flex-direction: column;
-        text-align: left;
-        background-color: dimgray;
-        color: white;
-        padding: 20px;
-        margin-top: 20px;
-
-    }
-
-
     #couponcode {
         width: 70%;
         height: 56px;
         background: #f2f1f1;
         border: none;
         padding: 0px 20px;
+    }
+
+    #paymentbtn {
+        font-family: 'Work Sans', sans-serif;
+        font-weight: 600;
+        color: #fff;
+        background: #d19e66;
+        height: 50px;
+        font-size: 18px;
+        text-transform: uppercase;
+        text-align: center;
+        line-height: 50px;
+        padding: 0 20px;
+        border: none;
+        margin-top: 0px;
+    }
+
+    #paymentbtn:hover {
+        cursor: pointer;
+        background-color: black;
+        color: white;
+        transition: all 0.25s ease-in-out;
+
     }
 
     .customdropdown {
@@ -72,89 +94,6 @@ if (isset($_REQUEST['customerid']) && $_REQUEST['customerid'] != '') {
         white-space: nowrap;
         padding-right: 25px;
     }
-
-
-    .option-input {
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        -ms-appearance: none;
-        -o-appearance: none;
-        appearance: none;
-        position: relative;
-        top: 13.33333px;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        height: 40px;
-        width: 40px;
-        transition: all 0.15s ease-out 0s;
-        background: #fff;
-        border: 1px solid darkgray;
-        color: #fff;
-        cursor: pointer;
-        display: inline-block;
-        margin-right: 0.5rem;
-        outline: none;
-        position: relative;
-        z-index: 1000;
-    }
-
-    .option-input:hover {
-        background: #9faab7;
-    }
-
-    .option-input:checked {
-        background: dodgerblue;
-    }
-
-    .option-input:checked::before {
-        width: 40px;
-        height: 40px;
-        display: flex;
-        content: '\f00c';
-        font-size: 25px;
-        font-weight: bold;
-        position: absolute;
-        align-items: center;
-        justify-content: center;
-        font-family: 'Font Awesome 5 Free';
-    }
-
-    .option-input:checked::after {
-        -webkit-animation: click-wave 0.65s;
-        -moz-animation: click-wave 0.65s;
-        animation: click-wave 0.65s;
-        background: #40e0d0;
-        content: '';
-        display: block;
-        position: relative;
-        z-index: 100;
-    }
-
-    .option-input.radio {
-        border-radius: 50%;
-    }
-
-    .option-input.radio::after {
-        border-radius: 50%;
-    }
-
-    @keyframes click-wave {
-        0% {
-            height: 40px;
-            width: 40px;
-            opacity: 0.35;
-            position: relative;
-        }
-
-        100% {
-            height: 200px;
-            width: 200px;
-            margin-left: -80px;
-            margin-top: -80px;
-            opacity: 0;
-        }
-    }
 </style>
 <!-- head-tag -->
 <?php include("mainincludes/csslinks.php"); ?>
@@ -166,7 +105,9 @@ if (isset($_REQUEST['customerid']) && $_REQUEST['customerid'] != '') {
 
         <!-- header -->
         <?php include("mainincludes/header.php") ?>
-
+        <?php
+        $_SESSION['productidarray'] = $productid;
+        ?>
 
         <section class="breadcrumb-area" style="padding: 130px 0 10px;">
             <div class="container-fluid custom-container">
@@ -183,31 +124,25 @@ if (isset($_REQUEST['customerid']) && $_REQUEST['customerid'] != '') {
         <!-- Checkout area -->
         <section class="contact-area">
             <div class="container-fluid custom-container">
-                <div class="row">
 
+                <div class="row">
                     <!-- BILLING ADDRESS -->
-                    <div class="col-sm-9 col-md-9 col-lg-9 col-xl-8">
+                    <div class="col-sm-9 col-md-9 col-lg-9 col-xl-6">
                         <div class="contact-form login-form">
-                            <form class="signupform" method="POST" action="functions/authenticatecustomer.php">
+                            <form class="signupform" method="POST" action="razorpay/pay.php">
                                 <div class="row">
                                     <div class="col-xl-7">
                                         <div class="section-heading pb-30" width="250">
-
                                             <h3>Billing <span>Address</span> </h3>
                                         </div>
                                     </div>
                                     <div class="col-xl-7" width="250">
                                         <input type="text" placeholder=" Flat/House/Street*" name="" id="" value=<?= $setadd ?>>
 
-                                        <div class="mydiv">
-                                            <p class="Err"></p>
-                                        </div>
                                     </div>
                                     <div class="col-xl-7">
                                         <input type="number" placeholder="Pincode*" name="" id="" value=<?= $setaddpin ?>>
-                                        <div class="mydiv">
-                                            <p class="Err"></p>
-                                        </div>
+
                                     </div>
                                     <div class="col-xl-7">
                                         <select name="" id="" class="customdropdown" value=<?= $setaddtype ?>>
@@ -265,40 +200,82 @@ if (isset($_REQUEST['customerid']) && $_REQUEST['customerid'] != '') {
                                     </div>
                                 </div>
 
-                            </form>
                         </div>
                     </div>
 
                     <!-- CART  -->
                     <div class="col-xl-4">
+                        <?php
+                        if ($customerid != '') {
+                            $getcustomer = "SELECT * from customer_master where cm_customerid=$customerid";
+                            $getresult = mysqli_query($conn, $getcustomer);
+                            if ($getresult) {
+                                $getrowcount = mysqli_num_rows($getresult);
+                                if ($getrowcount > 0) {
+                                    $getcustomerdata = mysqli_fetch_array($getresult);
+                                    $mobilenumber = ((isset($getcustomerdata['cm_mobile'])) ? $getcustomerdata['cm_mobile'] : '');
+                                    $email = ((isset($getcustomerdata['cm_email'])) ? $getcustomerdata['cm_email'] : '');
+                                    $firstname = ((isset($getcustomerdata['cm_firstname'])) ? $getcustomerdata['cm_firstname'] : '');
+                                    $lastname = ((isset($getcustomerdata['cm_lastname'])) ? $getcustomerdata['cm_lastname'] : '');
+                                }
+                            }
+                        }
+                        ?>
+                        <!-- YOUR DETAIL -->
+                        <div class="col-xl-12">
+                            <div class="section-heading pb-30" width="250" style="padding-bottom: 0px;">
+                                <h3>Your <span>Details</span> </h3>
+                            </div>
+                        </div>
+                        <div class="col-xl-12">
+                            <center>
+                                <div class="cart-subtotal" style="margin-bottom: 30px;">
+                                    <h3>YOUR NAME: <span><?= strtoupper($firstname . " " . $lastname)  ?> </span> </h3>
+                                    <input type="hidden" name="yourname" value="<?= strtoupper($firstname . " " . $lastname)  ?>">
+                                    <?php if ($mobilenumber != '') { ?>
+                                        <h3>YOUR MOBILE: <span><?= strtoupper($mobilenumber)  ?> </span> </h3>
+                                        <input type="hidden" name="yourmobile" value="<?= strtoupper($mobilenumber)  ?>">
+                                    <?php } ?>
+                                    <h3>YOUR EMAIL: <span><?= strtoupper($email)  ?> </span> </h3>
+                                    <input type="hidden" name="youremail" value="<?= strtoupper($email)  ?>">
+
+                                    <input type="hidden" name="customerid" value="<?= $getcustomerid ?>">
+                                </div>
+                            </center>
+                        </div>
+
+                        <!-- CART TOTAL -->
                         <div class="col-xl-12">
                             <div class="section-heading pb-30" width="250">
 
                                 <h3>Your <span>Cart</span> </h3>
                             </div>
                         </div>
-                        <!-- CART TOTAL -->
                         <div class="cart-subtotal">
                             <div class="cart-subtotal">
                                 <p>ORDER DETAILS</p>
                                 <ul>
-                                    <li><span>BAG TOTAL: </span>&#X20B9; <?= $subtotal ?>
+                                    <li><span>BAG TOTAL: </span>&#X20B9;<label id="subtotal" for="">
+                                            <input type="hidden" name="subtotal" value="<?= $subtotal ?>"> <?= $subtotal ?></label>
                                     </li>
-                                    <?php $cpn = $subtotal * $setallotteddiscount / 100;
-                                    ?>
-                                    <li><span>Coupon Discount :</span>
-                                        <h1 id="cpn">&#X20B9;<?= " " . $cpn ?></h1>
+                                    <li><span>Coupon Discount :</span>- &#X20B9;<label id="coupondiscount" for="">
+                                            <?= $cpn ?></label>
+                                        <input type="hidden" id="hiddencoupondiscount" name="coupondiscount" value="<?= $cpn ?>">
                                     </li>
-                                    <li><span>GST (+12%):</span> &#X20B9; <?= $gst ?>
+                                    <li><span>GST (+12%):</span>+ &#X20B9;<label id="gst" for="">
+                                            <input type="hidden" name="gst" value="<?= $gst ?>"> <?= $gst ?></label>
                                     </li>
-                                    <li><span>TOTAL:</span>&#X20B9; <?= $subtotal + $gst ?>
+                                    <li><span>TOTAL:</span>&#X20B9;<label id="sumtotal" for="">
+                                            <?= (($total != 0) ? $total : $subtotal + $gst)  ?></label>
+                                        <input type="hidden" id="hiddenamount" name="finalamount" value="<?= (($total != 0) ? $total : $subtotal + $gst)  ?>">
                                     </li>
                                 </ul>
                             </div>
-                            <a href="payment.php" id="rzp-button1">Proceed to payment</a><br><br>
+                            <button type="submit" id="paymentbtn">Proceed to payment</button><br><br>
                             <p>COUPONS</p>
                             <input type="text" placeholder="Coupon Code" readonly value="" id="couponcode">
-                            <a href="checkout.php" name="checkout">APPLY</a>
+                            <a href="javascript:void()" onclick="applycoupon(<?= floatval($subtotal)  ?>)" name="checkout">APPLY</a>
+                            <p id="cpnerr" style="margin:10px; margin-bottom:70px; font-weight:400 ; "></p>
                             <ul>
                                 <?php
                                 $qry = "select * from coupons_master";
@@ -310,13 +287,13 @@ if (isset($_REQUEST['customerid']) && $_REQUEST['customerid'] != '') {
                                         $setminamount = (($getrow['cpn_minamount'] != '') ? $getrow['cpn_minamount'] : '');
                                         $setmaxamount = (($getrow['cpn_maxamount'] != '') ? $getrow['cpn_maxamount'] : '');
                                 ?>
-                                        <li style="text-align:left ;">
-
-                                            <div class="licontainer">
-
-                                                <label><input type="radio" id="couponradio" class="option-input radio" name="coupons" onchange="couponselected('<?= strtoupper($setcouponcode) ?>')" id=""></label>
+                                        <li style="display:flex; background-color:#d19e66; color:black; margin-top:20px; padding: 20px;  border-radius: 4px ; ">
+                                            <div>
+                                                <span><input type="radio" name="coupons" onchange="couponselected('<?= strtoupper($setcouponcode) ?>')" id=""></span>
+                                            </div>
+                                            <div style="text-align:left; padding-left:15px ; display: flex; flex-direction: column;">
                                                 <label><?= strtoupper($setcouponcode) ?></label>
-                                                <label>Get upto <?= $setallotteddiscount ?>% on <?= $setminamount ?> and above.</label>
+                                                <label>Get upto <?= $setallotteddiscount ?>% on &#X20B9;<?= $setminamount ?> and above.</label>
                                                 <label>Maximum Discount : &#X20B9;<?= $setmaxamount ?> </label>
                                             </div>
                                         </li>
@@ -331,9 +308,8 @@ if (isset($_REQUEST['customerid']) && $_REQUEST['customerid'] != '') {
                         <!-- /.cart-subtotal -->
 
                     </div>
-
-
                 </div>
+                </form>
             </div>
         </section>
 
@@ -370,56 +346,58 @@ if (isset($_REQUEST['customerid']) && $_REQUEST['customerid'] != '') {
     <script src="dependencies/slick-carousel/js/slick.js"></script>
     <script src="dependencies/headroom/js/headroom.js"></script>
     <script src="dependencies/jquery-ui/js/jquery-ui.min.js"></script>
+
+    <!-- Site Scripts -->
+    <script src="assets/js/app.js"></script>
+
     <script>
         function couponselected(cc) {
             $('#couponcode').val(cc);
+            $('#cpnerr').html('');
         }
-    </script>
-    <!-- Site Scripts -->
-    <script src="assets/js/app.js"></script>
-    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-    <script>
-        var options = {
-            "key": "rzp_test_mSAXwASKMKDLhi", // Enter the Key ID generated from the Dashboard    
-            "amount": "500",
-            // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise    
-            "currency": "INR",
-            "name": "ARPLIFE",
-            "description": "",
-            "image": "https://example.com/your_logo",
-            "order_id": "order_JhOlCsOG574mxG", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1   
-            "handler": function(response) {
-                alert(response.razorpay_payment_id);
-                alert(response.razorpay_order_id);
-                alert(response.razorpay_signature)
-            },
-            "prefill": {
-                "name": "Customer name",
-                "email": "customer.mail@example.com",
-                "contact": "9839485784"
-            },
-            "notes": {
-                "address": "arplife.customercare@gmail.com"
-            },
-            "theme": {
-                "color": "#d19e66"
+
+        function applycoupon(stotal) {
+            cpncode = $('#couponcode').val();
+            if (cpncode != '' && (stotal != 0 || stotal != '')) {
+                stotal = parseFloat(stotal);
+                gst = parseFloat($('#gst').html());
+                $.ajax({
+                    type: "POST",
+                    url: "couponcheck.php",
+                    data: {
+                        couponcode: cpncode,
+                        gstamt: gst,
+                        mode: 'check',
+                        subtotal: stotal
+                    },
+                    success: function(response) {
+                        if (response == "failed") {
+                            alert('Process failed');
+                        } else if (response == "ineligible") {
+                            $("#cpnerr").html('Amount not enough for a coupon discount !');
+                        } else {
+                            amountsarr = response.split(',');
+                            cd = parseFloat(amountsarr[0]);
+                            $('#coupondiscount').html(cd);
+                            $('#sumtotal').html(amountsarr[1]);
+                            $('#hiddenamount').val(amountsarr[1]);
+                            $('#hiddencoupondiscount').val(cd);
+                        }
+
+                    }
+                });
+            } else {
+                $('#cpnerr').html('CHOOSE COUPON IF AVAILABLE !');
+                $('#cpnerr').css('color', "red");
             }
-        };
-        var rzp1 = new Razorpay(options);
-        rzp1.on('payment.failed', function(response) {
-            alert(response.error.code);
-            alert(response.error.description);
-            alert(response.error.source);
-            alert(response.error.step);
-            alert(response.error.reason);
-            alert(response.error.metadata.order_id);
-            alert(response.error.metadata.payment_id);
-        });
-        document.getElementById('rzp-button1').onclick = function(e) {
-            rzp1.open();
-            e.preventDefault();
+
         }
     </script>
+
+
+
+    <!-- RAZORPAY SCRIPT -->
+
 
 </body>
 

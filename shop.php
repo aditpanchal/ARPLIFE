@@ -4,9 +4,9 @@ $subcategoryid = (isset($_GET["subcategoryid"]) ? intval($_GET["subcategoryid"])
 $categoryid = (isset($_GET["categoryid"]) ? intval($_GET["categoryid"]) : '');
 $brandid = (isset($_GET["brandid"]) ? intval($_GET["brandid"]) : '');
 $gender = (isset($_GET["gender"]) ? $_GET["gender"] : '');
-
-
+$setbrandid = '';
 ?>
+
 
 
 <!doctype html>
@@ -16,20 +16,6 @@ $gender = (isset($_GET["gender"]) ? $_GET["gender"] : '');
 <?php include("mainincludes/csslinks.php"); ?>
 
 <style>
-    .price-range input[type="text"] {
-        border: medium none;
-        float: none;
-        height: 30px;
-        letter-spacing: 3px;
-        text-align: center;
-        width: 56%;
-        word-spacing: 7px;
-        font-family: 'Work Sans', sans-serif;
-        font-weight: 400;
-        color: #d19e66;
-        line-height: 23px;
-    }
-
     .customul {
         overflow: scroll;
         height: 200px;
@@ -121,9 +107,14 @@ $gender = (isset($_GET["gender"]) ? $_GET["gender"] : '');
                         <div class=" shop-sidebar left-side">
                             <div class="sidebar-widget category-widget">
 
-                                <div style="font-size: 30px;">
+                                <div class="search_filter" style="font-size: 30px;">
                                     <h1>Refine By</h1>
                                 </div><span></span>
+
+                                <input type="hidden" name="" id="gender" class="gender" value="<?= $gender ?>">
+                                <input type="hidden" name="" id="category" class="gender" value="<?= $categoryid ?>">
+                                <input type="hidden" name="" id="subcategory" class="gender" value="<?= $subcategoryid ?>">
+                                <input type="hidden" name="" id="brand" class="gender" value="<?= $brandid ?>">
 
                                 <div>
                                     <input type="text" placeholder="Search Product....">
@@ -131,16 +122,7 @@ $gender = (isset($_GET["gender"]) ? $_GET["gender"] : '');
                                 </div>
                                 </br>
 
-                                <div>
-                                    <h6>GENDER</h6>
-                                    <ul>
-                                        <li><input type="checkbox" id="box"> Male</li>
-                                        <li><input type="checkbox"> Female</li>
-                                    </ul>
-                                </div>
-                                </br>
-
-                                <div>
+                                <div class="categories_filter">
                                     <h6> PRODUCT CATEGORIES</h6>
                                     <?php
                                     $getcatquery = "SELECT * from category_master";
@@ -150,7 +132,7 @@ $gender = (isset($_GET["gender"]) ? $_GET["gender"] : '');
                                             $setcat = $getcat['catm_categoryname']; ?>
                                             <ul>
                                                 <li><a href="#">
-                                                        <input type="checkbox" value=" <?php $getcat['catm_categoryid'] ?> "> &nbsp;
+                                                        <input type="checkbox" class="common_selector categories" value="<?= $getcat['catm_categoryid'] ?> "> &nbsp;
                                                         <a href="#"><?= strtoupper($getcat['catm_categoryname']) ?></a>
                                                     </a> <span></span></li>
 
@@ -165,12 +147,13 @@ $gender = (isset($_GET["gender"]) ? $_GET["gender"] : '');
                                 <!-- </div> -->
 
                                 <!-- <div class="sidebar-widget range-widget"> -->
-                                <div>
+                                <div class="price_filter">
                                     <h6><u>SEARCH BY PRICE</u></h6>
                                     <div class="price-range">
                                         <div id="slider-range"></div>
-                                        <span>Price :</span>
-                                        <input type="text" id="amount">
+                                        <input type="hidden" name="" id="hidden_min_price">
+                                        <input type="hidden" name="" id="hidden_max_price"> <span>Price :</span>
+                                        <input type="text" id="amount" readonly>
                                     </div>
                                 </div>
                                 </br>
@@ -178,23 +161,25 @@ $gender = (isset($_GET["gender"]) ? $_GET["gender"] : '');
 
                                 <!-- <div class="sidebar-widget category-widget"> -->
 
-                                <div>
+                                <div class="brands_filter">
                                     <h6>Brands</h6>
                                     <ul class="customul">
                                         <?php
                                         if ($categoryid != '') {
-                                            $getbrandquery = "SELECT DISTINCT(bm_brandname) from brand_master where bm_categoryid=$categoryid ";
+                                            $getbrandquery = "SELECT DISTINCT (bm_brandname) , bm_brandid from brand_master where bm_categoryid=$categoryid ";
                                         } elseif ($subcategoryid != '') {
-                                            $getbrandquery = "SELECT DISTINCT(bm_brandname) from brand_master , product_master  where pm_subcategoryid=$subcategoryid and pm_brandid=bm_brandid ";
+                                            $getbrandquery = "SELECT DISTINCT (bm_brandname) , bm_brandid from brand_master , product_master  where pm_subcategoryid=$subcategoryid and pm_brandid=bm_brandid ";
                                         } else {
-                                            $getbrandquery = "SELECT DISTINCT(bm_brandname) from brand_master , product_master where pm_type='$gender'";
+                                            $getbrandquery = "SELECT  DISTINCT (bm_brandname) , bm_brandid from brand_master , product_master where bm_brandid=pm_brandid and pm_type='$gender'";
                                         }
                                         $getbrandresult = mysqli_query($conn, $getbrandquery);
                                         if (mysqli_num_rows($getbrandresult) > 0) {
                                             while ($getbrand = mysqli_fetch_array($getbrandresult)) {
-                                                $setbrand = $getbrand['bm_brandname']; ?>
+                                                $setbrand = $getbrand['bm_brandname'];
+                                                $setbrandid = $getbrand['bm_brandid']
+                                        ?>
                                                 <li><a href="#">
-                                                        <input type="checkbox" value=" <?php $getbrand['bm_brandid'] ?>"> &nbsp;
+                                                        <input type="checkbox" class="common_selector brands" value="<?= $getbrand['bm_brandid'] ?>"> &nbsp;
                                                         <a href="#"><?= strtoupper($getbrand['bm_brandname']) ?></a>
                                                     </a> <span></span></li>
 
@@ -210,16 +195,16 @@ $gender = (isset($_GET["gender"]) ? $_GET["gender"] : '');
                                 <!-- </div>
                                     </br>
                                 <div class="sidebar-widget color-widget"> -->
-                                <div>
+                                <div class="color_filter">
                                     <h6><u>PRODUCT COLOR</u></h6>
                                     <ul>
                                         <?php
                                         if ($subcategoryid != '') {
-                                            $getcolorsquery = "SELECT DISTINCT(pc_colorname) from al_productcolor  , product_master   where pm_productid=pc_productid  and pm_subcategoryid= $subcategoryid ";
+                                            $getcolorsquery = "SELECT DISTINCT(pc_colorname) from al_productcolor , product_master where pm_productid=pc_productid and pm_subcategoryid= $subcategoryid ";
                                         } elseif ($categoryid != '') {
-                                            $getcolorsquery = "SELECT DISTINCT(pc_colorname) from al_productcolor  , product_master   where pm_productid=pc_productid  and pm_categoryid=$categoryid ";
+                                            $getcolorsquery = "SELECT DISTINCT(pc_colorname) from al_productcolor , product_master where pm_productid=pc_productid and pm_categoryid=$categoryid ";
                                         } else {
-                                            $getcolorsquery = "SELECT DISTINCT(pc_colorname) from al_productcolor , product_master where pm_type='$gender'";
+                                            $getcolorsquery = "SELECT DISTINCT(pc_colorname) from al_productcolor , product_master where pm_productid=pc_productid and pm_type='$gender'";
                                         }
                                         $getcolorresult = mysqli_query($conn, $getcolorsquery);
                                         if (mysqli_num_rows($getcolorresult) > 0) {
@@ -227,7 +212,7 @@ $gender = (isset($_GET["gender"]) ? $_GET["gender"] : '');
                                                 $setcolor = $getcolors['pc_colorname']; ?>
                                                 <li>
 
-                                                    <input type="checkbox" onclick="" value="<?= $setcolor ?>">
+                                                    <input type="checkbox" class="common_selector color" name="color" value="<?= $setcolor ?>">
                                                     <a style="color:<?= $setcolor ?>;  " href="#">
                                                         <?= $setcolor ?>
                                                     </a>
@@ -239,7 +224,7 @@ $gender = (isset($_GET["gender"]) ? $_GET["gender"] : '');
                                 </div>
                                 </br>
 
-                                <div>
+                                <div class="size_filter">
                                     <h6><u>SIZE & FIT</u></h6>
                                     <ul class="customul">
 
@@ -249,20 +234,16 @@ $gender = (isset($_GET["gender"]) ? $_GET["gender"] : '');
                                         } elseif ($categoryid != '') {
                                             $getsizequery = "SELECT DISTINCT(ps_size) from al_productsize , product_master  where pm_productid=ps_productid and pm_categoryid=$categoryid ";
                                         } else {
-                                            $getsizequery = "SELECT DISTINCT(ps_size) from al_productsize , product_master where pm_type='$gender'";
+                                            $getsizequery = "SELECT DISTINCT(ps_size) from al_productsize , product_master where pm_productid=ps_productid ";
                                         }
 
                                         $sizeres = mysqli_query($conn, $getsizequery);
                                         if (mysqli_num_rows($sizeres) > 0) {
                                             while ($getsizerow = mysqli_fetch_array($sizeres)) { ?>
                                                 <li><a href="#">
-                                                        <input type="checkbox" value="<?php $getsrow['ps_sizeid'] ?>"> &nbsp;
+                                                        <input type="checkbox" class="common_selector size" value="<?= $getsizerow['ps_size'] ?>"> &nbsp;
                                                         <a href="#"><?= $getsizerow['ps_size'] ?></option>
-
                                                         </a> <span></span></li>
-
-
-
                                         <?php  }
                                         }
 
@@ -275,95 +256,41 @@ $gender = (isset($_GET["gender"]) ? $_GET["gender"] : '');
 
 
                                 <div class="sidebar-widget discount-widget"> -->
-                                <h6>Discount</h6>
-                                <?php
-                                $getdiscountquery = "SELECT * from discount_master";
-                                $getdiscountresult = mysqli_query($conn, $getdiscountquery);
-                                if (mysqli_num_rows($getdiscountresult) > 0) {
-                                    while ($getdiscount = mysqli_fetch_array($getdiscountresult)) {
-                                        $setdiscount = $getdiscount['dm_discountname']; ?>
-                                        <ul>
-                                            <li><a href="#">
-                                                    <input type="checkbox" value="<?php $getdiscount['dm_discountid'] ?>"> &nbsp;
-                                                    <a href="#"><?= strtoupper($getdiscount['dm_discountname']) ?></a>
-                                                </a> <span></span></li>
+                                <div class="discount_filter">
+                                    <h6>Discount</h6>
+                                    <?php
+                                    $getdiscountquery = "SELECT * from discount_master";
+                                    $getdiscountresult = mysqli_query($conn, $getdiscountquery);
+                                    if (mysqli_num_rows($getdiscountresult) > 0) {
+                                        while ($getdiscount = mysqli_fetch_array($getdiscountresult)) {
+                                            $setdiscount = $getdiscount['dm_discountname']; ?>
+                                            <ul>
+                                                <li><a href="#">
+                                                        <input type="checkbox" class="common_selector discount" value="<?= $getdiscount['dm_discountid'] ?>"> &nbsp;
+                                                        <a href="#"><?= strtoupper($getdiscount['dm_discountname']) ?></a>
+                                                    </a> <span></span></li>
 
-                                        </ul>
+                                            </ul>
 
 
-                                <?php }
-                                }
+                                    <?php }
+                                    }
 
-                                ?>
+                                    ?>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="order-1 order-lg-2 col-lg-9 col-xl-9">
-                        <div style="text-align: center; font-size: 30px; font-family:Verdana, Geneva, Tahoma, sans-serif; color: #d19e66;">
-                            <h1><u>PRODUCTS </h1></u> <br>
+                        <div class="section-heading pb-30">
+                            <h3>Our <span>Products</span></h3>
                         </div>
                         <!-- Showing Products -->
                         <div class="shop-content ">
                             <div class="tab-content" id="myTabContent">
                                 <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                                    <div class="row loadmorediv">
-                                        <?php
+                                    <div class="row loadmorediv filter_data">
 
-                                        if ($categoryid != '') {
-                                            $qry = "SELECT * from product_master where pm_categoryid=$categoryid and pm_type='$gender'";
-                                        } elseif ($subcategoryid != '') {
-                                            $qry = "SELECT * from product_master where pm_subcategoryid=$subcategoryid and pm_type='$gender'";
-                                        } elseif ($brandid != '') {
-                                            $qry = "SELECT * from product_master where pm_brandid=$brandid and pm_type='$gender'";
-                                        } elseif ($gender == 'F') {
-                                            $qry = "SELECT * from product_master where pm_type='$gender'";
-                                        }
-                                        $res = mysqli_query($conn, $qry);
-                                        $rowcount = mysqli_num_rows($res);
-
-                                        if ($rowcount > 0) {
-                                            while ($row = mysqli_fetch_array($res)) {
-                                        ?>
-                                                <div class="col-sm-6 col-xl-4">
-                                                    <div class="sin-product style-two">
-                                                        <div class="pro-img">
-                                                            <img src="admin/images/uploads/<?= $row['pm_image'] ?>" height="300rem">
-                                                        </div>
-                                                        <div class="mid-wrapper">
-                                                            <h5 class="pro-title"><a href="product.html"><?= $row['pm_productname'] ?></a></h5>
-                                                            <div class="color-variation">
-                                                                <ul>
-                                                                    <li><i class="fas fa-circle"></i></li>
-                                                                    <li><i class="fas fa-circle"></i></li>
-                                                                    <li><i class="fas fa-circle"></i></li>
-                                                                    <li><i class="fas fa-circle"></i></li>
-                                                                </ul>
-                                                            </div>
-                                                            <p><?php if ($row['pm_type'] == "M") echo "Man";
-                                                                else echo "Woman"; ?> / <span>&#X20B9;<?= $row['pm_price'] ?></span></p>
-                                                        </div>
-                                                        <div class="icon-wrapper">
-                                                            <div class="pro-icon">
-                                                                <ul>
-                                                                    <li><a href="#"><i class="flaticon-valentines-heart"></i></a></li>
-                                                                    <li><a href="#"><i class="flaticon-compare"></i></a></li>
-                                                                    <li><a href="#" class="trigger"><i class="flaticon-eye"></i></a></li>
-                                                                </ul>
-                                                            </div>
-                                                            <div class="add-to-cart">
-                                                                <a href="#">add to cart</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!-- /.sin-product -->
-                                                </div>
-                                        <?php
-                                            }
-                                        } else {
-                                            echo "No product found";
-                                        }
-                                        ?>
-                                        <!-- /.col- -->
                                     </div>
                                 </div>
                                 <!-- /.row -->
@@ -414,13 +341,10 @@ $gender = (isset($_GET["gender"]) ? $_GET["gender"] : '');
     <script src="./plugins/tables/js/datatable-init/datatable-basic.min.js"></script>
     <script src="dependencies/jquery-ui/js/jquery-ui.min.js"></script>
     <script src="assets/js/btnloadmore.js"></script>
+    <!-- Site Scripts -->
+    <script src="assets/js/app.js"></script>
 
     <script>
-        $('#box').on('change', function() {
-            if ($(this).prop('unchecked')) {
-                alert("here")
-            }
-        })
         var html = `<input class="color-checkbox__input" id="avail_colors" name="colour" type="radio">
                     <label class="color-checkbox" for="avail_colors" id="col-Black-label"></label>
                     <span></span>`;
@@ -430,17 +354,104 @@ $gender = (isset($_GET["gender"]) ? $_GET["gender"] : '');
         });
     </script>
     <script>
+        $(document).change(function() {
+            $('input:checkbox').each(function() {
+                if ($(this).is(':checked')) {
+                    filter_data();
+                }
+
+            });
+        });
+
+        function filter_data() {
+            var action = 'fetch_data';
+            var gen = $('#gender').val();
+            var cat = $('#category').val();
+            var subcat = $('#subcategory').val();
+            var brandvar = $('#brand').val();
+            if (cat == '') {
+                cat = 0;
+            }
+            if (subcat == '') {
+                subcat = 0;
+            }
+            if (brandvar == '') {
+                brandvar = 0;
+            }
+            var categories = get_filter('categories');
+            var minprice = $("#hidden_min_price").val();
+            var maxprice = $('#hidden_max_price').val();
+            var brands = get_filter('brands');
+            var color = get_filter('color');
+            var size = get_filter('size');
+            var discount = get_filter('discount');
+            // if (gen.length > 0 || categories.length > 0 || brands.length > 0 || color.length > 0 || size.length > 0 || discount.length > 0) {
+
+            $.ajax({
+                type: "POST",
+                url: "filtered_data.php",
+                data: {
+                    action: action,
+                    gender: gen,
+                    category: cat,
+                    subcategory: subcat,
+                    brand: brandvar,
+                    categories: categories,
+                    minimum_price: minprice,
+                    maximum_price: maxprice,
+                    brands: brands,
+                    color: color,
+                    size: size,
+                    discount: discount
+                },
+                success: function(data) {
+                    $('.filter_data').html(data);
+                }
+            });
+            // }
+        }
+
+        function get_filter(class_name) {
+            var filter = [];
+            $('.' + class_name + ':checked').each(function() {
+                filter.push($(this).val());
+            });
+            return filter;
+        }
+    </script>
+    <script>
         $(document).ready(function() {
+
+            filter_data();
+
             $('.loadmorediv').btnLoadmore({
                 showItem: 12,
                 whenClickBtn: 6,
                 textBtn: 'Load more',
                 classBtn: 'btn-two'
             });
+
+            $("#slider-range").slider({
+                range: true,
+                min: 0,
+                max: 10000,
+                values: [1000, 6000],
+                slide: function(event, ui) {
+                    $("#amount").val(ui.values[0] + " - " + ui.values[1]);
+                    $('#hidden_min_price').val(ui.values[0]);
+                    $('#hidden_max_price').val(ui.values[1]);
+                    filter_data();
+                }
+            });
+            $("#amount").val($("#slider-range").slider("values", 0) + " - " + $("#slider-range").slider("values", 1));
+
         });
     </script>
-    <!-- Site Scripts -->
-    <script src="assets/js/app.js"></script>
+
+
+
+
+
 
 </body>
 

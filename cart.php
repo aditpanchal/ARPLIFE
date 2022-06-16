@@ -170,7 +170,7 @@ if (isset($_REQUEST['customerid']) && $_REQUEST['customerid'] != '') {
                                     <h1 id="total">&#X20B9;<?= " " . $total = $gst + $subtotal ?></h1>
                                 </li>
                             </ul>
-                            <a href="functions/checkoutauthenticate.php?subtotal=<?= $subtotal ?>&gst=<?= $gst ?>" name="checkout">Proceed To Checkout</a>
+                            <a id="checkout" href="functions/checkoutauthenticate.php?subtotal=<?= $subtotal ?>&gst=<?= $gst ?>"  name="checkout">Proceed To Checkout</a>
                         </div><br>
                         <!-- /.cart-subtotal -->
 
@@ -238,6 +238,7 @@ if (isset($_REQUEST['customerid']) && $_REQUEST['customerid'] != '') {
             $('#gst').html('&#X20B9; ' + gst);
             $('#subtotal').html('&#X20B9; ' + finaltotal);
             $('#total').html('&#X20B9; ' + finalsubtotal);
+            $('#checkout').attr('href',"functions/checkoutauthenticate.php?subtotal="+finaltotal+"&gst="+gst+"");
             $.ajax({
                 type: "POST",
                 url: posturl,

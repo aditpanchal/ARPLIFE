@@ -67,25 +67,10 @@ $rowcount = mysqli_num_rows($res);
                     <div class="card">
                         <div class="card-body">
 
-                            <div style="width:100% ; display:flex ;  justify-content: flex-end ; margin-bottom: 20px; ">
-                            <a id="addsize" href="manage_size.php" data-toggle="tooltip" title="Add size" style="margin-right:4px ;" type="button" class="btn btn-primary">
-                                    <i class="fa fa-plus"></i>
-
-                                </a>
-                                <?php if ($rowcount > 0) { ?>
-
-                                <button data-toggle="tooltip" title="Delete size/s" type="button"  id="size_deletebtn" class="btn btn-danger">
-                                    <i class="fa fa-trash"></i>
-
-                                </button>
-                                <?php } ?>
-
-                            </div>
                             <div class="table-responsive">
                                 <table class="table table-striped table-bordered zero-configuration">
                                     <thead>
                                         <tr>
-                                            <th><input type="checkbox" class="customcb" name="" id="checkall"></th>
                                             <th scope="col">Product Name</th>
                                             <th scope="col">Size</th>
                                             <th scope="col">IsActive</th>
@@ -98,7 +83,6 @@ $rowcount = mysqli_num_rows($res);
                                     if ($rowcount > 0) {
                                         while ($getrows = mysqli_fetch_array($res)) { ?>
                                             <tr>
-                                                <td><input type="checkbox" class="sizeboxes" value="<?= $getrows['ps_sizeid'] ?>" id="chk_size<?= $getrows['ps_sizeid'] ?>"></td>
                                                 <td><?= $getrows['pm_productname'] ?></td>
                                                 <td><?= $getrows['ps_size'] ?></td>
                                                 <td><?= $getrows['ps_isactive'] ?></td>
@@ -159,62 +143,7 @@ $rowcount = mysqli_num_rows($res);
     <script src="./plugins/tables/js/jquery.dataTables.min.js"></script>
     <script src="./plugins/tables/js/datatable/dataTables.bootstrap4.min.js"></script>
     <script src="./plugins/tables/js/datatable-init/datatable-basic.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            // ALL-CHECKBOX
-            $("#checkall").click(function() {
-                $(".sizeboxes").attr('checked', this.checked);
-            });
-
-
-            // DELETE-BUTTON
-            $("#size_deletebtn").click(function() {
-                var flag = 0;
-                $(".sizeboxes").each(function() {
-                    if ($(this).is(":checked")) {
-                        flag = 1;
-                    }
-                });
-                if (flag == 1) {
-                    if (confirm('Are you sure you want to delete?')) {
-                        var size_ids = [];
-
-                        $(".sizeboxes").each(function() {
-                            if ($(this).is(":checked")) {
-                                size_ids.push($(this).val())
-                            }
-                        });
-
-                        if (size_ids.length) {
-                            $.ajax({
-                                type: "POST",
-                                url: "size_operation.php",
-                                data: {
-                                    sizeid: size_ids,
-                                    action_method: 'delete_size'
-                                },
-                                success: function(response) {
-
-                                    if (response == 'success') {
-                                        alert("record/s deleted successfully");
-                                        location.reload();
-                                    } else {
-                                        alert("Delete Operation Failed");
-                                    }
-                                }
-                            });
-                        }
-                    }
-                } else {
-                    alert("Please Select a record !");
-                }
-
-
-            });
-
-
-        });
-    </script>
+    
      <script src="./plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>
     <script src="./js/plugins-init/form-pickers-init.js"></script>
 </body>
