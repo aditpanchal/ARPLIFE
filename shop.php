@@ -107,7 +107,7 @@ $setbrandid = '';
                         <div class=" shop-sidebar left-side">
                             <div class="sidebar-widget category-widget">
 
-                                <div class="search_filter" style="font-size: 30px;">
+                                <div style="font-size: 30px;">
                                     <h1>Refine By</h1>
                                 </div><span></span>
 
@@ -116,9 +116,9 @@ $setbrandid = '';
                                 <input type="hidden" name="" id="subcategory" class="gender" value="<?= $subcategoryid ?>">
                                 <input type="hidden" name="" id="brand" class="gender" value="<?= $brandid ?>">
 
-                                <div>
-                                    <input type="text" placeholder="Search Product....">
-                                    <button type="submit"><i class="fas fa-search"></i></button>
+                                <div class="search-filter">
+                                    <input type="text" id="search_box" placeholder="Search Product....">
+                                    <!-- <button type="submit" id="search_button"><i class="fas fa-search"></i></button> -->
                                 </div>
                                 </br>
 
@@ -152,7 +152,8 @@ $setbrandid = '';
                                     <div class="price-range">
                                         <div id="slider-range"></div>
                                         <input type="hidden" name="" id="hidden_min_price">
-                                        <input type="hidden" name="" id="hidden_max_price"> <span>Price :</span>
+                                        <input type="hidden" name="" id="hidden_max_price">
+                                        <span>Price :</span>
                                         <input type="text" id="amount" readonly>
                                     </div>
                                 </div>
@@ -431,6 +432,24 @@ $setbrandid = '';
                 classBtn: 'btn-two'
             });
 
+            $("#search_box").keyup(function() {
+                var search = $(this).val();
+                // alert(search);
+
+                if (search != '') {
+                    $.ajax({
+                        type: "POST",
+                        url: "search_filter.php",
+                        data: {
+                            search: search
+                        },
+                        success: function(data) {
+                            $('.filter_data').html(data);
+                        }
+                    });
+                }
+            });
+
             $("#slider-range").slider({
                 range: true,
                 min: 0,
@@ -448,13 +467,9 @@ $setbrandid = '';
         });
     </script>
 
-
-
-
-
+    <!-- Site Scripts -->
+    <script src="assets/js/app.js"></script>
 
 </body>
-
-
 
 </html>

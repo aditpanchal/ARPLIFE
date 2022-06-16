@@ -125,125 +125,46 @@ if (isset($_REQUEST['customerid']) && $_REQUEST['customerid'] != '') {
         <section class="contact-area">
             <div class="container-fluid custom-container">
 
-                <div class="row">
-                    <!-- BILLING ADDRESS -->
-                    <div class="col-sm-9 col-md-9 col-lg-9 col-xl-6">
-                        <div class="contact-form login-form">
-                            <form class="signupform" method="POST" action="razorpay/pay.php">
-                                <div class="row">
-                                    <div class="col-xl-7">
-                                        <div class="section-heading pb-30" width="250">
-                                            <h3>Billing <span>Address</span> </h3>
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-7" width="250">
-                                        <input type="text" placeholder=" Flat/House/Street*" name="" id="" value=<?= $setadd ?>>
-
-                                    </div>
-                                    <div class="col-xl-7">
-                                        <input type="number" placeholder="Pincode*" name="" id="" value=<?= $setaddpin ?>>
-
-                                    </div>
-                                    <div class="col-xl-7">
-                                        <select name="" id="" class="customdropdown" value=<?= $setaddtype ?>>
-                                            <option value="">Home</option>
-                                            <option value="">Office</option>
-                                        </select>
-                                        <div class="mydiv">
-                                            <p class="Err"></p>
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-7">
-                                        <select name="" id="" class="customdropdown">
-                                            <option selected disabled>Country</option>
-                                            <option>INDIA</option>
-
-                                        </select>
-                                    </div>
-                                    <div class="col-xl-7">
-                                        <select name="" id="" class="customdropdown">
-                                            <option selected disabled value="">State</option>
-                                            <?php
-                                            $getstateqry = "select * from state_master";
-                                            $stateresult = mysqli_query($conn, $getstateqry);
-                                            while ($getstate = mysqli_fetch_array($stateresult)) {
-                                                $state = strtolower($getstate['sm_statename']);
-                                                $stateid = $getstate['sm_stateid'];
-                                                if ($stateid == $setaddstate) { ?>
-                                                    <option selected value="<?= $stateid ?>"><?= $state ?></option>
-                                                <?php  } else { ?>
-                                                    <option value="<?= $stateid ?>"><?= $state ?></option>
-                                                <?php }
-                                                ?>
-                                            <?php }
-                                            ?>
-                                        </select>
-                                    </div>
-                                    <div class="col-xl-7">
-                                        <select name="" id="" class="customdropdown">
-                                            <option selected disabled value="">City</option>
-                                            <?php
-                                            $getcityqry = "select * from city_master";
-                                            $cityresult = mysqli_query($conn, $getcityqry);
-                                            while ($getcity = mysqli_fetch_array($cityresult)) {
-                                                $city = $getcity['cty_cityname'];
-                                                $cityid = $getcity['cty_cityid'];
-                                                if ($cityid == $setaddcity) { ?>
-                                                    <option selected value="<?= $cityid ?>"><?= $city ?></option>
-                                                <?php  } else { ?>
-                                                    <option value="<?= $cityid ?>"><?= $city ?></option>
-                                                <?php }
-                                                ?>
-                                            <?php }
-                                            ?>
-                                        </select>
-                                    </div>
-                                </div>
-
-                        </div>
-                    </div>
-
-                    <!-- CART  -->
-                    <div class="col-xl-4">
-                        <?php
-                        if ($customerid != '') {
-                            $getcustomer = "SELECT * from customer_master where cm_customerid=$customerid";
-                            $getresult = mysqli_query($conn, $getcustomer);
-                            if ($getresult) {
-                                $getrowcount = mysqli_num_rows($getresult);
-                                if ($getrowcount > 0) {
-                                    $getcustomerdata = mysqli_fetch_array($getresult);
-                                    $mobilenumber = ((isset($getcustomerdata['cm_mobile'])) ? $getcustomerdata['cm_mobile'] : '');
-                                    $email = ((isset($getcustomerdata['cm_email'])) ? $getcustomerdata['cm_email'] : '');
-                                    $firstname = ((isset($getcustomerdata['cm_firstname'])) ? $getcustomerdata['cm_firstname'] : '');
-                                    $lastname = ((isset($getcustomerdata['cm_lastname'])) ? $getcustomerdata['cm_lastname'] : '');
-                                }
+                <!-- CART  -->
+                <div class="col-lg-8 col-xl-12">
+                    <?php
+                    if ($customerid != '') {
+                        $getcustomer = "SELECT * from customer_master where cm_customerid=$customerid";
+                        $getresult = mysqli_query($conn, $getcustomer);
+                        if ($getresult) {
+                            $getrowcount = mysqli_num_rows($getresult);
+                            if ($getrowcount > 0) {
+                                $getcustomerdata = mysqli_fetch_array($getresult);
+                                $mobilenumber = ((isset($getcustomerdata['cm_mobile'])) ? $getcustomerdata['cm_mobile'] : '');
+                                $email = ((isset($getcustomerdata['cm_email'])) ? $getcustomerdata['cm_email'] : '');
+                                $firstname = ((isset($getcustomerdata['cm_firstname'])) ? $getcustomerdata['cm_firstname'] : '');
+                                $lastname = ((isset($getcustomerdata['cm_lastname'])) ? $getcustomerdata['cm_lastname'] : '');
                             }
                         }
-                        ?>
+                    }
+                    ?>
+                    <div class="row justify-content-center">
                         <!-- YOUR DETAIL -->
                         <div class="col-xl-12">
                             <div class="section-heading pb-30" width="250" style="padding-bottom: 0px;">
                                 <h3>Your <span>Details</span> </h3>
                             </div>
                         </div>
-                        <div class="col-xl-12">
-                            <center>
-                                <div class="cart-subtotal" style="margin-bottom: 30px;">
-                                    <h3>YOUR NAME: <span><?= strtoupper($firstname . " " . $lastname)  ?> </span> </h3>
-                                    <input type="hidden" name="yourname" value="<?= strtoupper($firstname . " " . $lastname)  ?>">
-                                    <?php if ($mobilenumber != '') { ?>
-                                        <h3>YOUR MOBILE: <span><?= strtoupper($mobilenumber)  ?> </span> </h3>
-                                        <input type="hidden" name="yourmobile" value="<?= strtoupper($mobilenumber)  ?>">
-                                    <?php } ?>
-                                    <h3>YOUR EMAIL: <span><?= strtoupper($email)  ?> </span> </h3>
-                                    <input type="hidden" name="youremail" value="<?= strtoupper($email)  ?>">
+                    </div>
+                    <div class="cart-subtotal" style="margin-bottom: 30px;">
+                        <h3>YOUR NAME: <span><?= strtoupper($firstname . " " . $lastname)  ?> </span> </h3>
+                        <input type="hidden" name="yourname" value="<?= strtoupper($firstname . " " . $lastname)  ?>">
+                        <?php if ($mobilenumber != '') { ?>
+                            <h3>YOUR MOBILE: <span><?= strtoupper($mobilenumber)  ?> </span> </h3>
+                            <input type="hidden" name="yourmobile" value="<?= strtoupper($mobilenumber)  ?>">
+                        <?php } ?>
+                        <h3>YOUR EMAIL: <span><?= strtoupper($email)  ?> </span> </h3>
+                        <input type="hidden" name="youremail" value="<?= strtoupper($email)  ?>">
 
-                                    <input type="hidden" name="customerid" value="<?= $getcustomerid ?>">
-                                </div>
-                            </center>
-                        </div>
+                        <input type="hidden" name="customerid" value="<?= $getcustomerid ?>">
+                    </div>
 
+                    <div class="col-xl-12">
                         <!-- CART TOTAL -->
                         <div class="col-xl-12">
                             <div class="section-heading pb-30" width="250">
@@ -309,24 +230,25 @@ if (isset($_REQUEST['customerid']) && $_REQUEST['customerid'] != '') {
 
                     </div>
                 </div>
-                </form>
             </div>
-        </section>
+            </form>
+    </div>
+    </section>
 
 
-        <!-- footer -->
-        <?php include("mainincludes/footer.php"); ?>
+    <!-- footer -->
+    <?php include("mainincludes/footer.php"); ?>
 
 
-        <!-- Back to top-->
+    <!-- Back to top-->
 
-        <?php include("mainincludes/backtotop.php"); ?>
+    <?php include("mainincludes/backtotop.php"); ?>
 
 
-        <!-- Popup -->
+    <!-- Popup -->
 
-        <?php // include("mainincludes/popup.php"); 
-        ?>
+    <?php // include("mainincludes/popup.php"); 
+    ?>
 
 
     </div>

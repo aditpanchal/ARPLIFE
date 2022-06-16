@@ -45,7 +45,7 @@ $customerid = $orderid = $paymentid = $date = '';
                 <div class="row">
                     <div class="col-xl-12">
                         <div class="bc-inner">
-                            <p><a href="index.php">Home |</a> Contact</p>
+                            <p><a href="index.php">Home |</a> ORDER HISTORY</p>
                         </div>
                     </div>
                 </div>
@@ -56,7 +56,7 @@ $customerid = $orderid = $paymentid = $date = '';
             <div class="account-table">
                 <div class="container-fluid custom-container">
                     <div class="section-heading pb-30">
-                        <h3>Order <span>Details</span></h3>
+                        <h3>Order <span>History</span></h3>
                     </div>
                     <table class="tables">
                         <thead>
@@ -112,7 +112,7 @@ $customerid = $orderid = $paymentid = $date = '';
                                                 <?= $status ?>
                                                 </td>
                                                 <td>
-                                                    <a href="ordersummary.php?productid=<?= $prow['pm_productid'] ?>" id="customcolor">view order</a>
+                                                    <a href="ordersummary.php?productid=<?= $prow['pm_productid'] ?>&orderid=<?= $orderid ?>" id="customcolor">view order</a>
                                                 </td>
                                         <?php  }
                                         }
