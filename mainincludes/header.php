@@ -174,7 +174,9 @@ if ($customerid == '') {
                         </li>
 
                         <?php
-                        if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == 'yes' && $noidfound == 0) { ?>
+                        if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == 'yes' && $noidfound == 0) { 
+                            $_SESSION['profileview']=1;
+                            ?>
                             <li>
                                 <a href="wishlist.php?customerid=<?= $customerid ?>"><i title="Wishlist" class="flaticon-like"></i></a>
                             </li>
@@ -183,7 +185,9 @@ if ($customerid == '') {
                             </li>
                             <?php } else {
                             if (!isset($_SESSION['loginredirect']) || $noidfound == 1) {
-                                $_SESSION['loginredirect'] = 1; ?>
+                                $_SESSION['loginredirect'] = 1; 
+                                $_SESSION['profileview']=0;
+                                ?>
                                 <li class="user-login">
                                     <a href="login.php"><i style="padding-right: 10px ;"></i> Sign in</a>
                                 </li>

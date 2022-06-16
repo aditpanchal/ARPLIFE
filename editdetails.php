@@ -2,6 +2,12 @@
 <?php
 include("mainincludes/csslinks.php");
 require("config/dbconnect.php");
+session_start();
+if (isset($_SESSION['profileview']) && $_SESSION['profileview'] == 0) {
+    header("location:index.php");
+}{
+    session_abort();
+}
 ?>
 <!-- Header -->
 

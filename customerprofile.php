@@ -1,7 +1,14 @@
 <?php
 require("config/dbconnect.php");
+session_start();
 $customerid = '';
 $customerid = ((isset($_SESSION['customerid'])) ? $_SESSION['customerid'] : '');
+if (isset($_SESSION['profileview']) && $_SESSION['profileview'] == 0) {
+    header("location:index.php");
+}else{
+    session_abort();
+}
+
 ?>
 <!doctype html>
 <html>
@@ -16,6 +23,7 @@ $customerid = ((isset($_SESSION['customerid'])) ? $_SESSION['customerid'] : '');
         <!-- header -->
         <?php include("mainincludes/header.php") ?>
 
+
         <section class="breadcrumb-area" style="padding: 130px 0 10px;">
             <div class="container-fluid custom-container">
                 <div class="row">
@@ -28,13 +36,13 @@ $customerid = ((isset($_SESSION['customerid'])) ? $_SESSION['customerid'] : '');
             </div>
         </section>
 
-        <section class="contact-area" >
+        <section class="contact-area">
             <div class="container-fluid custom-container">
                 <div class="section-heading pb-30">
                     <h3>Your <span> Account</span></h3>
                 </div>
-                <div class="row justify-content-center" >
-                        <!-- YOUR ACCOUNT CONTENT -->
+                <div class="row justify-content-center">
+                    <!-- YOUR ACCOUNT CONTENT -->
                     <div class="col-md-8 col-lg-8 col-xl-3" style="margin-right: 10px ;border: 1px solid gray; padding: 30px; border-radius:10px ; ">
                         <div data-card-identifier="YourOrders" class="a-box ya-card--rich">
                             <div class="a-box-inner">
@@ -53,6 +61,7 @@ $customerid = ((isset($_SESSION['customerid'])) ? $_SESSION['customerid'] : '');
                             </div>
                         </div>
                     </div>
+
                     <!-- YOUR ACCOUNT CONTENT END -->
 
                     <!-- YOUR ACCOUNT CONTENT -->
@@ -82,7 +91,7 @@ $customerid = ((isset($_SESSION['customerid'])) ? $_SESSION['customerid'] : '');
                             <div class="a-box-inner">
                                 <div class="a-row">
                                     <div class="a-column a-span3">
-                                        <a href="address.php"><img alt="Your addresses" src="addr.jfif">
+                                        <a href="address.php?customerid=<?= $customerid ?>"><img alt="Your addresses" src="addr.jfif">
                                     </div>
                                     <div class="a-column a-span9 a-span-last">
                                         <h2 class="a-spacing-none ya-card__heading--rich a-text-normal">

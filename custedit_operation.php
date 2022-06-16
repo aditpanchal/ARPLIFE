@@ -1,6 +1,9 @@
 <?php
     session_start();
     $customerid = $_SESSION['customerid'];
+    if (isset($_SESSION['profileview']) && $_SESSION['profileview'] == 0) {
+        header("location:index.php");
+    }
 require("config/dbconnect.php");
 
     $fname= strtolower($_POST['fname']) ;

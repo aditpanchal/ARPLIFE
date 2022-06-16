@@ -1,5 +1,11 @@
 <?php
 require("config/dbconnect.php");
+session_start();
+if (isset($_SESSION['profileview']) && $_SESSION['profileview'] == 0) {
+    header("location:index.php");
+}else{
+    session_abort();
+}
 $customerid = $orderid = $paymentid = $date = '';
 ?>
 
