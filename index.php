@@ -9,6 +9,55 @@ $wishlistrowcount = '';
     .acustom {
         color: red !important;
     }
+
+    button.btn-two {
+        font-size: 20px;
+        color: #fff;
+        background: #1d1b1b;
+        padding: 13px 44px;
+        border-radius: 0px;
+        font-family: 'Roboto Condensed', sans-serif;
+        font-weight: 700;
+        margin-top: 10px;
+        position: relative;
+        text-transform: uppercase;
+    }
+
+    button.btn-two:hover:before {
+        width: 100%;
+    }
+
+    button.btn-two:hover:after {
+        width: 100%;
+    }
+
+    button.btn-two::before {
+        position: absolute;
+        content: '';
+        width: 20px;
+        height: 66px;
+        top: -5px;
+        left: -6px;
+        border: 2px solid #1d1b1b;
+        border-right: none;
+        -o-transition: all 0.3s ease-in;
+        -webkit-transition: all 0.3s ease-in;
+        transition: all 0.3s ease-in;
+    }
+
+    button.btn-two::after {
+        position: absolute;
+        content: '';
+        width: 20px;
+        height: 66px;
+        top: -5px;
+        right: -6px;
+        border: 2px solid #1d1b1b;
+        border-left: none;
+        -o-transition: all 0.3s ease-in;
+        -webkit-transition: all 0.3s ease-in;
+        transition: all 0.3s ease-in;
+    }
 </style>
 <!-- head-tag -->
 <?php include("mainincludes/csslinks.php"); ?>
@@ -206,8 +255,10 @@ $wishlistrowcount = '';
 
                                                 <div class="mid-wrapper">
                                                     <h5 class="pro-title"><a href="javascript:void()"><?= $getbrand ?></a></h5>
-                                                    <h5 class="pro-title"><a href="singleproduct.php?productid=<?= $row['pm_productid'] ?>"><?= $row['pm_productname'] ?></a></h5>
-                                                    <h5 class="pro-title"><?= ($row['pm_type'] == 'M' ? 'Male' : 'Female') ?> / <span>&nbsp; &#X20B9;<?= $row['pm_price'] ?></span></h5>
+                                                    <h5 class="pro-title"><a href="singleproduct.php?productid=<?= $row['pm_productid'] ?>">
+                                                            <?= $row['pm_productname'] ?></a></h5>
+                                                    <h5 class="pro-title"><?= ($row['pm_type'] == 'M' ? 'Male' : 'Female') ?> / <span>
+                                                            &#X20B9;<?= $row['pm_price'] ?></span></h5>
                                                 </div>
 
                                                 <div class="icon-wrapper">
@@ -226,10 +277,15 @@ $wishlistrowcount = '';
                                                 </div>
                                             </div>
                                         </div>
+
                                 <?php
                                     }
                                 }
                                 ?>
+
+                            </div>
+                            <div class="loadmorediv">
+                                <button class="btn-two"></button>
                             </div>
 
                             <div class="grid row">
@@ -462,8 +518,19 @@ $wishlistrowcount = '';
 
     </div>
     <!-- /#site -->
+    <script src="assets/js/btnloadmore.js"></script>
 
     <script>
+        $(document).ready(function() {
+            $('.loadmorediv').btnLoadmore({
+                showItem: 6,
+                whenClickBtn: 6,
+                textBtn: 'Load more',
+                classBtn: 'btn-two'
+            });
+        })
+        
+
         function addtowishlist(pid, cid) {
             if (pid != '' && cid != '') {
                 $.ajax({

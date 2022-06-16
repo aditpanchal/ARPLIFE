@@ -138,15 +138,20 @@ if ($customerid == '') {
             <div class="col-lg-6 col-xl-4 order-lg-2 order-xl-3">
                 <div class="header-right-one">
                     <ul>
-                        <li class="top-cart">
-                            <a id="myaccount" href="customerprofile.php?customerid=<?= $customerid ?>">
-                                My Account
-                            </a>
-                        </li>
+                        <?php
+                        if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == 'yes' && $noidfound == 0) { ?>
+                            <li class="top-cart">
+                                <a id="myaccount" href="customerprofile.php?customerid=<?= $customerid ?>">
+                                    My Account
+                                </a>
+                            </li>
+
+                        <?php }
+                        ?>
                         <li class="top-search">
                             <a href="javascript:void(0)"><i class="fa fa-search" aria-hidden="true"></i>
                             </a>
-                            <input type="text" class="search-input" placeholder="Search">
+                            <input type="text" class="search-input" id="search_box" placeholder="Search">
                         </li>
                         <?php
                         $cartrowcount = '';

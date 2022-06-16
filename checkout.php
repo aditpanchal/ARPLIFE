@@ -122,35 +122,35 @@ if (isset($_GET['customerid']) && $_GET['customerid'] != '') {
         </section>
 
         <!-- Checkout area -->
-        <section class="contact-area">
-            <div class="container-fluid custom-container">
+        <div class="container-fluid custom-container">
 
-                <!-- CART  -->
-                <div class="col-lg-8 col-xl-12">
-                    <?php
-                    if ($getcustomerid != '') {
-                        $getcustomer = "SELECT * from customer_master where cm_customerid=$getcustomerid";
-                        $getresult = mysqli_query($conn, $getcustomer);
-                        if ($getresult) {
-                            $getrowcount = mysqli_num_rows($getresult);
-                            if ($getrowcount > 0) {
-                                $getcustomerdata = mysqli_fetch_array($getresult);
-                                $mobilenumber = ((isset($getcustomerdata['cm_mobile'])) ? $getcustomerdata['cm_mobile'] : '');
-                                $email = ((isset($getcustomerdata['cm_email'])) ? $getcustomerdata['cm_email'] : '');
-                                $firstname = ((isset($getcustomerdata['cm_firstname'])) ? $getcustomerdata['cm_firstname'] : '');
-                                $lastname = ((isset($getcustomerdata['cm_lastname'])) ? $getcustomerdata['cm_lastname'] : '');
-                            }
+            <!-- CART  -->
+            <div class="col-lg-8 col-xl-12">
+                <?php
+                if ($getcustomerid != '') {
+                    $getcustomer = "SELECT * from customer_master where cm_customerid=$getcustomerid";
+                    $getresult = mysqli_query($conn, $getcustomer);
+                    if ($getresult) {
+                        $getrowcount = mysqli_num_rows($getresult);
+                        if ($getrowcount > 0) {
+                            $getcustomerdata = mysqli_fetch_array($getresult);
+                            $mobilenumber = ((isset($getcustomerdata['cm_mobile'])) ? $getcustomerdata['cm_mobile'] : '');
+                            $email = ((isset($getcustomerdata['cm_email'])) ? $getcustomerdata['cm_email'] : '');
+                            $firstname = ((isset($getcustomerdata['cm_firstname'])) ? $getcustomerdata['cm_firstname'] : '');
+                            $lastname = ((isset($getcustomerdata['cm_lastname'])) ? $getcustomerdata['cm_lastname'] : '');
                         }
                     }
-                    ?>
-                    <div class="row justify-content-center">
-                        <!-- YOUR DETAIL -->
-                        <div class="col-xl-12">
-                            <div class="section-heading pb-30" width="250" style="padding-bottom: 0px;">
-                                <h3>Your <span>Details</span> </h3>
-                            </div>
+                }
+                ?>
+                <div class="row justify-content-center">
+                    <!-- YOUR DETAIL -->
+                    <div class="col-xl-12">
+                        <div class="section-heading pb-30" width="250" style="padding-top: 10px;">
+                            <h3>Your <span>Details</span> </h3>
                         </div>
                     </div>
+                </div>
+                <form action="razorpay/pay.php" method="POST">
                     <div class="cart-subtotal" style="margin-bottom: 30px;">
                         <h3>YOUR NAME: <span><?= strtoupper($firstname . " " . $lastname)  ?> </span> </h3>
                         <input type="hidden" name="yourname" value="<?= strtoupper($firstname . " " . $lastname)  ?>">
@@ -227,13 +227,11 @@ if (isset($_GET['customerid']) && $_GET['customerid'] != '') {
                             </ul>
                         </div><br>
                         <!-- /.cart-subtotal -->
-
-                    </div>
-                </div>
+                </form>
             </div>
-            </form>
+        </div>
     </div>
-    </section>
+    </div>
 
 
     <!-- footer -->

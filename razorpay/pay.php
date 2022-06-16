@@ -16,7 +16,6 @@ $finalamount =$_POST['finalamount'];
 $customername = $_POST['yourname'];
 $email = strtolower($_POST['youremail']) ;
 $contactno = ((isset($_POST['yourmobile'])) ? $_POST['yourmobile'] : '' );
-// $discount=((isset($_POST['coupondiscount'])) ? $_POST['coupondiscount'] : 0 );
 $discount=$_POST['coupondiscount'];
 
 // TEMP SESSIONS
