@@ -48,6 +48,7 @@ if ($success === true) {
     $customerid = $_SESSION['tempcustomerid'];
     $discount = $_SESSION['tempdiscountamount'];
     $productid = $_SESSION['productidarray'];
+    $addressid=$_SESSION['tempaddressid'];
     foreach ($productid as $pid) {
         $getproductamt = "SELECT * from product_master where pm_productid=$pid";
         $getproductres = mysqli_query($conn, $getproductamt);
@@ -55,7 +56,7 @@ if ($success === true) {
             $getproductamount = mysqli_fetch_array($getproductres);
             $productamt = $getproductamount['pm_price'];
         }
-        $orderinsert = "INSERT into al_customerorder(co_customerid,co_productid,co_productamount,co_discountamount,co_amountpaid,co_ordertoken,co_paymentstatus)  values($customerid,$pid,$productamt,$discount,$finalamount,'$razorpay_order_id','paid')";
+        $orderinsert = "INSERT into al_customerorder(co_customerid,co_customeraddressid,co_productid,co_productamount,co_discountamount,co_amountpaid,co_ordertoken,co_paymentstatus)  values($customerid,$addressid,$pid,$productamt,$discount,$finalamount,'$razorpay_order_id','paid')";
         if (mysqli_query($conn, $orderinsert)) {
             $flag = 1;
             echo "ordered successfully";

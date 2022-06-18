@@ -150,9 +150,9 @@ $customerid=((isset($_GET['customerid'])) ? $_GET['customerid'] : '' );
                                     </div>
                                     <div class="col-xl-12">
                                         <select name="state" id="" class="customdropdown">
-                                            <option selected disabled value="">state</option>
+                                            <option selected disabled value="">states</option>
                                             <?php
-                                            $getstateqry = "SELECT * from state_master order";
+                                            $getstateqry = "SELECT * from state_master order by sm_statename";
                                             $stateresult = mysqli_query($conn, $getstateqry);
                                             while ($getstate = mysqli_fetch_array($stateresult)) {
                                                 $state = $getstate['sm_statename'];
@@ -172,9 +172,9 @@ $customerid=((isset($_GET['customerid'])) ? $_GET['customerid'] : '' );
                                     </div>
                                     <div class="col-xl-12">
                                         <select name="city" id="" class="customdropdown">
-                                            <option selected disabled value="">City</option>
+                                            <option selected disabled value="">Cities</option>
                                             <?php
-                                            $getcityqry = "select * from city_master";
+                                            $getcityqry = "SELECT * from city_master order by cty_cityname";
                                             $cityresult = mysqli_query($conn, $getcityqry);
                                             while ($getcity = mysqli_fetch_array($cityresult)) {
                                                 $city = $getcity['cty_cityname'];

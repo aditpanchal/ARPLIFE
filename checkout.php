@@ -13,13 +13,15 @@ $productid = array();
 $total = 0;
 $subtotal = ((isset($_GET['subtotal'])) ? $_GET['subtotal'] : 0);
 $gst = ((isset($_GET['gst'])) ? $_GET['gst'] : 0);
-
+if($subtotal=='' || $subtotal==0 )
+{   $custid=$_SESSION['customerid'];
+    header("location:cart.php?customerid=$custid");
+}
 $setadd = $setaddpin = $setaddtype = $setaddcity = $setaddcountry = $setaddstate = '';
 $cpn = 0;
 $setallotteddiscount = 0;
-if (isset($_GET['customerid']) && $_GET['customerid'] != '') {
     $getcustomerid = ((isset($_GET['customerid'])) ? $_GET['customerid'] : '');
-
+    $addressid=((isset($_GET['addressid'])) ? $_GET['addressid'] : '' );
     if ($getcustomerid != '') {
         $getcartquery = "SELECT * from al_cart where  crt_customerid=$getcustomerid";
         $getcartresult = mysqli_query($conn, $getcartquery);
@@ -45,7 +47,6 @@ if (isset($_GET['customerid']) && $_GET['customerid'] != '') {
             }
         }
     }
-}
 ?>
 
 <!doctype html>
@@ -166,8 +167,8 @@ if (isset($_GET['customerid']) && $_GET['customerid'] != '') {
                             <input type="hidden" name="yourmobile" value="<?= strtoupper($mobilenumber)  ?>">
                         <?php } ?>
                         <h3>YOUR EMAIL: <span><?= strtoupper($email)  ?> </span> </h3>
-                        <input type="hidden" name="youremail" value="<?= strtoupper($email)  ?>">
-
+                        <input type="hidden" name="youremail" value="<?= strtolower($email)  ?>">
+                        <input type="hidden" name="addressid" value="<?= $addressid ?>">
                         <input type="hidden" name="customerid" value="<?= $getcustomerid ?>">
                     </div>
                     <div class="row">

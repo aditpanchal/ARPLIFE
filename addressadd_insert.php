@@ -18,7 +18,7 @@ $customerid = $_POST['customerid'];
 $addaddr = "insert into al_addresses(addr_stateid,addr_cityid,addr_countryid,addr_customerid,addr_address,addr_pincode,addr_addresstype) values( $state , $city , $country , $customerid , '$addr' , $pin , '$addtype')"; 
 $res = mysqli_query($conn, $addaddr);
 if ($res) {
-   header("location:index.php");
+   header("location:address.php?customerid=$customerid");
 }
 else
 {

@@ -71,6 +71,7 @@
             unset($_SESSION['tempdiscountamount']);
             unset($_SESSION['productidarray']);
             unset($_SESSION['tempemail']);
+            unset($_SESSION['addressid']);
         }
 
 

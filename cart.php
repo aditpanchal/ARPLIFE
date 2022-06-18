@@ -1,34 +1,42 @@
 <?php
 require("config/dbconnect.php");
-$getcustomerid  =  '';
+$getcustomerid  = $addressid = '';
 
 $getcartrowcount = 0;
 $iscustomer = (isset($_REQUEST['customerid']) && $_REQUEST['customerid'] != '' ? 1 : 0);
 $subtotal = 0;
 $gst = 0;
+$getaddressrowcount = 0;
 
-if (isset($_REQUEST['customerid']) && $_REQUEST['customerid'] != '') {
-    $getcustomerid = ((isset($_REQUEST['customerid'])) ? $_REQUEST['customerid'] : '');
+$getcustomerid = ((isset($_REQUEST['customerid'])) ? $_REQUEST['customerid'] : '');
 
-
-    if ($getcustomerid != '') {
-        $displaycartquery = "SELECT * from al_cart where crt_customerid=$getcustomerid ";
-        $getcartresult = mysqli_query($conn, $displaycartquery);
-        if ($getcartresult) {
-            $getcartrowcount = mysqli_num_rows($getcartresult);
-        }
+if ($getcustomerid != '') {
+    $displaycartquery = "SELECT * from al_cart where crt_customerid=$getcustomerid ";
+    $getcartresult = mysqli_query($conn, $displaycartquery);
+    if ($getcartresult) {
+        $getcartrowcount = mysqli_num_rows($getcartresult);
     }
 }
 
-
-
-
+if ($getcustomerid != '') {
+    $getaddressquery = "SELECT * FROM al_addresses where addr_customerid=$getcustomerid AND addr_inuse=1 ";
+    $getaddressresult = mysqli_query($conn, $getaddressquery);
+    if ($getaddressresult) {
+        $getaddressrowcount = mysqli_num_rows($getaddressresult);
+    }
+}
 
 ?>
 
 <!doctype html>
 <html>
-
+<style>
+    .defaultaddress {
+        text-align: center;
+        font-size: large;
+        font-weight: bolder;
+    }
+</style>
 <!-- head-tag -->
 <?php include("mainincludes/csslinks.php"); ?>
 
@@ -150,8 +158,69 @@ if (isset($_REQUEST['customerid']) && $_REQUEST['customerid'] != '') {
                         <!-- /.cart-table -->
                         <!-- /.row -->
                     </div>
-                    <!-- /.col-xl-9 -->
+
+
                     <div class="col-xl-4">
+
+                        <!-- ADDRESS -->
+                        <div class="cart-subtotal" style="margin-bottom: 30px;">
+                            <p>YOUR ADDRESS</p>
+                            <?php if ($getaddressrowcount > 0) {
+                                $getaddress = mysqli_fetch_array($getaddressresult);
+                                $addressid = $getaddress['addr_addressid'];
+                                $street = $getaddress['addr_address'];
+                                $pincode = $getaddress['addr_pincode'];
+                                $addresstype = $getaddress['addr_addresstype'];
+
+                                //CITY
+                                $cityid = $getaddress['addr_cityid'];
+                                $cityquery = "SELECT * from city_master where cty_cityid=$cityid";
+                                $cityres = mysqli_query($conn, $cityquery);
+                                if ($cityres) {
+                                    if (mysqli_num_rows($res) > 0) {
+                                        $getcitydata = mysqli_fetch_array($cityres);
+                                        $city = $getcitydata['cty_cityname'];
+                                    }
+                                }
+
+                                //STATE
+                                $stateid = $getaddress['addr_stateid'];
+                                $statequery = "SELECT * from state_master where sm_stateid=$stateid";
+                                $stateres = mysqli_query($conn, $statequery);
+                                if ($stateres) {
+                                    if (mysqli_num_rows($stateres) > 0) {
+                                        $getstatedata = mysqli_fetch_array($stateres);
+                                        $state = $getstatedata['sm_statename'];
+                                    }
+                                }
+
+                                //COUNTRY
+                                $countryid = $getaddress['addr_countryid'];
+                                $custquery = "SELECT * from country_master where cntry_countryid=$countryid";
+                                $countryres = mysqli_query($conn, $custquery);
+                                if ($countryres) {
+                                    if (mysqli_num_rows($countryres) > 0) {
+                                        $getcountrydata = mysqli_fetch_array($countryres);
+                                        $country = $getcountrydata['cntry_countryname'];
+                                    }
+                                }
+
+                            ?>
+                                <div class="defaultaddress">
+                                    <h3><?= strtoupper($street) ?>,</h3>
+                                    <h3><?= $addresstype ?></h3>
+                                    <h3><?= strtoupper($city) ?>-<?= $pincode ?>,</h3>
+                                    <h3><?= $state ?> , <?= $country ?></h3>
+                                    <a href="address.php?customerid=<?= $getcustomerid ?>">Change Address</a>
+                                </div>
+                            <?php } else { ?>
+                                <a href="address.php?customerid=<?= $getcustomerid ?>">ADD/SELECT AN ADDRESS</a>
+                            <?php } ?>
+                        </div>
+                        <!-- ADDRESS END -->
+
+                        <br>
+                        <!-- /ORDER DETAILS -->
                         <div class="cart-subtotal">
                             <p>ORDER DETAILS</p>
                             <ul>
@@ -165,25 +234,29 @@ if (isset($_REQUEST['customerid']) && $_REQUEST['customerid'] != '') {
                                 <li><span>GST (+12%):</span>
                                     <h1 id="gst"> &#X20B9;<?= " " . $gst ?></h1>
                                 </li>
-                                <!-- <li><span>Shipping Cost:</span><h1>$00.00</h1></li> -->
                                 <li><span>TOTAL:</span>
                                     <h1 id="total">&#X20B9;<?= " " . $total = $gst + $subtotal ?></h1>
                                 </li>
                             </ul>
                             <?php
-                            if ($subtotal != 0 || $subtotal != '') { ?>
-                                <a id="checkout" href="checkout.php?subtotal=<?= $subtotal ?>&gst=<?= $gst ?>&customerid=<?= $getcustomerid ?>" name="checkout">Proceed To Checkout</a>
+                            if (($subtotal != 0 || $subtotal != '') && $getaddressrowcount > 0) { ?>
+                                <a id="checkout" href="checkout.php?subtotal=<?= $subtotal ?>&gst=<?= $gst ?>&customerid=<?= $getcustomerid ?>&addressid=<?= $addressid ?>" name="checkout">Proceed To Checkout</a>
+                                <?php } else {
+                                if ($subtotal == 0 || $subtotal == '') { ?>
+                                    <div class="alert alert-warning alert-dismissible fade show">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+                                        </button> <strong>Cannot proceed further !</strong> Please add some products to the cart.
+                                    </div> <?php } else if ($getaddressrowcount <= 0) { ?>
+                                    <div class="alert alert-warning alert-dismissible fade show">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+                                        </button> <strong>Cannot Proceed further!</strong> Please provide your current Address.
+                                    </div>
                             <?php }
+                                    }
                             ?>
                         </div><br>
                         <!-- /.cart-subtotal -->
-
-
-
-
                     </div>
-
-                    <!-- /.col-xl-3 -->
 
                 </div>
             </div>

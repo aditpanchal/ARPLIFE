@@ -109,7 +109,7 @@ $customerid = ((isset($_GET['customerid'])) ? $_GET['customerid'] : '');
                 if ($addresscount > 0) {
                     while ($getrow = mysqli_fetch_array($res)) {
                         $addressid = $getrow['addr_addressid'];
-
+                        $inuse = $getrow['addr_inuse'];
 
                         // LOCATION QUERIES
                         $cityid = $getrow['addr_cityid'];
@@ -143,9 +143,14 @@ $customerid = ((isset($_GET['customerid'])) ? $_GET['customerid'] : '');
                         }
                 ?>
                         <div class="addresses">
+                            <div style="text-align:center; height:10% ; ">
+                                <?php if ($inuse == 1) { ?>
+                                    <label style="text-align:center ;"><b>DEFAULT ADDRESS</b></label>
+                                <?php } ?>
+                            </div>
                             <form action="editadd.php" method="POST">
                                 <input type="hidden" name="addressid" value="<?= $addressid ?>">
-                                <input type="hidden" name="customerid" value="<?= $customerid ?>" >
+                                <input type="hidden" name="customerid" value="<?= $customerid ?>">
                                 <div class="street">
                                     <label for="flat"><?= $getrow['addr_address'] . "," ?></label>
                                 </div>
@@ -168,25 +173,29 @@ $customerid = ((isset($_GET['customerid'])) ? $_GET['customerid'] : '');
                                 </div>
 
                                 <div class="buttons">
-                                    <button type="submit" id="editbtn" class="btn btn-dark" name="editbtn">Edit</button><br>
+                                    <button type="submit" id="editbtn" title="Edit" style="height:14% ;" class="btn btn-primary" name="editbtn"><i class="fa fa-pencil-alt"></i></button><br>
                                 </div>
                             </form>
-                            <form action="deleteadd.php" method="POST">
+                            <form action="otheraddressoperations.php" method="POST" style="">
                                 <input type="hidden" name="addressid" value="<?= $addressid ?>">
                                 <input type="hidden" name="customerid" value="<?= $customerid ?>">
-                                <button type="submit" id="deletebtn" class="btn btn-dark" name="deletebtn">Delete</button>
+                                <div style="padding-bottom:15px ;">
+                                    <button type="submit" id="deletebtn" title="Delete" style="height:14% ;" class="btn btn-danger" name="deletebtn"><i class="fa fa-trash"></i></button>
+                                    <button type="submit" id="setbtn" title="Set as Default" style="height: 14%;" class="btn btn-success" name="setbtn"><i class="fa fa-check"></i></button>
                             </form>
+
                         </div>
-                <?php }
+            </div>
+    <?php }
                 }
 
-                ?>
+    ?>
 
 
-            </div>
+    </div>
 
 
-        </section>
+    </section>
 
 
 

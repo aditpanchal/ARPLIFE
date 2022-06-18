@@ -133,7 +133,7 @@ if (mysqli_num_rows($res) > 0) {
                                     <h5 class="pro-title"><a href="javascript:void()"><?= strtoupper($getbrand) ?></a></h5>
                                     <h5 class="pro-title"><a href="javascript:void()"><?= $set_product_name ?></a></h5>
                                     <span class="price">Availibility: <span style="<?= ($available != 1) ? 'color:red; font-size:large;' : 'font-size:large;' ?> "><?= ($available) == 1 ? 'In stock' : 'Out of stock' ?></span></span><span class="price">|</span>
-                                    <span class="price">Price : &#X20B9;<?= $set_product_price ?><?= $set_product_discount ?></span>
+                                    <span class="price">Price : &#X20B9;<?= $set_product_price ?></span>
                                     <div class="size-variation">
                                         <span>size :</span>
                                         <select name="productsizes" class="productsizes" id="sizedropdown">

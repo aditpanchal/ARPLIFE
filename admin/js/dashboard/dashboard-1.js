@@ -136,10 +136,10 @@
 
 })(jQuery);
 
+
+
 (function($) {
     "use strict"
-
-
      // LINE CHART
       // Morris bar chart
  Morris.Bar({
@@ -181,16 +181,9 @@
     gridLineColor: 'transparent',
     resize: true
 });
-
-
-
-
-
-
-
-
-
 })(jQuery);
+
+
 
 
 (function($) {

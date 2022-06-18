@@ -75,7 +75,8 @@ $customerid = $_GET['customerid'];
                 $gender = $getrow['cm_gender'];
                 $mob = $getrow['cm_mobile'];
                 $email = $getrow['cm_email'];
-                $pass = $getrow['cm_password'];
+                $passcrypt = mysqli_real_escape_string($conn,$getrow['cm_password']);
+                $pass=md5($passcrypt);
                 $username = $getrow['cm_username'];
         ?>
                 <section class="contact-area" style="padding-bottom:50px ;">
@@ -129,13 +130,6 @@ $customerid = $_GET['customerid'];
                                                 <input type="text" placeholder="Username*" value="<?= $username ?>" name="uname" id="uname">
                                                 <p class="Err"></p>
                                             </div>
-                                            <div class="col-xl-12">
-                                                <input type="password" name="pass" value="<?= $pass ?>" id="pass">
-                                                <p class="Err"></p>      
-                                            </div>
-                                                 <div>
-                                                <input type="checkbox" style="width:15px;height: 20px;" id="pass" onclick="myFunction()"> Show Password
-                                                </div>
                                         
                                                 <div class="col-xl-12">
                                                 <button type="submit" id="editbtn" name="editbtn" class="btn btn-dark">Edit</button>
@@ -206,10 +200,6 @@ $customerid = $_GET['customerid'];
                             required: true,
                             minlength: 5
                         },
-                        pass: {
-                            required: true,
-                            minlength: 5
-                        },
                         email: {
                             required: true,
                             email: true
@@ -228,10 +218,6 @@ $customerid = $_GET['customerid'];
                             minlength: "Your username must consist of at least 5 characters"
                         },
                         email: 'Please enter your Email',
-                        pass: {
-                            required: "Please enter a password",
-                            minlength: "Your password must be consist of at least 5 characters"
-                        },
                         gender: 'please select a gender',
                         mobile: {
                             required: 'Please enter your mobile number',

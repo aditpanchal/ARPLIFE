@@ -70,7 +70,7 @@ if (isset($_SESSION['profileview']) && $_SESSION['profileview'] == 0) {
                             <div class="a-box-inner">
                                 <div class="a-row">
                                     <div class="a-column a-span3">
-                                        <a href="editdetails.php"><img alt="Login &amp; security" src="login.jpeg">
+                                        <a href="signinpage.php?customerid=<?= $customerid ?>"><img alt="Login &amp; security" src="login.jpeg">
                                     </div>
                                     <div class="a-column a-span9 a-span-last">
                                         <h2 class="a-spacing-none ya-card__heading--rich a-text-normal">

@@ -16,6 +16,7 @@ $finalamount =$_POST['finalamount'];
 $customername = $_POST['yourname'];
 $email = strtolower($_POST['youremail']) ;
 $contactno = ((isset($_POST['yourmobile'])) ? $_POST['yourmobile'] : '' );
+$addressid = ((isset($_POST['addressid'])) ? $_POST['addressid'] : '' );
 $discount=$_POST['coupondiscount'];
 
 // TEMP SESSIONS
@@ -23,6 +24,7 @@ $_SESSION['tempcustomerid']=$customerid;
 $_SESSION['tempfinalamount']=$finalamount;
 $_SESSION['tempdiscountamount']=$discount;
 $_SESSION['tempemail']=$email;
+$_SESSION['tempaddressid']=$addressid;
 $orderData = [
     'receipt'         => 3456,
     'amount'          => $finalamount * 100, // 2000 rupees in paise
