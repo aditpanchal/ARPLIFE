@@ -58,7 +58,9 @@ require("../config/dbconnect.php");
     <div id="main-wrapper">
         <?php include(INCLUDESCOMP_DIR . "logo.php"); ?>
         <?php include(INCLUDESCOMP_DIR . "header.php"); ?>
+
         <?php include(INCLUDESCOMP_DIR . "sidebar.php"); ?>
+        
         <div class="content-body">
             <div class="row page-titles mx-0" style="background-color:lavender;">
                 <ol class="breadcrumb">
@@ -73,20 +75,20 @@ require("../config/dbconnect.php");
             $res = mysqli_query($conn, $qry);
             if (mysqli_num_rows($res) > 0) {
                 while ($row = mysqli_fetch_array($res)) {
-                    $profile_img = (isset($row['am_profileimage']) ? $row['am_profileimage'] : '' ) ;
-                    $aid = (isset($row['am_adminid']) ? $row['am_adminid'] : '' ) ;
+                    $profile_img = (isset($row['am_profileimage']) ? $row['am_profileimage'] : '');
+                    $aid = (isset($row['am_adminid']) ? $row['am_adminid'] : '');
                     $_SESSION['admin_id'] = $aid;
-                    $name = (isset($row['am_adminname']) ? $row['am_adminname'] : '' ) ;
-                    $mobile = (isset($row['am_mobile']) ?$row['am_mobile'] : '' ) ;
-                    $address = (isset($row['am_address']) ? $row['am_address'] : '' ) ;
-                    $city = (isset($row['am_cityid']) ? $row['am_cityid'] : '' ) ;
-                    $state = (isset($row['am_stateid']) ? $row['am_stateid'] : '' ) ;
-                    $country = (isset($row['am_countryid']) ? $row['am_countryid'] : '' ) ;
-                    $pincode = (isset($row['am_pincode']) ? $row['am_pincode'] : '' ) ;
-                    $dob = (isset($row['am_dob']) ? $row['am_dob'] : '' ) ;
-                    $description = (isset($row['am_description']) ? $row['am_description'] : '' ) ;
-                    $email = (isset($row['am_email']) ? $row['am_email'] : '' ) ;
-                    $uname = (isset($row['am_username']) ? $row['am_username'] : '' ) ;
+                    $name = (isset($row['am_adminname']) ? $row['am_adminname'] : '');
+                    $mobile = (isset($row['am_mobile']) ? $row['am_mobile'] : '');
+                    $address = (isset($row['am_address']) ? $row['am_address'] : '');
+                    $city = (isset($row['am_cityid']) ? $row['am_cityid'] : '');
+                    $state = (isset($row['am_stateid']) ? $row['am_stateid'] : '');
+                    $country = (isset($row['am_countryid']) ? $row['am_countryid'] : '');
+                    $pincode = (isset($row['am_pincode']) ? $row['am_pincode'] : '');
+                    $dob = (isset($row['am_dob']) ? $row['am_dob'] : '');
+                    $description = (isset($row['am_description']) ? $row['am_description'] : '');
+                    $email = (isset($row['am_email']) ? $row['am_email'] : '');
+                    $uname = (isset($row['am_username']) ? $row['am_username'] : '');
                 }
             }
             ?>
@@ -104,12 +106,12 @@ require("../config/dbconnect.php");
 
                                 <ul class="profile-body" id="user">
                                     <li class="profile-items">
-                                    <img class="mr-3" src="images/user/<?= $profile_img ?>" width="140" height="140">
-                                    </li> 
+                                        <img class="mr-3" src="images/user/<?= $profile_img ?>" width="140" height="140">
+                                    </li>
                                     <li class="profile-items">
                                         <h3 class="mb-0"><?php echo $name; ?></h3>
                                 </ul>
-                                
+
                                 <div class="editbtncontainer">
                                     <button type="button" class="btn btn-app " data-toggle="modal" data-target="#editprofileaboutmemodal" data-whatever="@getbootstrap" style="background-image: url('images/icons/editicon.svg'); background-repeat: no-repeat; "></button>
                                     <?php include(INCLUDESCOMP_DIR . "editprofileaboutmemodal.php"); ?>

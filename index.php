@@ -257,7 +257,7 @@ $wishlistrowcount = '';
                                                     <h5 class="pro-title"><a href="javascript:void()"><?= $getbrand ?></a></h5>
                                                     <h5 class="pro-title"><a href="singleproduct.php?productid=<?= $row['pm_productid'] ?>">
                                                             <?= $row['pm_productname'] ?></a></h5>
-                                                    <h5 class="pro-title"><?= ($row['pm_type'] == 'M' ? 'Male' : 'Female') ?> / <span>
+                                                    <h5 class="pro-title"><?= ($row['pm_type'] == 'M' ? 'Male' : 'Female') ?> / <span style="text-decoration:line-through ;" >
                                                             &#X20B9;<?= $row['pm_price'] ?></span></h5>
                                                 </div>
 

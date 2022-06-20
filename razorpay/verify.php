@@ -48,8 +48,9 @@ if ($success === true) {
     $customerid = $_SESSION['tempcustomerid'];
     $discount = $_SESSION['tempdiscountamount'];
     $productid = $_SESSION['productidarray'];
-    $addressid=$_SESSION['tempaddressid'];
-    foreach ($productid as $pid) {
+    $cartquantity = $_SESSION['cartquantity'];
+    $addressid = $_SESSION['tempaddressid'];
+    foreach (array_combine($productid,$cartquantity) as $pid => $qty ) {
         $getproductamt = "SELECT * from product_master where pm_productid=$pid";
         $getproductres = mysqli_query($conn, $getproductamt);
         if (mysqli_num_rows($getproductres) > 0) {
@@ -58,10 +59,12 @@ if ($success === true) {
         }
         $orderinsert = "INSERT into al_customerorder(co_customerid,co_customeraddressid,co_productid,co_productamount,co_discountamount,co_amountpaid,co_ordertoken,co_paymentstatus)  values($customerid,$addressid,$pid,$productamt,$discount,$finalamount,'$razorpay_order_id','paid')";
         if (mysqli_query($conn, $orderinsert)) {
+                $updatestockquery = "UPDATE product_master SET pm_stock=pm_stock-$qty WHERE pm_productid=$pid";
+                $stockresult = mysqli_query($conn, $updatestockquery);
             $flag = 1;
-            echo "ordered successfully";
         }
     }
+
     if ($flag == 1) {
         $deletefromcartquery = "DELETE from al_cart where crt_customerid=$customerid";
         $deleteres = mysqli_query($conn, $deletefromcartquery);

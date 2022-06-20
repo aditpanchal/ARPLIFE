@@ -10,7 +10,6 @@ use Razorpay\Api\Api;
 
 $api = new Api($keyId, $keySecret);
 
-$productid=((isset($_SESSION['productidarray'])) ? $_SESSION['productidarray'] : '' );
 $customerid=$_POST['customerid'];
 $finalamount =$_POST['finalamount'];
 $customername = $_POST['yourname'];

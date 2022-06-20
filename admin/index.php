@@ -8,10 +8,10 @@ $ordercount = $getordercount['ordercount'];
 // ORDER COUNT ENDS
 
 // SALES SUM BEGINS 
-$forsalessumquery = "SELECT sum(co_amountpaid) as salessum from al_customerorder ";
+$forsalessumquery = "SELECT sum(ts_totalamtpaid) as salessum from al_totalsales ";
 $salessumresult = mysqli_query($conn, $forsalessumquery);
 $getsalessum = mysqli_fetch_array($salessumresult);
-$salessum = $getsalessum['salessum'];
+$salessum = intval($getsalessum['salessum']);
 // SALES SUM ENDS
 
 // CUSTOMER COUNT BEGINS
@@ -22,7 +22,7 @@ $custcount = $getcustcount['custcount'];
 // CUSTOMER COUNT BEGINS
 
 //GRAPH QUERY BEGINS
-$query = "SELECT catm_categoryid as `max_occurence` ,sum(co_amountpaid) as totalsales,catm_categoryname from category_master,product_master,al_customerorder where catm_categoryid=pm_categoryid AND co_productid=pm_productid GROUP by pm_categoryid ORDER by totalsales desc";
+$query = "SELECT catm_categoryid as `max_occurence` ,sum(co_productamount) as totalsales,catm_categoryname from category_master,product_master,al_customerorder where catm_categoryid=pm_categoryid AND co_productid=pm_productid GROUP by pm_categoryid ORDER by totalsales desc";
 $result = mysqli_query($conn, $query);
 $chart_data = '';
 if (mysqli_num_rows($result) > 0) {
@@ -244,29 +244,79 @@ $cid = '';
                             </div>
                         </div>
                     </div>
+                                                </div>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="active-member">
+                                        <div class="table-responsive">
+                                            <table class="table table-xs mb-0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Product name</th>
+                                                        <th>Available  Stock</th>
+                                                        <th>Refill</th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php
+                                                    $stockqry = "SELECT pm_productname,pm_stock,pm_image FROM product_master where pm_stock < 50 group by pm_productid ";
+                                                    $stockres = mysqli_query($conn, $stockqry);
+                                                    if (mysqli_num_rows($stockres) > 0) {
+                                                        while ($getstockrow = mysqli_fetch_array($stockres)) {
+                                                            $pstock = $getstockrow['pm_stock'];
+                                                            $pname = $getstockrow['pm_productname'];
+                                                            $pimage = $getstockrow['pm_image'];
+                                                    ?>
+
+                                                            <tr>
+                                                                <td><img src="../admin/images/uploads/<?= $pimage ?>"><?= $getstockrow['pm_productname'] ?></td>
+                                                                <td><?=$pstock?></td>
+
+                                                                <td style="color: red;"><img src="../admin/images/uploads/refill.png"><b> Restock essential</td></b>
+                                                            </tr>
+
+                                                            <?php }
+                                                    } ?>
+                                   
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
                 </div>
 
-            
             </div>
-            <?php
+        
+        <?php
 
 
 
 
-            ?>
-            <div id="morris-bar-chart"></div>
-            <!-- container-fluid end  -->
-        </div>
-        <!--**********************************
+        ?>
+        <div id="morris-bar-chart"></div>
+        <!-- container-fluid end  -->
+    </div>
+    <!--**********************************
             Content body end
         ***********************************-->
 
 
-        <!--**********************************
+    <!--**********************************
             Footer start
         ***********************************-->
-        <?php include(INCLUDESCOMP_DIR . "footer.php"); ?>
-        <!--**********************************
+    <?php include(INCLUDESCOMP_DIR . "footer.php"); ?>
+    <!--**********************************
             Footer end
         ***********************************-->
     </div>

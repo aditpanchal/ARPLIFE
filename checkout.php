@@ -10,6 +10,7 @@ $setcouponcode = '';
 $setmaxamount = 0;
 $setminamount = 0;
 $productid = array();
+$cartquantity=array();
 $total = 0;
 $subtotal = ((isset($_GET['subtotal'])) ? $_GET['subtotal'] : 0);
 $gst = ((isset($_GET['gst'])) ? $_GET['gst'] : 0);
@@ -30,6 +31,7 @@ $setallotteddiscount = 0;
             if ($getcartrowcount > 0) {
                 while ($getcartrows = mysqli_fetch_array($getcartresult)) {
                     array_push($productid, $getcartrows['crt_productid']);
+                    array_push($cartquantity,$getcartrows['crt_quantity']);
                 }
             }
         }
@@ -115,6 +117,7 @@ $setallotteddiscount = 0;
         <?php include("mainincludes/header.php") ?>
         <?php
         $_SESSION['productidarray'] = $productid;
+        $_SESSION['cartquantity']=$cartquantity;
         ?>
 
         <section class="breadcrumb-area" style="padding: 130px 0 10px;">
