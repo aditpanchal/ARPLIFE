@@ -73,9 +73,9 @@ if (mysqli_num_rows($res) > 0) {
             <div class="container-fluid custom-container">
                 <div class="row">
                     <!-- /.col-xl-3 -->
-                    <div class="order-1 order-md-2 col-md-8 col-lg-9 col-xl-9">
+                    <div class="order-1 order-md-2  col-lg-9 col-xl-10">
                         <div class="row">
-                            <div class="col-lg-6 col-xl-6">
+                            <div class="col-lg-6 col-xl-5">
                                 <!-- Product View Slider -->
                                 <div class="quickview-slider">
                                     <div class="slider-for">
@@ -133,7 +133,7 @@ if (mysqli_num_rows($res) > 0) {
                                     <h5 class="pro-title"><a href="javascript:void()"><?= strtoupper($getbrand) ?></a></h5>
                                     <h5 class="pro-title"><a href="javascript:void()"><?= $set_product_name ?></a></h5>
                                     <span class="price">Availibility: <span style="<?= ($available != 1) ? 'color:red; font-size:large;' : 'font-size:large;' ?> "><?= ($available) == 1 ? 'In stock' : 'Out of stock' ?></span></span><span class="price">|</span>
-                                    <span class="price">Price : &#X20B9;<?= $set_product_price ?></span>
+                                    <span class="price">Price : &#X20B9;<?= $set_product_price ?><?= $set_product_discount ?></span>
                                     <div class="size-variation">
                                         <span>size :</span>
                                         <select name="productsizes" class="productsizes" id="sizedropdown">
@@ -186,14 +186,6 @@ if (mysqli_num_rows($res) > 0) {
                                         ?>
 
                                     </div>
-
-                                    <!-- <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                                        irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                                    <ul>
-                                        <li>Lorem ipsum dolor sit amet</li>
-                                        <li>quis nostrud exercitation ullamco</li>
-                                        <li>Duis aute irure dolor in reprehenderit</li>
-                                    </ul> -->
                                 </div>
                                 <!-- /.product-details -->
                             </div>
@@ -203,13 +195,43 @@ if (mysqli_num_rows($res) > 0) {
                                 <div class="product-des-tab">
                                     <ul class="nav nav-tabs">
                                         <li class="nav-item">
-                                            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">RELATED PRODUCTS</a>
+                                            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">ADDITIONAL INFORMATION</a>
                                         </li>
                                     </ul>
+
+                                    <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                        <div class="prod-bottom-tab-sin">
+                                            <h5>Description</h5>
+                                            <?php
+                                            $attributeqry = "select * from al_productattribute ,attributes_master where pa_productid=$productid and pa_attributeid=am_attributeid";
+                                            $attributeresult = mysqli_query($conn, $attributeqry); ?>
+                                            <?php
+                                            if (mysqli_num_rows($attributeresult) > 0) {
+                                                while ($getrow = mysqli_fetch_array($attributeresult)) {
+                                                    $getattributename = $getrow['am_attributename'];
+                                                    $getattributevalue = $getrow['pa_value']; ?>
+
+                                                    <div class="info-wrap">
+                                                        <div class="sin-aditional-info">
+                                                            <div class="first" style="font-weight:800 ;">
+                                                                <?= $getattributename ?>
+                                                            </div>
+                                                            <div class="secound">
+                                                                <?= $getattributevalue ?>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                            <?php }
+                                            }
+                                            ?>
+                                        </div>
+                                    </div>
+
                                     <div class="tab-content" id="myTabContent">
                                         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                                             <div class="prod-bottom-tab-sin description">
-                                                <!-- <h5>Related Products</h5> -->
+                                                <h5>Related Products</h5>
                                                 <div class="quickview-slider">
                                                     <div class="slider-nav">
                                                         <?php
@@ -232,35 +254,39 @@ if (mysqli_num_rows($res) > 0) {
                                                     </div>
                                                 </div>
                                             </div>
+
+
                                         </div>
+
+                                        <!-- /.row -->
                                     </div>
+                                    <!-- /.col-xl-9 -->
+
                                 </div>
                             </div>
                         </div>
-                        <!-- /.row -->
                     </div>
-                    <!-- /.col-xl-9 -->
-                </div>
-                <!-- /.row -->
-            </div>
-            <!-- /.container-fluid -->
-        </section>
-        <!-- /.shop-area -->
+
+        </section> <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+    </section>
+    <!-- /.shop-area -->
 
 
-        <!-- footer -->
-        <?php include("mainincludes/footer.php"); ?>
+    <!-- footer -->
+    <?php include("mainincludes/footer.php"); ?>
 
 
-        <!-- Back to top-->
+    <!-- Back to top-->
 
-        <?php include("mainincludes/backtotop.php"); ?>
+    <?php include("mainincludes/backtotop.php"); ?>
 
 
-        <!-- Popup -->
+    <!-- Popup -->
 
-        <?php // include("mainincludes/popup.php"); 
-        ?>
+    <?php // include("mainincludes/popup.php"); 
+    ?>
 
 
     </div>

@@ -51,15 +51,12 @@
                     <li>
                         <a class="customalinks has-arrow" aria-expanded="false" href="javascript:void()">Products</a>
                         <ul aria-expanded="false">
-                            <!-- <li>
-                                <a class="customalinks" href="">Product Page</a>
-                            </li> -->
                             <li>
                                 <a class="customalinks" href="<?php echo BASE_DIR . 'products.php' ?>">Products</a>
                             </li>
-                            <!-- <li>
+                            <li>
                                 <a class="customalinks" href="<?php echo BASE_DIR . 'attributes.php' ?>">Attributes</a>
-                            </li> -->
+                            </li>
                             <li>
                                 <a class="customalinks" href="<?php echo BASE_DIR . 'brands.php' ?>">Brands</a>
                             </li>

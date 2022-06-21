@@ -101,7 +101,7 @@ $orderres = mysqli_query($conn, $getordersquery);
                                                         <a href="manage_orders.php?orderid=<?= $getorders['co_orderid'] ?>" data-toggle="tooltip" title="Edit" class="btn btn-primary">
                                                             <i class="fa fa-pencil"></i>
                                                         </a>
-                                                        <a href="manage_orders.php?orderid=<?= $getorders['co_orderid'] ?>" data-toggle="tooltip" title="View Order" class="btn btn-primary">
+                                                        <a href="orderquickview.php?orderid=<?= $getorders['co_orderid'] ?>&productid=<?= $getorders['co_productid']?>" data-toggle="tooltip" title="View Order" class="btn btn-primary">
                                                             <i class="fa fa-eye"></i>
                                                         </a>
                                                     </td>
