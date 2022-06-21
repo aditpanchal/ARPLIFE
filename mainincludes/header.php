@@ -148,11 +148,6 @@ if ($customerid == '') {
 
                         <?php }
                         ?>
-                        <li class="top-search">
-                            <a href="javascript:void(0)"><i class="fa fa-search" aria-hidden="true"></i>
-                            </a>
-                            <input type="text" class="search-input" id="" placeholder="Search">
-                        </li>
                         <?php
                         $cartrowcount = '';
                         $visitorid = session_id();
@@ -310,7 +305,7 @@ if ($customerid == '') {
                     if (mysqli_num_rows($res) > 0) {
                         while ($row = mysqli_fetch_array($res)) {
                             $cid = $row['catm_categoryid'];
-                            $sql1 = "SELECT * from brand_master where bm_categoryid=$cid and bm_isactive=1";
+                            $sql1 = "SELECT * from brand_master where bm_categoryid=$cid and bm_isactive=1 and (bm_gender='m' or bm_gender='b' ) ";
                             $res1 = mysqli_query($conn, $sql1);
                             if (mysqli_num_rows($res1) > 0) { ?>
             <div class="mega-catagory per-20">
@@ -320,7 +315,7 @@ if ($customerid == '') {
                 <ul class="mega-button">
                     <?php
                                 while ($row1 = mysqli_fetch_array($res1)) { ?>
-                        <li><a href="<a href="shop.php?brandid=<?= $row1['bm_brandid'] ?> & gender=M"><?= $row1['bm_brandname'] ?></a></li>
+                        <li><a href="shop.php?brandid=<?= $row1['bm_brandid'] ?> & gender=M"><?= $row1['bm_brandname'] ?></a></li>
                     <?php }
                     ?>
                 </ul>

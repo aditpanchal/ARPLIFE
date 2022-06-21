@@ -7,6 +7,7 @@ if ($customerid == '') {
 }
 
 //GET CUSTOMER EMAIL
+$fname = $lname = $email = '' ;
 $getcustomerrowcount = 0;
 $getemailquery = "SELECT * from customer_master WHERE cm_customerid=$customerid";
 $getcustomerresult = mysqli_query($conn, $getemailquery);

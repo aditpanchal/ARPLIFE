@@ -8,7 +8,7 @@ $ordercount = $getordercount['ordercount'];
 // ORDER COUNT ENDS
 
 // SALES SUM BEGINS 
-$forsalessumquery = "SELECT sum(ts_totalamtpaid) as salessum from al_totalsales ";
+$forsalessumquery = "SELECT sum(ts_totalamtpaid) as salessum from al_totalsales";
 $salessumresult = mysqli_query($conn, $forsalessumquery);
 $getsalessum = mysqli_fetch_array($salessumresult);
 $salessum = intval($getsalessum['salessum']);
@@ -22,7 +22,7 @@ $custcount = $getcustcount['custcount'];
 // CUSTOMER COUNT BEGINS
 
 //GRAPH QUERY BEGINS
-$query = "SELECT catm_categoryid as `max_occurence` ,sum(co_productamount) as totalsales,catm_categoryname from category_master,product_master,al_customerorder where catm_categoryid=pm_categoryid AND co_productid=pm_productid GROUP by pm_categoryid ORDER by totalsales desc";
+$query = "SELECT catm_categoryid ,sum(co_productamount) as totalsales,catm_categoryname from category_master,product_master,al_customerorder where catm_categoryid=pm_categoryid AND co_productid=pm_productid GROUP by pm_categoryid ORDER by totalsales desc";
 $result = mysqli_query($conn, $query);
 $chart_data = '';
 if (mysqli_num_rows($result) > 0) {
@@ -360,7 +360,7 @@ $cid = '';
             data: [<?= $chart_data; ?>],
             xkey: 'catm_categoryname',
             ykeys: ['totalsales'],
-            labels: ['totalsales'],
+            labels: ['totalsales(MRP)'],
 
 
 

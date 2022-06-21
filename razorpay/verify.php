@@ -68,7 +68,8 @@ if ($success === true) {
     if ($flag == 1) {
         $deletefromcartquery = "DELETE from al_cart where crt_customerid=$customerid";
         $deleteres = mysqli_query($conn, $deletefromcartquery);
-
+        $totalsalesquery="INSERT INTO al_totalsales values($finalamount)";
+        $salesresult=mysqli_query($conn,$totalsalesquery);
         $title = 'INVOICE';
         $message = $email . '<br> This is your invoice.<br>' . 'Discount received:' . $discount . '.<br>' . 'You paid:' . $finalamount . '.<br>';
 

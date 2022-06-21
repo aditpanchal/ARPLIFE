@@ -115,7 +115,7 @@ if ($getcustomerresult) {
 
 
                             <div class=" mt-5 d-flex justify-content-between align-items-center">
-                                <span><a href="forgotpassword.php?customerid=<?= $customerid ?>">Forgot Passowrd ?</a></span>
+                                <span><a href="forgotpassword.php?customerid=<?= $customerid ?>">Forgot Password ?</a></span>
                                 <!-- HIDDEN FIELD -->
                                 <input type="hidden" name="customerid" value="<?= $customerid ?>">
                                 <button type="submit" name="passwordcheckbtn" class="go-button"><i class='fa fa-arrow-right'></i></button>
