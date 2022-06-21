@@ -1,33 +1,31 @@
 <div class="col-lg-6 col-xl-12">
-                        <div	class="logo">
-                            <a href="index.html">
-                            </a>
-                        </div>
-                    </div>
+    <div class="logo">
+        <a href="index.html">
+        </a>
+    </div>
+</div>
 
 <footer class="footer-widget-area">
 
-	
-	
+
+
 
     <div class="container-fluid custom-container">
         <div class="row">
             <div class="col-md-6 col-lg-4 col-xl-3">
                 <div class="footer-widget">
-					
-				<div style="margin-top: 1cm; margin-left: 1cm;" class="footer-widget">
-                    <h3>our shop</h3>
-                    <div class="footer-menu">
-                        <ul>
-                            <li><a href="index.php">Home</a></li>
-                            <li><a href="#">Men</a></li>
-                            <li><a href="#">Women</a></li>
-                            <li><a href="#">Collections</a></li>
-                            <li><a href="#">Sale</a></li>
-                        </ul>
+
+                    <div style="margin-top: 1cm; margin-left: 1cm;" class="footer-widget">
+                        <h3>our shop</h3>
+                        <div class="footer-menu">
+                            <ul>
+                                <li><a href="index.php">Home</a></li>
+                                <li><a href="shop.php?gender=m">Men</a></li>
+                                <li><a href="shop.php?gender=f">Women</a></li>
+                            </ul>
+                        </div>
                     </div>
-                </div>
-                   
+
                 </div>
             </div>
             <!-- /.col-xl-3 -->
@@ -36,11 +34,11 @@
                     <h3>Collection</h3>
                     <div class="footer-menu">
                         <ul>
-                            <li><a href="#">Summer collection</a></li>
-                            <li><a href="#">Women's Dresses</a></li>
-                            <li><a href="#">Men's jackets</a></li>
-                            <li><a href="#">Winter Collection</a></li>
-                    	</ul>
+                            <li><a href="shop.php?categoryid=25&gender=f">Women's Accessories collection</a></li>
+                            <li><a href="shop.php?subcategoryid=24&gender=f">Women's Dresses</a></li>
+                            <li><a href="shop.php?subcategoryid=12&gender=m">Men's jackets</a></li>
+                            <li><a href="shop.php?categoryid=26&gender=m">Men's footwear</a></li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -52,7 +50,7 @@
                         <ul>
                             <li><a href="faqs.php">FAQ's</a></li>
                             <li><a href="contactus.php">Contact Us</a></li>
-                            <li><a href="">Customer Service</a></li>
+                            <li><a href="contactus.php">Customer Service</a></li>
                             <li><a href="aboutus.php">About us</a></li>
                         </ul>
                     </div>
@@ -64,10 +62,6 @@
                     <h3>HELP</h3>
                     <div class="footer-menu">
                         <ul>
-                            <li><a href="#">Order Status</a></li>
-                            <li><a href="#">Delivery</a></li>
-                            <li><a href="#">Returns & Exchanges</a></li>
-                            <li><a href="#">Coupons</a></li>
                             <li><a href="#">Payment Options</a></li>
 
                         </ul>
@@ -81,7 +75,7 @@
                         </ul>
                     </div>
                 </div>
-                
+
 
             </div>
             <!-- /.col-xl-3 -->
@@ -89,7 +83,7 @@
         <div class="footer-bottom">
             <div class="row">
                 <div class="col-12">
-                    <p>Copyright © <span>2018</span>  • Designed by <a href="aboutus.php">ARPLIFE</a></p>
+                    <p>Copyright © <span>2022</span> • Designed by <a href="aboutus.php">ARPLIFE</a></p>
                 </div>
                 <!-- /.col-xl-6 -->
 
