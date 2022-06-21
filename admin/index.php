@@ -15,7 +15,7 @@ $salessum = intval($getsalessum['salessum']);
 // SALES SUM ENDS
 
 // CUSTOMER COUNT BEGINS
-$forcustcountuery = "SELECT count(co_customerid) as custcount from al_customerorder ";
+$forcustcountuery = "SELECT count(cm_customerid) as custcount from customer_master ";
 $custcountresult = mysqli_query($conn, $forcustcountuery);
 $getcustcount = mysqli_fetch_array($custcountresult);
 $custcount = $getcustcount['custcount'];
@@ -170,7 +170,7 @@ $cid = '';
                                                         <tr>
                                                             <td><?= $getrow['cm_firstname'];
                                                                 echo " " . $getrow['cm_lastname'] ?></td>
-                                                            <td><img src="../admin/images/uploads/<?= $getrow['pm_image'] ?>"><?= $getrow['pm_productname'] ?></td>
+                                                            <td><img src="../admin/images/uploads/<?= $getrow['pm_image'] ?>">&nbsp;<?= $getrow['pm_productname'] ?></td>
 
                                                             <?php
                                                             //COUNTRY
@@ -244,60 +244,60 @@ $cid = '';
                             </div>
                         </div>
                     </div>
-                                                </div>
+                </div>
 
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="active-member">
-                                        <div class="table-responsive">
-                                            <table class="table table-xs mb-0">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Product name</th>
-                                                        <th>Available  Stock</th>
-                                                        <th>Refill</th>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="active-member">
+                                    <div class="table-responsive">
+                                        <table class="table table-xs mb-0">
+                                            <thead>
+                                                <tr>
+                                                    <th>Product name</th>
+                                                    <th>Available Stock</th>
+                                                    <th>Refill</th>
 
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <?php
-                                                    $stockqry = "SELECT pm_productname,pm_stock,pm_image FROM product_master where pm_stock < 50 group by pm_productid ";
-                                                    $stockres = mysqli_query($conn, $stockqry);
-                                                    if (mysqli_num_rows($stockres) > 0) {
-                                                        while ($getstockrow = mysqli_fetch_array($stockres)) {
-                                                            $pstock = $getstockrow['pm_stock'];
-                                                            $pname = $getstockrow['pm_productname'];
-                                                            $pimage = $getstockrow['pm_image'];
-                                                    ?>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php
+                                                $stockqry = "SELECT pm_productname,pm_stock,pm_image FROM product_master where pm_stock < 50 group by pm_productid ";
+                                                $stockres = mysqli_query($conn, $stockqry);
+                                                if (mysqli_num_rows($stockres) > 0) {
+                                                    while ($getstockrow = mysqli_fetch_array($stockres)) {
+                                                        $pstock = $getstockrow['pm_stock'];
+                                                        $pname = $getstockrow['pm_productname'];
+                                                        $pimage = $getstockrow['pm_image'];
+                                                ?>
 
-                                                            <tr>
-                                                                <td><img src="../admin/images/uploads/<?= $pimage ?>"><?= $getstockrow['pm_productname'] ?></td>
-                                                                <td><?=$pstock?></td>
+                                                        <tr>
+                                                            <td><img src="../admin/images/uploads/<?= $pimage ?>">&nbsp; <?= $getstockrow['pm_productname'] ?></td>
+                                                            <td><?= $pstock ?></td>
 
-                                                                <td style="color: red;"><img src="../admin/images/uploads/refill.png"><b> Restock essential</td></b>
-                                                            </tr>
+                                                            <td style="color: red;"><img src="../admin/images/uploads/refill.png"><b> Refill required</td></b>
+                                                        </tr>
 
-                                                            <?php }
-                                                    } ?>
-                                   
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                                <?php }
+                                                } ?>
+
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-
-
-
                 </div>
 
+
+
+
             </div>
-        
+
+        </div>
+
         <?php
 
 
